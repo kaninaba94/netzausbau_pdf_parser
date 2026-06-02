@@ -25,3 +25,7 @@ disallow_untyped_defs = true
 show_error_codes = true
 no_implicit_optional = true
 packages = "netzausbau_extractor"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^9.14.0"
+
