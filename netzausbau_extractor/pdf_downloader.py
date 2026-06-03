@@ -26,7 +26,7 @@ for op_id in range(771,10000):
 
         out_path = out_dir / doc["name"] 
         if out_path.exists():
-            out_path = Path(f'{out_path.stem}_1{out_path.suffix}')
+            out_path = out_dir / f'{out_path.stem}_1{out_path.suffix}'
         out_path.write_bytes(response.content)
 
 
