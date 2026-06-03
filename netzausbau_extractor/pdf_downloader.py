@@ -6,7 +6,9 @@ from pathlib import Path
 client = VNBDigitalClient()
 
 counter = 0
-for op_id in range(771,10000):
+for op_id in range(10000):
+    if op_id == 770:
+        continue # internal server error
     details = client.get_operator_details(str(op_id))
     if details is None:
         continue
