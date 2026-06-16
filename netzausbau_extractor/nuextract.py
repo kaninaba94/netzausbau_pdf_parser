@@ -148,12 +148,14 @@ def extract_with_nuextract(
     max_length: int = DEFAULT_MAX_LENGTH,
     max_new_tokens: int = DEFAULT_MAX_NEW_TOKENS,
 ) -> dict[str, Any]:
-    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    # Phi-3 is built into transformers; trust_remote_code=True pulls outdated
+    # cached hub code that breaks DynamicCache (seen_tokens removed in 4.48+).
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=False)
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         torch_dtype=torch.bfloat16,
         device_map="auto",
-        trust_remote_code=True,
+        trust_remote_code=False,
     )
 
     template_text = template_to_text(template)
