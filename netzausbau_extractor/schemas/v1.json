@@ -1,7 +1,11 @@
 {
-  "timeframe": "string",   
-  "asset_type": "string", 
-  "quantity": "number",   
-  "quantity_unit": "string",
-  "estimated_cost_eur": "number"    
+  "Maßnahmen": [
+    {
+      "timeframe": "string",   
+      "asset_type": "string", 
+      "quantity": "number",   
+      "quantity_unit": "string",
+      "estimated_cost_eur": "number"    
+    }
+  ]
 }
