@@ -9,6 +9,7 @@ import torch
 import typer
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, PreTrainedTokenizerBase
 
+from netzausbauplan_processing.extraction.data.models import ExtractionOutput
 from netzausbauplan_processing.extraction.data.schema import SCHEMA_PATH
 
 app = typer.Typer(no_args_is_help=True)
@@ -127,6 +128,12 @@ def extract_with_sliding_window(
     for index, chunk in enumerate(chunks, start=1):
         typer.echo(f"Processing chunk {index}/{len(chunks)}...")
         prompt = build_continuation_prompt(chunk, template_text, prev)
+
+        print("========\n")
+        print("PROMPT:\n")
+        print(f"{prompt}")
+
+        print("\n========")
         pred = generate_response(
             model,
             tokenizer,
@@ -163,6 +170,7 @@ def extract_with_nuextract(
 
     if token_count <= window_size:
         prompt = build_single_pass_prompt(text, template_text)
+
         result = generate_response(
             model,
             tokenizer,
@@ -184,6 +192,10 @@ def extract_with_nuextract(
         )
 
     return json.loads(result)
+
+
+def validate_extraction(payload: dict[str, Any]) -> ExtractionOutput:
+    return ExtractionOutput.model_validate(payload, by_name=True, by_alias=True)
 
 
 @app.command()
@@ -232,10 +244,19 @@ def extract(
         max_length=max_length,
         max_new_tokens=max_new_tokens,
     )
+    print("========\n")
+    print("RESULT:\n")
+    print(f"{result}")
+
+    print("\n========")
+    validated = validate_extraction(result)
 
     out.mkdir(parents=True, exist_ok=True)
     out_path = out / f"{input_path.stem}.json"
-    out_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    out_path.write_text(
+        validated.model_dump_json(indent=2, by_alias=True),
+        encoding="utf-8",
+    )
     typer.echo(out_path)
 
 
