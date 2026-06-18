@@ -1,6 +1,8 @@
 {
   "Maßnahmen": [
     {
+      "title": "string",
+      "description": "string",
       "project_category": "string", 
       "announced_date": "string",
       "time_frame": {
