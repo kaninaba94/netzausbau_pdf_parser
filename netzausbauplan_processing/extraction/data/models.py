@@ -55,29 +55,6 @@ class Measure(BaseModel):
     evidence: list[Evidence] = Field(default_factory=list)
 
 
-class Bottleneck(BaseModel):
-    bottleneck_id: str | None = None
-    description: str
-    network_level: NetworkLevel = NetworkLevel.UNKNOWN
-    first_occurrence_year: int | None = None
-    cause: str | None = None
-    affected_assets: list[str] = Field(default_factory=list)
-    evidence: list[Evidence] = Field(default_factory=list)
-
-
-class Forecast(BaseModel):
-    technology: str
-    year: int | None = None
-    value: float | None = None
-    unit: str | None = None
-    region: str | None = None
-    scenario: str | None = None
-    evidence: list[Evidence] = Field(default_factory=list)
-
-
 class ExtractionResult(BaseModel):
     metadata: DocumentMetadata
     measures: list[Measure] = Field(default_factory=list)
-    bottlenecks: list[Bottleneck] = Field(default_factory=list)
-    forecasts: list[Forecast] = Field(default_factory=list)
-    diagnostics: dict[str, Any] = Field(default_factory=dict)
