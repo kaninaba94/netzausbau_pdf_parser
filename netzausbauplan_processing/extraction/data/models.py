@@ -10,6 +10,7 @@ class AssetType(StrEnum):
     SOLAR_PARK = "solar park"
     WIND_FARM = "wind farm"
     HIGH_VOLTAGE_LINE = "high voltage electricity line"
+    TRANSFORMER_STATION = "transformer station"
     UNKNOWN = "Unbekannt"
     
     @property
@@ -19,7 +20,7 @@ class AssetType(StrEnum):
                 return AssetCategory.POWER_PLANT
             case AssetType.HIGH_VOLTAGE_LINE:
                 return AssetCategory.POWER_LINE
-            case AssetType.UNKNOWN:
+            case AssetType.UNKNOWN | AssetType.TRANSFORMER_STATION:
                 return AssetCategory.UNKNOWN
 
 class AssetCategory(StrEnum):
