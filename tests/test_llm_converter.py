@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from netzausbau_extractor.llm_converter import llm_extraction_to_result, parse_llm_payload
-from netzausbau_extractor.models import LlmExtraction, NetworkLevel, ProjectCategory
+from netzausbauplan_processing.conversion.llm_converter import llm_extraction_to_result, parse_llm_payload
+from netzausbauplan_processing.extraction.data.models import LlmExtraction, NetworkLevel, ProjectCategory
 
 
 def test_parse_legacy_array_payload() -> None:

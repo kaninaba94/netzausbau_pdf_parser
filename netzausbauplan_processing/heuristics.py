@@ -3,8 +3,8 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 
-from netzausbau_extractor.models import Bottleneck, Evidence, Forecast, Measure, NetworkLevel, ProjectCategory
-from netzausbau_extractor.pdf_reader import PdfPage
+from netzausbauplan_processing.extraction.data.models import Bottleneck, Evidence, Forecast, Measure, NetworkLevel, ProjectCategory
+from netzausbauplan_processing.pdf_reader import PdfPage
 
 YEAR_PATTERN = re.compile(r"\b20(?:2[4-9]|3\d|4[0-5])\b")
 MONEY_PATTERN = re.compile(r"(?P<value>\d+(?:[.,]\d+)?)\s*(?P<unit>Mio\.?\s*€|Millionen\s*Euro|TEUR|T€|€)", re.I)

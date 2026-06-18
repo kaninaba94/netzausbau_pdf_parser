@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from netzausbau_extractor.models import (
+from netzausbau_extractor.extraction.data.models import (
     DocumentMetadata,
     ExtractionResult,
     LlmExtraction,
