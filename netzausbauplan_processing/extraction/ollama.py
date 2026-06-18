@@ -8,11 +8,11 @@ from typing import Any
 import fitz
 from ollama import chat
 
-from netzausbau_extractor.llm_converter import llm_extraction_to_result, parse_llm_payload
-from netzausbau_extractor.models import ExtractionResult, LlmExtraction
-from netzausbau_extractor.pdf_reader import PdfPage, read_pdf
-from netzausbau_extractor.schema import load_extraction_schema
-from netzausbau_extractor.writer import write_outputs
+from netzausbauplan_processing.conversion.llm_converter import llm_extraction_to_result, parse_llm_payload
+from netzausbauplan_processing.extraction.data.models import ExtractionResult, LlmExtraction
+from netzausbauplan_processing.extraction.data.schema import load_extraction_schema
+from netzausbauplan_processing.pdf_reader import PdfPage, read_pdf
+from netzausbauplan_processing.writer import write_outputs
 
 SYSTEM_PROMPT = """Extract planning measure rows from this German Netzausbauplan PDF text.
 Return JSON matching the schema. Include metadata when visible (network operator, publication year).

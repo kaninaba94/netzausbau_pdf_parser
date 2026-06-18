@@ -9,7 +9,7 @@ import torch
 import typer
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel, PreTrainedTokenizerBase
 
-from netzausbau_extractor.schema import SCHEMA_PATH
+from netzausbauplan_processing.extraction.data.schema import SCHEMA_PATH
 
 app = typer.Typer(no_args_is_help=True)
 DEFAULT_MODEL = "numind/NuExtract-1.5"

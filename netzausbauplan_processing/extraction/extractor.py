@@ -3,10 +3,10 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from netzausbau_extractor.heuristics import extract_bottlenecks, extract_forecasts, extract_measures
-from netzausbau_extractor.llm_normalizer import normalize_with_llm
-from netzausbau_extractor.models import DocumentMetadata, ExtractionResult
-from netzausbau_extractor.pdf_reader import PdfPage, read_pdf
+from netzausbauplan_processing.heuristics import extract_bottlenecks, extract_forecasts, extract_measures
+from netzausbauplan_processing.llm_normalizer import normalize_with_llm
+from netzausbauplan_processing.extraction.data.models import DocumentMetadata, ExtractionResult
+from netzausbauplan_processing.pdf_reader import PdfPage, read_pdf
 
 
 def extract_netzausbauplan(pdf_path: Path, use_llm: bool = False) -> tuple[ExtractionResult, list[PdfPage]]:

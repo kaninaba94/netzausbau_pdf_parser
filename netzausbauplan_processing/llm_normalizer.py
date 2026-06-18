@@ -6,7 +6,7 @@ from typing import Any
 
 import httpx
 
-from netzausbau_extractor.models import ExtractionResult
+from netzausbauplan_processing.extraction.data.models import ExtractionResult
 
 
 SYSTEM_PROMPT = """You extract structured data from German Netzausbauplan PDFs.
