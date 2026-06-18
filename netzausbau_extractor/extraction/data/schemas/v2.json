@@ -1,0 +1,25 @@
+{
+  "Maßnahmen": [
+    {
+      "project_category": "string", 
+      "announced_date": "string",
+      "time_frame": {
+        "commissioning_planned": "string", 
+        "commissioning_actual": "string"
+      },
+      "geo_reference": {
+        "Ortsbezeichnung": "string",
+        "longitude": "number",
+        "latitude": "number"
+      },
+      "asset_type": "string",
+      "quantity": "number",
+      "quantity_unit": "string",
+      "cost": {
+        "planned": "number",
+        "actual": "number",
+        "unit": "string"
+      }
+    }
+  ]
+}
