@@ -49,7 +49,7 @@ class GeoReference(BaseModel):
 
 
 class Cost(BaseModel):
-    planned: float | None = None
+    estimated: float | None = None
     actual: float | None = None
     unit: str | None = None
 

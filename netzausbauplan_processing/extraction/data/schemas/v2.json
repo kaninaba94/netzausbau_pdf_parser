@@ -15,10 +15,16 @@
         "latitude": "number"
       },
       "asset_type": "string",
-      "quantity": "number",
-      "quantity_unit": "string",
+      "quantity": {
+        "change_in_transmission_capacity": "number",
+        "change_in_transmission_capacity_unit": "string",
+        "power_line_length": "number",
+        "power_line_length_unit": "string",
+        "change_in_nominal_power": "string",
+        "change_in_nominal_power_unit": "string"
+      },
       "cost": {
-        "planned": "number",
+        "estimated": "number",
         "actual": "number",
         "unit": "string"
       }
