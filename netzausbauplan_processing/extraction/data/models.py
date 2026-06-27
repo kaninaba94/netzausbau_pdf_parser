@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from enum import StrEnum, auto
 from typing import Any
+import json
+from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -10,20 +12,7 @@ class AssetType(StrEnum):
     HIGH_VOLTAGE_LINE = "high voltage electricity line"
     TRANSFORMER_STATION = "transformer station"
     UNKNOWN = "Unbekannt"
-    
-    @property
-    def category(self) -> AssetCategory:
-        match self:
-            case AssetType.SOLAR_PARK | AssetType.WIND_FARM:
-                return AssetCategory.POWER_PLANT
-            case AssetType.HIGH_VOLTAGE_LINE:
-                return AssetCategory.POWER_LINE
-            case AssetType.UNKNOWN | AssetType.TRANSFORMER_STATION:
-                return AssetCategory.UNKNOWN
 
-class AssetCategory(StrEnum):
-    POWER_LINE = auto()
-    TRANSFORMER_STATION = auto()
 
 class ProjectCategory(StrEnum):
     NEW = "Neubau"
@@ -103,18 +92,6 @@ class Measure(BaseModel):
     # Hauptsächlich betroffenes Teilnetzgebiet
     # von der Netzausbaumaßnahme betroffene(r) Netzknoten im überlagerten HöS-Netz
     geo_reference: GeoReference | None = None
-    @model_validator(mode="after")
-    def assets_need_correct_unit(self) -> "Measure":
-        if self.quantity_unit is None:
-            raise ValueError("quantity_unit is required for assets")
-        if self.asset_type.category is AssetCategory.POWER_PLANT:
-            if not self.quantity_unit.strip().upper() in ["KW", "MW", "GW"]:
-                raise ValueError("quantity_unit must be 'kW', 'MW' or 'GW' when asset_type is 'wind farm'")
-        elif self.asset_type.category is AssetCategory.POWER_LINE:
-            if not self.quantity_unit.strip().upper() in ["M", "KM"]:
-                raise ValueError("quantity_unit must be 'mva' for power lines")
-
-        return self
 
 
 class ExtractionOutput(BaseModel):
@@ -128,21 +105,17 @@ class NetworkLevel(StrEnum):
     MV = "Mittelspannung"
     LV = "Niederspannung"
     UNKNOWN = "Unbekannt"
-    NE1
-    NE2
-    NE3
-    NE4
-    NE5
-    NE6
-    NE7
+#    NE1
+#    NE2
+#    NE3
+#    NE4
+#    NE5
+#    NE6
+#    NE7
 
 
-class ProjectCategory(StrEnum):
-    NEW_BUILD = "Neubau"
-    REPLACEMENT = "Ersatzneubau"
-    REINFORCEMENT = "Verstärkung"
-    OPTIMIZATION = "Optimierung"
-    TRANSFORMER_STATION = "Umspannwerk/Station"
-    UNKNOWN = "Unbekannt"
-
-
+json_schema = Measure.model_json_schema()
+Path("measure.schema.json").write_text(
+        json.dumps(json_schema, indent=2, ensure_ascii=False),
+        encoding="utf-8"
+        )
