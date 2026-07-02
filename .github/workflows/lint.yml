@@ -1,0 +1,24 @@
+name: Lint
+
+on:
+  push:
+    paths:
+      - '*.py'
+
+steps:
+      - name: Check out repo
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Install dependencies
+        run: poetry install --with dev --no-interaction --no-root
+
+      - name: Run mypy
+        run: poetry run mypy .
