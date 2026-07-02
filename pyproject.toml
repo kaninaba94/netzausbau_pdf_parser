@@ -1,7 +1,7 @@
 [project]
 name = "netzausbau-extractor"
 version = "0.1.0"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 dependencies = [
   "pydantic>=2.8",
   "pymupdf>=1.24",
@@ -11,6 +11,19 @@ dependencies = [
   "rich>=13.7",
   "httpx>=0.27",
   "openai (>=2.38.0,<3.0.0)",
+  "ollama (>=0.6.2,<0.7.0)",
+  "vnbdigital-client (>=0.4.6,<0.5.0)",
+  "torch (==2.6.0)",
+  "torchvision (==0.21.0)",
+  "docling (==2.99.0)",
+  "docling-slim[models-vlm-transformers] (==2.99.0)",
+  "qwen-vl-utils (>=0.0.14,<0.0.15)",
+  "transformers (==4.57.6)",
+  "accelerate (>=1.13.0,<2.0.0)",
+  "safetensors (>=0.8.0,<0.9.0)",
+  "tabula-py (>=2.10.0,<3.0.0)",
+  "matplotlib (>=3.11.0,<4.0.0)",
+  "mineru[cli] (>=3.4.0,<4.0.0)",
 ]
 
 [project.scripts]
@@ -25,3 +38,11 @@ disallow_untyped_defs = true
 show_error_codes = true
 no_implicit_optional = true
 packages = "netzausbau_extractor"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^9.14.0"
+pyperclip = "^1.11.0"
+mypy = "^2.1.0"
+ruff = "^0.15.17"
+basedpyright = "^1.39.9"
+

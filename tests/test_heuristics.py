@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from netzausbau_extractor.heuristics import extract_measures
-from netzausbau_extractor.pdf_reader import PdfPage, TextBlock
+from netzausbauplan_processing.heuristics import extract_measures
+from netzausbauplan_processing.pdf_reader import PdfPage, TextBlock
 
 
 def test_extracts_measure_from_block() -> None:

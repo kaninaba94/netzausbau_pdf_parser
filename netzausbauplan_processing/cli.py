@@ -5,8 +5,8 @@ from pathlib import Path
 import typer
 from rich.console import Console
 
-from netzausbau_extractor.extractor import extract_netzausbauplan
-from netzausbau_extractor.writer import write_outputs
+from netzausbauplan_processing.extraction.extractor import extract_netzausbauplan
+from netzausbauplan_processing.writer import write_outputs
 
 app = typer.Typer(no_args_is_help=True)
 console = Console()

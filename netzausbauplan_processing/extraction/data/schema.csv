@@ -1,0 +1,18 @@
+,,(meine Kommentare),lfd. Nr.,Maßnahme,kurze Projektbeschreibung,Projektkategorie,Betriebsmittel,"Länge des zugebauten, optimierten, oder ersetzten Leitungsabschnitts [km]",Änderung der Übertragungskapazität [+/- MVA],"netztechnische Begründung für den Netzausbau
+1. kurze Beschreibung","netztechnische Begründung für den Netzausbau
+2. Aus welchem Grund erfolgt die Netzausbaumaßnahme überwiegend?","Erfolgt diese Netzausbaumaßnahme, um einen prognostizierten Engpass zu beheben?","Erfolgt diese Netzausbaumaßnahme, um einen prognostizierten Engpass vorzubeugen?",optimaler Zeitpunkt der Fertigstellung aus Sicht der Netzplanung [JJJJ],voraussichtlicher Zeitpunkt des Baubeginns [MM/JJJJ],voraussichtlicher Zeitpunkt der Inbetriebnahme [MM/JJJJ],Angabe des Verzögerungsgrundes a) bis g). Mehrfachnennung möglich,Beschreibung angegebener Verzögerungsgrund,Kosten (geschätzt) in Euro,Projektstatus,Stand Genehmigungsverfahren,Geprüfte Alternativen zum Netzausbau,Vorrangig betroffene Netz oder Umspannebene,Hauptsächlich betroffenes Teilnetzgebiet,von der Netzausbaumaßnahme betroffene(r) Netzknoten im überlagerten HöS-Netz
+WestNetz,,,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,
+Stromnetz Berlin,,,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,,y,y,y,y,y,,y
+Bayernwerk Netz,,,y,y,y,y,y,y,y,y,y,y,y,y,y,y,y,,y,y,y,y,y,,y
+NetzeBW,NE2-4 konkrete & vorgesehene Maßnahmen,keine Änderung der Übertragungskapazität,y,y,,y,y,y,,y,,,,,,,,,,,y,,y,,
+,NE5-7 laufende Maßnahmen,keine Änderung der Übertragungskapazität,y,y,,y,y,,,y,,,,,y,y,,,y,y,y,y,y,,
+eDis Netz,,,y,y,y,y,y,y,,y,y,y,y,y,y,y,,,y,y,,,,y,
+EWE Netz,,,y,y,y,,y,y,y,,,,,,y,y,,,y,y,,,,,
+Mitnetz Strom,,,y,y,y,y,y,y,,y,y,y,y,y,y,y,,,y,y,,,,,
+Westfalen Weser Netz,,,y,y,y,,y,y,y,,,,,,y,y,,,y,y,,,,,
+SachsenNetze,,,,y,,y,,y,y,,,,,,,y,,,y,y,y,y,y,,
+,HS.HD,,,y,,y,,y,y,,,,,,,y,,,y,y,y,y,y,,
+Stromnetz Hamburg,,,,y,y,,y,y,,y,,,,,,,,,,y,,,y,,
+Avacon Netz,,,y,y,,,y,,y,,,,,,,,,,y,,,y,,,
+SH Netz,,,y,y,y,,,y,y,,,,,,y,y,,,y,y,,y,,,
+Rheinnetz,,,,y,y,,,y,,,,,,,y,,,,,y,y,,,,
