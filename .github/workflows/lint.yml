@@ -5,7 +5,12 @@ on:
     paths:
       - '*.py'
 
-steps:
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Check out repo
         uses: actions/checkout@v6
 
@@ -22,3 +27,4 @@ steps:
 
       - name: Run mypy
         run: poetry run mypy .
+
