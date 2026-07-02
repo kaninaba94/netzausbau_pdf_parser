@@ -43,4 +43,5 @@ ipython = "^9.14.0"
 pyperclip = "^1.11.0"
 mypy = "^2.1.0"
 ruff = "^0.15.17"
+basedpyright = "^1.39.9"
 
