@@ -7,8 +7,8 @@ from typing import Any
 import pandas as pd
 from pydantic import BaseModel
 
-from netzausbau_extractor.models import ExtractionResult
-from netzausbau_extractor.pdf_reader import PdfPage, pages_to_jsonable
+from netzausbauplan_processing.extraction.data.models import ExtractionResult
+from netzausbauplan_processing.pdf_reader import PdfPage, pages_to_jsonable
 
 
 def write_outputs(result: ExtractionResult, pages: list[PdfPage], output_directory: Path) -> None:

@@ -1,0 +1,33 @@
+{
+  "Maßnahmen": [
+    {
+      "title": "string",
+      "description": "string",
+      "project_category": "string", 
+      "announced_date": "string",
+      "time_frame": {
+        "commissioning_planned": "string", 
+        "commissioning_actual": "string"
+      },
+      "geo_reference": {
+        "Ortsbezeichnung": "string",
+        "longitude": "number",
+        "latitude": "number"
+      },
+      "asset_type": "string",
+      "quantity": {
+        "change_in_transmission_capacity": "number",
+        "change_in_transmission_capacity_unit": "string",
+        "power_line_length": "number",
+        "power_line_length_unit": "string",
+        "change_in_nominal_power": "string",
+        "change_in_nominal_power_unit": "string"
+      },
+      "cost": {
+        "estimated": "number",
+        "actual": "number",
+        "unit": "string"
+      }
+    }
+  ]
+}
