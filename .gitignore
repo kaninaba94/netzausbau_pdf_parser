@@ -1,3 +1,4 @@
 **/__pycache__
 output
+!pdfplumber_table_extraction/output/
 input
