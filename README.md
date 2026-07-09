@@ -1,7 +1,4 @@
-# Extractors
-This folder contains CLI apps that take as input a PDF and a schema file and output json data under `output/extracted`.
+This repo contains python scripts and code snippets used for experimentation with PDF extraction. Specifically extraction of structured data from PDF tables concerning energy infrastructure upgrades by the German distribution network operators.
 
-# Converters
-This folder contains CLI apps that take as input a PDF and output markdown under `output/converted`.
-
+git lfs tracks a bunch of input and output data.
 
