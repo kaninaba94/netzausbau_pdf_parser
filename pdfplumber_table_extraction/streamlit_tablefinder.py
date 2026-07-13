@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import csv
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -51,6 +52,7 @@ def extract_tables(
             else:
                 rows += page_rows
             first_page = False
+
         return rows
 
 
@@ -148,6 +150,10 @@ def main() -> None:
                   json.dumps(st.session_state["tables"], indent=2, ensure_ascii=False),
                   encoding="utf-8",
                 )
+                csv_path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.csv" 
+                with open(csv_path, 'w', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerows(st.session_state['tables'])
                 st.success(f"Saved to {path}")
 
 
