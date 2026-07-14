@@ -5,22 +5,6 @@
     margin-bottom: 0.75rem;
 }
 
-.pdf-pages {
-    height: 80vh;
-    overflow-y: auto;
-}
-
-.pdf-page {
-    margin: 0 auto 16px;
-    width: fit-content;
-}
-
-.pdf-page canvas {
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
-
 #pdf-container {
     height: 800px;
     overflow: auto;
