@@ -105,23 +105,25 @@ def extract_tables(
     pdf_path: Path,
     page_ranges: PageRange,
     table_settings: dict[str, Any],
-    drop_first_row: bool,
 ) -> list[list[list[str | None]]]:
     tables: list[list[list]] = []
+    delimiter = '__________'
+    none_string = 'None'
     with pdfplumber.open(pdf_path) as pdf:
         for page_range in page_ranges: 
             pages = pdf.pages[page_range[0] - 1: page_range[1]]
             rows: list = []
-            first_page = True
+            rows_hashable: list[str] = []
             for page in pages:
                 page_rows = page.extract_tables(table_settings, )[0]
-                if drop_first_row and not first_page:
-                    rows += page_rows[1:]
-                else:
-                    rows += page_rows
-                first_page = False
-            tables.append(rows) 
-        return tables
+
+                page_rows_hashable = [delimiter.join(value or none_string for value in pr) for pr in page_rows]
+                rows_hashable += page_rows_hashable
+            
+        unique_rows_hashable = list(dict.fromkeys(rows_hashable))
+        rows = [[None if value == none_string else value for value in row_hashable.split(delimiter)] for row_hashable in unique_rows_hashable]
+        tables.append(rows) 
+    return tables
 
 
 def main() -> None:
@@ -135,91 +137,83 @@ def main() -> None:
     pdf_path = Path(args.pdf_path)
     numbered_pdf_bytes, page_count = add_page_numbers(pdf_path.read_bytes())
 
-    left_column, right_column = st.columns([1, 2])
+    st.pdf(numbered_pdf_bytes, height=1200)
+    page_ranges = parse_page_ranges(st.text_input('page_ranges', value=f'1-{page_count}', placeholder='e.g. 2-8, 12, 24-34'), page_count=page_count )
 
-    with left_column:
-        st.pdf(numbered_pdf_bytes)
-        page_ranges = parse_page_ranges(st.text_input('page_ranges', value=f'1-{page_count}', placeholder='e.g. 2-8, 12, 24-34'), page_count=page_count )
 
-        resolution = st.slider("preview resolution", 72, 300, 150, 10)
-
-        st.subheader("table_settings")
-        default_table_settings = {
-            "vertical_strategy": "lines", 
-            "horizontal_strategy": "lines",
-            "explicit_vertical_lines": [],
-            "explicit_horizontal_lines": [],
-            "snap_tolerance": 3,
-            "snap_x_tolerance": 3,
-            "snap_y_tolerance": 3,
-            "join_tolerance": 3,
-            "join_x_tolerance": 3,
-            "join_y_tolerance": 3,
-            "edge_min_length": 3,
-            "edge_min_length_prefilter": 1,
-            "min_words_vertical": 3,
-            "min_words_horizontal": 1,
-            "intersection_tolerance": 3,
-            "intersection_x_tolerance": 3,
-            "intersection_y_tolerance": 3,
-            "text_x_tolerance": 3,
-            "text_y_tolerance": 3,
-            "text_keep_blank_chars": True # See below
-        }
-        text_input = st.text_area(
-            label='table_settings',
-            value=json.dumps(default_table_settings, indent=2),
-            height=240
-        )
+    st.subheader("table_settings")
+    default_table_settings = {
+        "vertical_strategy": "lines", 
+        "horizontal_strategy": "lines",
+        "explicit_vertical_lines": [],
+        "explicit_horizontal_lines": [],
+        "snap_tolerance": 3,
+        "snap_x_tolerance": 3,
+        "snap_y_tolerance": 3,
+        "join_tolerance": 3,
+        "join_x_tolerance": 3,
+        "join_y_tolerance": 3,
+        "edge_min_length": 3,
+        "edge_min_length_prefilter": 1,
+        "min_words_vertical": 3,
+        "min_words_horizontal": 1,
+        "intersection_tolerance": 3,
+        "intersection_x_tolerance": 3,
+        "intersection_y_tolerance": 3,
+        "text_x_tolerance": 3,
+        "text_y_tolerance": 3,
+        "text_keep_blank_chars": True # See below
+    }
+    text_input = st.text_area(
+        label='table_settings',
+        value=json.dumps(default_table_settings, indent=2),
+        height=240
+    )
+    try:
+        table_settings: dict[str, Any] = json.loads(text_input)
+    except json.JSONDecodeError as json_decode_error:
+        st.error(f"Invalid JSON: {json_decode_error}")
+    else:
+        st.success("Valid JSON")
+    
+    resolution = st.slider("preview resolution", 72, 300, 150, 10)
+    preview_clicked = st.button("Preview", type="primary")
+    
+    if preview_clicked:
         try:
-            table_settings: dict[str, Any] = json.loads(text_input)
-        except json.JSONDecodeError as json_decode_error:
-            st.error(f"Invalid JSON: {json_decode_error}")
-        else:
-            st.success("Valid JSON")
-        
-        drop_first_row = st.checkbox('Check this when columns are named on each page', value=True)
+            debug_image = render_debug_image(
+                pdf_path=pdf_path,
+                page_number=int(page_ranges[0][0]),
+                table_settings=table_settings,
+                resolution=resolution,
+            )
+            st.image(debug_image, caption="debug_tablefinder preview", use_container_width=True)
 
+            st.session_state['tables'] = extract_tables(
+                pdf_path=pdf_path,
+                page_ranges=page_ranges,
+                table_settings=table_settings,
+            )
 
-        preview_clicked = st.button("Preview", type="primary")
+        except Exception as error:
+            st.exception(error)
+
+    if 'tables' in st.session_state:
+        st.subheader("extract_tables result")
+        st.json(st.session_state["tables"])
     
-    with right_column:
-        if preview_clicked:
-            try:
-                debug_image = render_debug_image(
-                    pdf_path=pdf_path,
-                    page_number=int(page_range[0]),
-                    table_settings=table_settings,
-                    resolution=resolution,
-                )
-                st.image(debug_image, caption="debug_tablefinder preview", use_container_width=True)
-
-                st.session_state['tables'] = extract_tables(
-                    pdf_path=pdf_path,
-                    page_ranges=page_ranges,
-                    table_settings=table_settings,
-                    drop_first_row=drop_first_row
-                )
-
-            except Exception as error:
-                st.exception(error)
-
-        if 'tables' in st.session_state:
-            st.subheader("extract_tables result")
-            st.json(st.session_state["tables"])
-    
-            if st.button("Save to disk"):
-                path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.json"
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(
-                  json.dumps(st.session_state["tables"], indent=2, ensure_ascii=False),
-                  encoding="utf-8",
-                )
-                csv_path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.csv" 
-                with open(csv_path, 'w', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerows(st.session_state['tables'])
-                st.success(f"Saved to {path}")
+        if st.button("Save to disk"):
+            path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.json"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
+              json.dumps(st.session_state["tables"], indent=2, ensure_ascii=False),
+              encoding="utf-8",
+            )
+            csv_path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.csv" 
+            with open(csv_path, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerows(st.session_state['tables'])
+            st.success(f"Saved to {path}")
 
 
 
