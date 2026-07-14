@@ -6,10 +6,35 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+import fitz
 import pdfplumber
 import streamlit as st
 from PIL import Image
 
+@st.cache_data
+def add_page_numbers(pdf_bytes: bytes) -> bytes:
+    pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
+
+    for page_index, page in enumerate(pdf_document):
+        page_number = str(page_index + 1)
+        page_rectangle = page.rect
+
+        page.insert_text(
+            point=fitz.Point(
+                page_rectangle.x0 + 20,
+                page_rectangle.y1 - 20,
+            ),
+            text=page_number,
+            fontsize=24,
+            fontname="helv",
+            color=(1, 0, 0),
+            overlay=True,
+        )
+
+    numbered_pdf_bytes = pdf_document.tobytes()
+    pdf_document.close()
+
+    return numbered_pdf_bytes
 
 def parse_explicit_vertical_lines(raw_value: str) -> list[float]:
     if not raw_value.strip():
@@ -65,13 +90,12 @@ def main() -> None:
     st.title("pdfplumber TableFinder UI")
 
     pdf_path = Path(args.pdf_path)
-
-    with pdfplumber.open(pdf_path) as pdf:
-        page_count = len(pdf.pages)
+    numbered_pdf_bytes = add_page_numbers(pdf_path.read_bytes())
 
     left_column, right_column = st.columns([1, 2])
 
     with left_column:
+        st.pdf(numbered_pdf_bytes)
         start_page = int(st.number_input('start_page', value=1))
         end_page = int(st.number_input('end_page', value=1))
         page_range = [start_page, end_page]
