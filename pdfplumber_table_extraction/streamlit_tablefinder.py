@@ -11,6 +11,47 @@ import pdfplumber
 import streamlit as st
 from PIL import Image
 
+PageRange = tuple[int, int]
+
+
+def parse_page_ranges(raw_value: str, *, page_count: int) -> list[PageRange]:
+    if not raw_value.strip():
+        raise ValueError("Enter at least one page range")
+
+    page_ranges: list[PageRange] = []
+
+    for raw_part in raw_value.split(","):
+        part = raw_part.strip()
+
+        if "-" in part:
+            start_text, end_text = part.split("-", maxsplit=1)
+            start_page = int(start_text.strip())
+            end_page = int(end_text.strip())
+        else:
+            start_page = int(part)
+            end_page = start_page
+
+        if start_page < 1:
+            raise ValueError("Page numbers must be at least 1")
+        if start_page > end_page:
+            raise ValueError(f"Invalid page range: {part}")
+        if end_page > page_count:
+            raise ValueError(f"Page range {part} exceeds page count {page_count}")
+
+        page_ranges.append((start_page, end_page))
+
+    return page_ranges
+
+
+def selected_page_numbers(page_ranges: list[PageRange]) -> list[int]:
+    return list(
+        dict.fromkeys(
+            page_number
+            for start_page, end_page in page_ranges
+            for page_number in range(start_page, end_page + 1)
+        )
+    )
+
 @st.cache_data
 def add_page_numbers(pdf_bytes: bytes) -> bytes:
     pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
@@ -34,7 +75,7 @@ def add_page_numbers(pdf_bytes: bytes) -> bytes:
     numbered_pdf_bytes = pdf_document.tobytes()
     pdf_document.close()
 
-    return numbered_pdf_bytes
+    return numbered_pdf_bytes, int(page_number)
 
 def parse_explicit_vertical_lines(raw_value: str) -> list[float]:
     if not raw_value.strip():
@@ -62,23 +103,25 @@ def render_debug_image(
 
 def extract_tables(
     pdf_path: Path,
-    page_range: int,
+    page_ranges: PageRange,
     table_settings: dict[str, Any],
     drop_first_row: bool,
 ) -> list[list[list[str | None]]]:
+    tables: list[list[list]] = []
     with pdfplumber.open(pdf_path) as pdf:
-        pages = pdf.pages[page_range[0] - 1: page_range[1]]
-        rows: list = []
-        first_page = True
-        for page in pages:
-            page_rows = page.extract_tables(table_settings, )[0]
-            if drop_first_row and not first_page:
-                rows += page_rows[1:]
-            else:
-                rows += page_rows
-            first_page = False
-
-        return rows
+        for page_range in page_ranges: 
+            pages = pdf.pages[page_range[0] - 1: page_range[1]]
+            rows: list = []
+            first_page = True
+            for page in pages:
+                page_rows = page.extract_tables(table_settings, )[0]
+                if drop_first_row and not first_page:
+                    rows += page_rows[1:]
+                else:
+                    rows += page_rows
+                first_page = False
+            tables.append(rows) 
+        return tables
 
 
 def main() -> None:
@@ -90,15 +133,13 @@ def main() -> None:
     st.title("pdfplumber TableFinder UI")
 
     pdf_path = Path(args.pdf_path)
-    numbered_pdf_bytes = add_page_numbers(pdf_path.read_bytes())
+    numbered_pdf_bytes, page_count = add_page_numbers(pdf_path.read_bytes())
 
     left_column, right_column = st.columns([1, 2])
 
     with left_column:
         st.pdf(numbered_pdf_bytes)
-        start_page = int(st.number_input('start_page', value=1))
-        end_page = int(st.number_input('end_page', value=1))
-        page_range = [start_page, end_page]
+        page_ranges = parse_page_ranges(st.text_input('page_ranges', value=f'1-{page_count}', placeholder='e.g. 2-8, 12, 24-34'), page_count=page_count )
 
         resolution = st.slider("preview resolution", 72, 300, 150, 10)
 
@@ -155,7 +196,7 @@ def main() -> None:
 
                 st.session_state['tables'] = extract_tables(
                     pdf_path=pdf_path,
-                    page_range=page_range,
+                    page_ranges=page_ranges,
                     table_settings=table_settings,
                     drop_first_row=drop_first_row
                 )
