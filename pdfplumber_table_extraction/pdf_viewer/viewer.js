@@ -11,6 +11,24 @@ export default async function(component) {
         setStateValue,
     } = component;
 
+    const pdfContainer = parentElement.querySelector("#pdf-container");
+
+    pdfContainer.addEventListener("keydown", event => {
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+            event.preventDefault();
+            requestPage(currentPageNumber - 1);
+        }
+    
+        if (event.key === "ArrowRight" || event.key === "PageDown") {
+            event.preventDefault();
+            requestPage(currentPageNumber + 1);
+        }
+    });
+
+    pdfContainer.addEventListener("click", () => {
+        pdfContainer.focus();
+    });
+
     const canvas = parentElement.querySelector("#pdf-canvas");
     const canvasContext = canvas.getContext("2d");
     const currentPageElement = parentElement.querySelector("#current-page");
@@ -89,3 +107,5 @@ export default async function(component) {
 
     await renderPage(currentPageNumber);
 }
+
+
