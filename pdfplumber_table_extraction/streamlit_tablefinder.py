@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import csv
+import pandas as pd
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -105,7 +106,7 @@ def extract_tables(
     pdf_path: Path,
     page_ranges: PageRange,
     table_settings: dict[str, Any],
-) -> list[list[list[str | None]]]:
+) -> list[pd.DataFrame]:
     tables: list[list[list]] = []
     delimiter = '__________'
     none_string = 'None'
@@ -123,8 +124,7 @@ def extract_tables(
             unique_rows_hashable = list(dict.fromkeys(rows_hashable))
             rows = [[None if value == none_string else value for value in row_hashable.split(delimiter)] for row_hashable in unique_rows_hashable]
             tables.append(rows) 
-    import ipdb; ipdb.set_trace()
-    return tables
+    return [pd.DataFrame(t) for t in tables]
 
 
 def main() -> None:
@@ -165,6 +165,7 @@ def main() -> None:
         "text_y_tolerance": 3,
         "text_keep_blank_chars": True # See below
     }
+    st.info('See https://github.com/jsvine/pdfplumber#table-extraction-settings for reference')
     text_input = st.text_area(
         label='table_settings',
         value=json.dumps(default_table_settings, indent=2),
@@ -202,20 +203,18 @@ def main() -> None:
 
     if 'tables' in st.session_state:
         st.subheader("extract_tables result")
-        st.json(st.session_state["tables"])
+        for t in st.session_state['tables']:
+            st.dataframe(t)
     
         if st.button("Save to disk"):
-            path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.json"
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(
-              json.dumps(st.session_state["tables"], indent=2, ensure_ascii=False),
-              encoding="utf-8",
-            )
-            csv_path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.csv" 
-            with open(csv_path, 'w', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerows(st.session_state['tables'])
-            st.success(f"Saved to {path}")
+            csv_paths: list = []
+            for i, table in enumerate(st.session_state['tables']):
+                 
+                csv_path = Path(__file__).parent / "output"/ pdf_path.parent.name / f"{pdf_path.name}.{i}.csv" 
+                csv_path.parent.mkdir(parents=True, exist_ok=True)
+                csv_paths.append(csv_path)
+                table.to_csv(csv_path, index=False, header=False)
+            st.success(f"Saved to paths \n{'\n'.join(str(p) for p in csv_paths)}")
 
 
 
