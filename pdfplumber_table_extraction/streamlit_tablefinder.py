@@ -120,9 +120,10 @@ def extract_tables(
                 page_rows_hashable = [delimiter.join(value or none_string for value in pr) for pr in page_rows]
                 rows_hashable += page_rows_hashable
             
-        unique_rows_hashable = list(dict.fromkeys(rows_hashable))
-        rows = [[None if value == none_string else value for value in row_hashable.split(delimiter)] for row_hashable in unique_rows_hashable]
-        tables.append(rows) 
+            unique_rows_hashable = list(dict.fromkeys(rows_hashable))
+            rows = [[None if value == none_string else value for value in row_hashable.split(delimiter)] for row_hashable in unique_rows_hashable]
+            tables.append(rows) 
+    import ipdb; ipdb.set_trace()
     return tables
 
 
@@ -176,14 +177,15 @@ def main() -> None:
     else:
         st.success("Valid JSON")
     
-    resolution = st.slider("preview resolution", 72, 300, 150, 10)
+    resolution = st.slider("debug tablefinder preview resolution", 72, 300, 150, 10)
+    debug_page_number = st.number_input('page to render for debugging', value=page_ranges[0][0])
     preview_clicked = st.button("Preview", type="primary")
     
     if preview_clicked:
         try:
             debug_image = render_debug_image(
                 pdf_path=pdf_path,
-                page_number=int(page_ranges[0][0]),
+                page_number=int(debug_page_number),
                 table_settings=table_settings,
                 resolution=resolution,
             )
