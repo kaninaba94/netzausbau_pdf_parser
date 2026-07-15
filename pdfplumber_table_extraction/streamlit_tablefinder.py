@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import csv
+import base64
 import pandas as pd
 import tempfile
 from pathlib import Path
@@ -126,6 +127,28 @@ def extract_tables(
             tables.append(rows) 
     return [pd.DataFrame(t) for t in tables]
 
+ANNOTATOR_COMPONENT_DIRECTORY = Path(__file__).parent / "pdf_annotator"
+
+pdf_viewer_component = st.components.v2.component(
+    name="pdf_page_viewer",
+    html=(ANNOTATOR_COMPONENT_DIRECTORY / "annotator.html").read_text(encoding="utf-8"),
+    css=(ANNOTATOR_COMPONENT_DIRECTORY / "annotator.css").read_text(encoding="utf-8"),
+    js=(ANNOTATOR_COMPONENT_DIRECTORY / "annotator.js").read_text(encoding="utf-8"),
+)
+
+def display_pdf(pdf_bytes: bytes, page: int, *, key: str) -> Any:
+    encoded_pdf = base64.b64encode(pdf_bytes).decode("ascii")
+
+    return pdf_viewer_component(
+        data={
+            "pdf_base64": encoded_pdf,
+            "initial_page": page,
+            "scale": 1.5,
+        },
+        default={'points': None},
+        on_points_change=lambda: None,
+        key=key,
+    )
 
 def main() -> None:
     import argparse
@@ -177,6 +200,20 @@ def main() -> None:
         st.error(f"Invalid JSON: {json_decode_error}")
     else:
         st.success("Valid JSON")
+    
+    st.info("If you find it hard to find table_settings that correctly find the column postitions, you can annotate them interactively. This will change `vertical_strategy` to `explicit_lines` and populate `explicit_vertical_lines`.")
+    explicit_vertical_lines = st.checkbox("Annotate explicit vertical lines?")
+    if explicit_vertical_lines:
+        st.info("Right-click to annotate vertical lines, left-click to remove the last one.")
+        
+        annotation_page = st.number_input("page to annotate lines on", value=page_ranges[0][0])
+        annotator_result = display_pdf(
+                pdf_bytes=pdf_path.read_bytes(),
+                page=annotation_page,
+            key="pdf-annotator",
+        )
+        st.write(annotator_result.points)
+        
     
     resolution = st.slider("debug tablefinder preview resolution", 72, 300, 150, 10)
     debug_page_number = st.number_input('page to render for debugging', value=page_ranges[0][0])
