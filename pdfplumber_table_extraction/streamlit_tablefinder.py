@@ -142,7 +142,7 @@ def display_pdf(pdf_bytes: bytes, page: int, *, key: str) -> Any:
     return pdf_viewer_component(
         data={
             "pdf_base64": encoded_pdf,
-            "initial_page": page,
+            "page": page,
             "scale": 1.5,
         },
         default={'points': None},

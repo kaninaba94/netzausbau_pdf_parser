@@ -5,6 +5,13 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 
 
 export default async function pdfPointsPicker(component) {
+    
+    const {
+        data,
+        parentElement,
+        setStateValue,
+    } = component;
+
     const container = component.parentElement.querySelector("#pdf-page");
 
     const pdfBytes = Uint8Array.from(
@@ -13,7 +20,7 @@ export default async function pdfPointsPicker(component) {
     );
 
     const pdf = await pdfjsLib.getDocument(pdfBytes).promise;
-    const page = await pdf.getPage(1);
+    const page = await pdf.getPage(data['page']);
     const viewport = page.getViewport({ scale: 1.5 });
 
     const canvas = document.createElement("canvas");
