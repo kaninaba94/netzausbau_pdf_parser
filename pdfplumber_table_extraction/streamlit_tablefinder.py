@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import csv
 import base64
 import pandas as pd
 import tempfile
@@ -15,6 +14,28 @@ from PIL import Image
 
 PageRange = tuple[int, int]
 
+default_table_settings = {
+    "vertical_strategy": "lines", 
+    "horizontal_strategy": "lines",
+    "explicit_vertical_lines": [],
+    "explicit_horizontal_lines": [],
+    "snap_tolerance": 3,
+    "snap_x_tolerance": 3,
+    "snap_y_tolerance": 3,
+    "join_tolerance": 3,
+    "join_x_tolerance": 3,
+    "join_y_tolerance": 3,
+    "edge_min_length": 3,
+    "edge_min_length_prefilter": 1,
+    "min_words_vertical": 3,
+    "min_words_horizontal": 1,
+    "intersection_tolerance": 3,
+    "intersection_x_tolerance": 3,
+    "intersection_y_tolerance": 3,
+    "text_x_tolerance": 3,
+    "text_y_tolerance": 3,
+    "text_keep_blank_chars": True # See below
+}
 
 def parse_page_ranges(raw_value: str, *, page_count: int) -> list[PageRange]:
     if not raw_value.strip():
@@ -166,36 +187,24 @@ def main() -> None:
 
 
     st.subheader("table_settings")
-    default_table_settings = {
-        "vertical_strategy": "lines", 
-        "horizontal_strategy": "lines",
-        "explicit_vertical_lines": [],
-        "explicit_horizontal_lines": [],
-        "snap_tolerance": 3,
-        "snap_x_tolerance": 3,
-        "snap_y_tolerance": 3,
-        "join_tolerance": 3,
-        "join_x_tolerance": 3,
-        "join_y_tolerance": 3,
-        "edge_min_length": 3,
-        "edge_min_length_prefilter": 1,
-        "min_words_vertical": 3,
-        "min_words_horizontal": 1,
-        "intersection_tolerance": 3,
-        "intersection_x_tolerance": 3,
-        "intersection_y_tolerance": 3,
-        "text_x_tolerance": 3,
-        "text_y_tolerance": 3,
-        "text_keep_blank_chars": True # See below
-    }
     st.info('See https://github.com/jsvine/pdfplumber#table-extraction-settings for reference')
-    text_input = st.text_area(
+    
+    if 'table_settings' not in st.session_state:
+        st.session_state['table_settings'] = default_table_settings
+
+    if "table_settings_json" not in st.session_state:
+        st.session_state.table_settings_json = json.dumps(
+            st.session_state.table_settings,
+            indent=2,
+        )
+    
+    st.session_state['table_settings'] = st.text_area(
         label='table_settings',
-        value=json.dumps(default_table_settings, indent=2),
+        value=st.session_state.table_settings_json,
         height=240
     )
     try:
-        table_settings: dict[str, Any] = json.loads(text_input)
+        st.session_state['table_settings']: dict[str, Any] = json.loads(st.session_state['table_settings'])
     except json.JSONDecodeError as json_decode_error:
         st.error(f"Invalid JSON: {json_decode_error}")
     else:
@@ -212,6 +221,15 @@ def main() -> None:
                 page=annotation_page,
             key="pdf-annotator",
         )
+        if st.button('Update table_settings'):
+            with pdfplumber.open(pdf_path) as pdf:
+                page = pdf.pages[annotation_page - 1] 
+                explicit_vertical_lines = [int(p['x'] * page.width) for p in annotator_result.points]
+                st.session_state['table_settings']['vertical_strategy'] = 'explicit'
+                st.session_state['table_settings']['explicit_vertical_lines'] = explicit_vertical_lines           
+                st.session_state['table_settings_json'] = json.dumps(st.session_state.table_settings, indent=2)           
+                breakpoint()
+
         st.write(annotator_result.points)
         
     
@@ -224,7 +242,7 @@ def main() -> None:
             debug_image = render_debug_image(
                 pdf_path=pdf_path,
                 page_number=int(debug_page_number),
-                table_settings=table_settings,
+                table_settings=st.session_state['table_settings'],
                 resolution=resolution,
             )
             st.image(debug_image, caption="debug_tablefinder preview", use_container_width=True)
@@ -232,7 +250,7 @@ def main() -> None:
             st.session_state['tables'] = extract_tables(
                 pdf_path=pdf_path,
                 page_ranges=page_ranges,
-                table_settings=table_settings,
+                table_settings=st.session_state['table_settings'],
             )
 
         except Exception as error:
