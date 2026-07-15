@@ -4,7 +4,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
 
-export default async function pdfPointPicker(component) {
+export default async function pdfPointsPicker(component) {
     const container = component.parentElement.querySelector("#pdf-page");
 
     const pdfBytes = Uint8Array.from(
@@ -26,6 +26,7 @@ export default async function pdfPointPicker(component) {
         viewport,
     }).promise;
     
+    let points = [];
     canvas.onclick = event => {
         const bounds = canvas.getBoundingClientRect();
 
@@ -33,7 +34,8 @@ export default async function pdfPointPicker(component) {
             x: event.offsetX / bounds.width,
             y: event.offsetY / bounds.height,
         };
+        points.push(point)
 
-        component.setStateValue("point", point);
+        component.setStateValue("points", points);
     };
 }
