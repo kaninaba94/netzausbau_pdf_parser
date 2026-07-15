@@ -38,4 +38,9 @@ export default async function pdfPointsPicker(component) {
 
         component.setStateValue("points", points);
     };
+    canvas.oncontextmenu = event => {
+        event.preventDefault();
+        points.pop();
+        component.setStateValue("points", points)
+    }
 }
