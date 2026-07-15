@@ -228,7 +228,7 @@ def main() -> None:
                 st.session_state['table_settings']['vertical_strategy'] = 'explicit'
                 st.session_state['table_settings']['explicit_vertical_lines'] = explicit_vertical_lines           
                 st.session_state['table_settings_json'] = json.dumps(st.session_state.table_settings, indent=2)           
-                breakpoint()
+                st.rerun()
 
     
     resolution = st.slider("debug tablefinder preview resolution", 72, 300, 150, 10)
