@@ -230,8 +230,6 @@ def main() -> None:
                 st.session_state['table_settings_json'] = json.dumps(st.session_state.table_settings, indent=2)           
                 breakpoint()
 
-        st.write(annotator_result.points)
-        
     
     resolution = st.slider("debug tablefinder preview resolution", 72, 300, 150, 10)
     debug_page_number = st.number_input('page to render for debugging', value=page_ranges[0][0])
