@@ -94,7 +94,7 @@ def render_debug_image(
         page = pdf.pages[page_number - 1]
         debug_page_image = page.to_image(resolution=resolution)
         debug_page_image = debug_page_image.debug_tablefinder(table_settings)
-        text_settings = {k.split('text_')[1]: v for k, v in table_settings.items() if 'text_' in k} 
+        text_settings = {k[5:]: v for k, v in table_settings.items() if k.startswith('text_')} 
         debug_page_image = debug_page_image.outline_words(**text_settings)
 
         temporary_image_path = Path(tempfile.NamedTemporaryFile(delete=False, suffix=".png").name)
