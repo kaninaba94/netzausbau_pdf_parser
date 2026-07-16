@@ -178,6 +178,7 @@ def main() -> None:
     args = parser.parse_args()
     st.set_page_config(layout="wide")
     st.title("pdfplumber TableFinder UI")
+    st.write(f"file name: {Path(args.pdf_path)}")
 
     pdf_path = Path(args.pdf_path)
     numbered_pdf_bytes, page_count = add_page_numbers(pdf_path.read_bytes())
