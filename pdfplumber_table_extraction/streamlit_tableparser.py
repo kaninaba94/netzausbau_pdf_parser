@@ -148,7 +148,7 @@ def extract_tables(
             tables.append(rows) 
     return [pd.DataFrame(t) for t in tables]
 
-ANNOTATOR_COMPONENT_DIRECTORY = Path(__file__).parent / "pdf_annotator"
+ANNOTATOR_COMPONENT_DIRECTORY = Path(__file__).parent / "custom_component"
 
 pdf_annotator_component = st.components.v2.component(
     name="pdf_page_viewer",
