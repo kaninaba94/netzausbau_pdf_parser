@@ -117,7 +117,7 @@ def render_debug_image(
         debug_page_image = page.to_image(resolution=resolution)
         debug_page_image = debug_page_image.debug_tablefinder(table_settings)
         text_settings = {k[5:]: v for k, v in table_settings.items() if k.startswith('text_')} 
-        debug_page_image = debug_page_image.outline_words(**text_settings)
+        debug_page_image = debug_page_image.outline_words(**text_settings)   # TODO: Bump (poetry add) pdfplumber version once https://github.com/jsvine/pdfplumber/pull/1384 is released 
 
         temporary_image_path = Path(tempfile.NamedTemporaryFile(delete=False, suffix=".png").name)
         debug_page_image.save(str(temporary_image_path), format="PNG")

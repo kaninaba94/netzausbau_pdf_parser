@@ -5,7 +5,7 @@ requires-python = ">=3.12,<3.14"
 dependencies = [
   "pydantic>=2.8",
   "pymupdf>=1.24",
-  "pdfplumber>=0.11",
+  "pdfplumber @ git+https://github.com/jsvine/pdfplumber.git@c58dfb5e598ec6375e7c1119b81bd64f05829484",
   "pandas>=2.2",
   "typer>=0.12",
   "rich>=13.7",
