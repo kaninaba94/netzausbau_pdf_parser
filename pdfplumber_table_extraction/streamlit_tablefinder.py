@@ -150,7 +150,7 @@ def extract_tables(
 
 ANNOTATOR_COMPONENT_DIRECTORY = Path(__file__).parent / "pdf_annotator"
 
-pdf_viewer_component = st.components.v2.component(
+pdf_annotator_component = st.components.v2.component(
     name="pdf_page_viewer",
     html=(ANNOTATOR_COMPONENT_DIRECTORY / "annotator.html").read_text(encoding="utf-8"),
     css=(ANNOTATOR_COMPONENT_DIRECTORY / "annotator.css").read_text(encoding="utf-8"),
@@ -160,7 +160,7 @@ pdf_viewer_component = st.components.v2.component(
 def display_pdf(pdf_bytes: bytes, page: int, *, key: str) -> Any:
     encoded_pdf = base64.b64encode(pdf_bytes).decode("ascii")
 
-    return pdf_viewer_component(
+    return pdf_annotator_component(
         data={
             "pdf_base64": encoded_pdf,
             "page": page,
