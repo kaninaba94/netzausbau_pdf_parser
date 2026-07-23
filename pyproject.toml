@@ -2,6 +2,7 @@
 name = "netzausbau-extractor"
 version = "0.1.0"
 requires-python = ">=3.12,<3.14"
+package-mode = false
 dependencies = [
   "pydantic>=2.8",
   "pymupdf>=1.24",
