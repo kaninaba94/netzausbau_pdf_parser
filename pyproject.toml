@@ -17,6 +17,9 @@ dependencies = [
   "sentence-transformers (>=5.6.0,<6.0.0)",
   "streamlit[pdf] (>=1.59.2,<2.0.0)",
   "geopandas (>=1.1.4,<2.0.0)",
+  "nominatim-api (>=5.3.2,<6.0.0)",
+  "gspread (>=6.2.1,<7.0.0)",
+  "gspread-dataframe (>=4.0.0,<5.0.0)",
 ]
 
 [project.scripts]
