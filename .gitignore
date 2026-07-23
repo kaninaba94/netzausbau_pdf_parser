@@ -1,6 +1,14 @@
 **/__pycache__
-output
-!pdfplumber_table_extraction/output/
+
+# input PDFs
 input
 
+# results data
+output
+!pdfplumber_table_extraction/output/
+
+# downloaded OSM data
+data
+
+# Credentials
 goal100-13ad64178c57.json
