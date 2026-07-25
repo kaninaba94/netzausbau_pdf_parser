@@ -1,0 +1,65 @@
+import random
+from pathlib import Path
+import json
+
+DATASET_PATH = './artefacts/sampled_measures_labelled.json'
+
+def get_random_measure() -> pd.Series:
+    df = random.choice(measures_dfs)
+    row_idx = random.choice(range(df.shape[0]))
+    return df.iloc[row_idx]
+
+def _input(prompt: str, options: dict) -> bool:
+    options_hint = ", ".join([f"{k} for {v}" for k, v in options.items()])
+    user_input = input(f"{prompt}   {options_hint}")
+    while not user_input in options.keys():
+        user_input = input(prompt)
+    return options[user_input]
+
+def _get_row_hash(row: pd.Series) -> int:
+    return int(
+        pd.util.hash_pandas_object(row).sum()
+    )
+
+dataset_path = Path(DATASET_PATH)
+if dataset_path.exists():
+    with open(dataset_path, 'r') as f:
+        json.load(f)
+else:
+    sampled_measures = list()
+    
+measures_dfs: list[pd.DataFrame] = list()
+for csv_path in Path('../pdfplumber_table_extraction/output/').rglob('**/*csv'):
+    measures_df: pd.DataFrame = pd.read_csv(csv_path)
+    measures_df['source_file'] = str(csv_path).split('output/')[-1]
+    measures_dfs.append(measures_df)
+    
+     
+easy_counter = 0
+num_easy_samples = 50
+try:
+    while easy_counter <= num_easy_samples:
+        current = get_random_measure()
+        row_hash = _get_row_hash(current)
+        if row_hash in set([r['measure_row_hash'] for r in sampled_measures]):
+            print('measure already labelled. continue to next one')
+            continue
+        print('\n\n')
+        print(current)
+        current_dict = {
+            k: int(v) if isinstance(v, np.integer) else v for k, v in current.items()
+        }
+        current_dict['measure_row_hash'] = row_hash
+        current_dict['label:asset_type'] = _input('Asset type', {'uw': 'transformer_station', 'pl': 'power_line', 'o': None})
+        current_dict['label:existing'] = _input('Does the asset exist already?', {'y': True, 'n': False, 'o': None})
+        if current_dict['label:asset_type'] == 'transformer_station' and current_dict['label:existing'] is True:
+            if _input('Easy to geocode? (y/n)', {'y': True, 'n': False}):
+                current_dict['label:easy_to_geocode'] = True
+                easy_counter += 1
+        
+        sampled_measures.append(current_dict)
+except KeyboardInterrupt:
+    pass
+    
+with open(dataset_path, 'w') as f:
+    json.dump(sampled_measures, f)
