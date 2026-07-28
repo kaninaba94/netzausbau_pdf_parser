@@ -1166,6 +1166,21 @@ timezone = ["pytz (>=2020.1)"]
 xml = ["lxml (>=5.3.0)"]
 
 [[package]]
+name = "pandas-stubs"
+version = "3.0.3.260530"
+description = "Type annotations for pandas"
+optional = false
+python-versions = ">=3.11"
+groups = ["main"]
+files = [
+    {file = "pandas_stubs-3.0.3.260530-py3-none-any.whl", hash = "sha256:a6277eb1c8cebf48d9b2413fcd2e9a6b4ff479c934a223c29eacbc3058c4cb55"},
+    {file = "pandas_stubs-3.0.3.260530.tar.gz", hash = "sha256:d1efe47b2e5a312c047d7feabec5cb7a55365747983420077e9fcbe9ab74f714"},
+]
+
+[package.dependencies]
+numpy = ">=1.23.5"
+
+[[package]]
 name = "parso"
 version = "0.8.7"
 description = "A Python Parser"
@@ -2130,6 +2145,39 @@ docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=3.0.3)", "mypy (>=1.17.0,<1.19)", "pre-commit", "pytest (>=7.0,<8.2)", "pytest-mock", "pytest-mypy-testing"]
 
 [[package]]
+name = "types-geopandas"
+version = "1.1.4.20260728"
+description = "Typing stubs for geopandas"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "types_geopandas-1.1.4.20260728-py3-none-any.whl", hash = "sha256:91a7f3f0a2d408ddc88130ac4a0b83f5091086ba474d3b44cb75fadab9995a94"},
+    {file = "types_geopandas-1.1.4.20260728.tar.gz", hash = "sha256:b3c534e2a3c66a579a3db86ad6e9b0bfaef5694f89683067e610c375c4d14bb1"},
+]
+
+[package.dependencies]
+numpy = ">=1.20"
+pandas-stubs = "*"
+pyproj = "*"
+types-shapely = "*"
+
+[[package]]
+name = "types-shapely"
+version = "2.1.0.20260728"
+description = "Typing stubs for shapely"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "types_shapely-2.1.0.20260728-py3-none-any.whl", hash = "sha256:7299a62025528b3f0cc5af37095f05fbe7d76d399bdc8d7ea9b3d395e988f547"},
+    {file = "types_shapely-2.1.0.20260728.tar.gz", hash = "sha256:8ec23a5aa484c1ec7bbc56aa353cc230ae63e38e0f35a6e4b79a011d99bcfcc2"},
+]
+
+[package.dependencies]
+numpy = ">=1.20"
+
+[[package]]
 name = "typing-extensions"
 version = "4.16.0"
 description = "Backported and Experimental Type Hints for Python 3.9+"
@@ -2187,4 +2235,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.13"
-content-hash = "50e8641f0cedfd891bc2958a29d970f97ffcf26d612fa44918061a5c8c220087"
+content-hash = "3527acfcf91e75b4b03a53bf226200870b1f8f69cd1c55ac74d8d52039d5317d"
