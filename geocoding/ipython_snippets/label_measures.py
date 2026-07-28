@@ -2,7 +2,7 @@ import random
 from pathlib import Path
 import json
 
-DATASET_PATH = './artefacts/sampled_measures_labelled.json'
+DATASET_PATH = './artefacts/01_sampled_measures_labelled.json'
 
 def get_random_measure() -> pd.Series:
     df = random.choice(measures_dfs)
@@ -22,11 +22,10 @@ def _get_row_hash(row: pd.Series) -> int:
     )
 
 dataset_path = Path(DATASET_PATH)
-if dataset_path.exists():
-    with open(dataset_path, 'r') as f:
-        json.load(f)
-else:
-    sampled_measures = list()
+if not dataset_path.exists():
+    raise FileNotFoundError(f'{dataset_path} does not exist.\n`touch "[]" > {dataset_path} and try again`')
+with open(dataset_path, 'r') as f:
+    json.load(f)
     
 measures_dfs: list[pd.DataFrame] = list()
 for csv_path in Path('../pdfplumber_table_extraction/output/').rglob('**/*csv'):
