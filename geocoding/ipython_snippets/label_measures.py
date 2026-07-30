@@ -1,3 +1,5 @@
+from typing import Any, Hashable
+
 import random
 from pathlib import Path
 import json
@@ -7,7 +9,17 @@ import pandas as pd
 
 DATASET_PATH = './artefacts/01_sampled_measures_labelled.json'
 
-def get_random_measure() -> pd.Series:
+
+def collect_raw_measures_dfs_from_csvs(root_path: Path | str) -> list[pd.DataFrame]:
+    root_path = Path(root_path)
+    measures_dfs: list[pd.DataFrame] = list()
+    for csv_path in Path(root_path).rglob('**/*csv'):
+        measures_df: pd.DataFrame = pd.read_csv(csv_path)
+        measures_df['source_file'] = str(csv_path).split('output/')[-1]
+        measures_dfs.append(measures_df)
+    return measures_dfs
+
+def get_random_measure(measures_dfs: list[pd.DataFrame]) -> pd.Series:
     df = random.choice(measures_dfs)
     row_idx = random.choice(range(df.shape[0]))
     return df.iloc[row_idx]
@@ -25,48 +37,46 @@ def _get_row_hash(row: pd.Series) -> int:
         pd.util.hash_pandas_object(row).sum()
     )
 
-dataset_path = Path(DATASET_PATH)
-if not dataset_path.exists():
-    raise FileNotFoundError(f'{dataset_path} does not exist.\n`touch "[]" > {dataset_path} and try again`')
-with open(dataset_path, 'r') as f:
-    sampled_measures = json.load(f)
-    
-measures_dfs: list[pd.DataFrame] = list()
-for csv_path in Path('../pdfplumber_table_extraction/output/').rglob('**/*csv'):
-    measures_df: pd.DataFrame = pd.read_csv(csv_path)
-    measures_df['source_file'] = str(csv_path).split('output/')[-1]
-    measures_dfs.append(measures_df)
-    
-     
-try:
-    while True:
-        current = get_random_measure()
-        row_hash = _get_row_hash(current)
-        if row_hash in set([r['measure_row_hash'] for r in sampled_measures]):
-            print('measure already labelled. continue to next one')
-            continue
-        print('\n\n')
-        print(current)
-        current_dict = {
-            k: int(v) if isinstance(v, np.integer) else v for k, v in current.items()
-        }
-        current_dict['measure_row_hash'] = row_hash
-        current_dict['label:asset_type'] = _input('Asset type', {'uw': 'transformer_station', 'pl': 'power_line', 'o': None})
-        current_dict['label:existing'] = _input('Does the asset exist already?', {'y': True, 'n': False, 'o': None})
-        if current_dict['label:asset_type'] == 'transformer_station' and current_dict['label:existing'] is True:
-            if _input('Easy to geocode? (y/n)', {'y': True, 'n': False}):
-                current_dict['label:easy_to_geocode'] = True
-            if current_dict['label:easy_to_geocode'] is True:
-                current_dict['label:location_clues'] = []
-                while True:
-                    try:
-                        current_dict['label:location_clues'].append(input('Type location clue (ctrl+c to stop):   '))
-                    except KeyboardInterrupt:
-                        break
+def measure_to_hashable_dict(measure_pd: pd.Series) -> dict[Hashable, Any]:
+    return {k: int(v) if isinstance(v, np.integer) else v for k, v in measure_pd.items()}
+
+
+if __name__ == '__main__':
+    dataset_path = Path(DATASET_PATH)
+    if not dataset_path.exists():
+        raise FileNotFoundError(f'{dataset_path} does not exist.\n`touch "[]" > {dataset_path} and try again`')
+    with open(dataset_path, 'r') as f:
+        sampled_measures = json.load(f)
         
-        sampled_measures.append(current_dict)
-except KeyboardInterrupt:
-    pass
-    
-with open(dataset_path, 'w') as f:
-    json.dump(sampled_measures, f)
+    measures_dfs = collect_raw_measures_dfs_from_csvs('../pdfplumber_table_extraction/output/')   
+         
+    try:
+        while True:
+            current = get_random_measure(measures_dfs)
+            row_hash = _get_row_hash(current)
+            if row_hash in set([r['measure_row_hash'] for r in sampled_measures]):
+                print('measure already labelled. continue to next one')
+                continue
+            print('\n\n')
+            print(current)
+            current_dict = measure_to_hashable_dict(current)
+            current_dict['measure_row_hash'] = row_hash
+            current_dict['label:asset_type'] = _input('Asset type', {'uw': 'transformer_station', 'pl': 'power_line', 'o': None})
+            current_dict['label:existing'] = _input('Does the asset exist already?', {'y': True, 'n': False, 'o': None})
+            if current_dict['label:asset_type'] == 'transformer_station' and current_dict['label:existing'] is True:
+                if _input('Easy to geocode? (y/n)', {'y': True, 'n': False}):
+                    current_dict['label:easy_to_geocode'] = True
+                if current_dict['label:easy_to_geocode'] is True:
+                    current_dict['label:location_clues'] = []
+                    while True:
+                        try:
+                            current_dict['label:location_clues'].append(input('Type location clue (ctrl+c to stop):   '))
+                        except KeyboardInterrupt:
+                            break
+            
+            sampled_measures.append(current_dict)
+    except KeyboardInterrupt:
+        pass
+        
+    with open(dataset_path, 'w') as f:
+        json.dump(sampled_measures, f)

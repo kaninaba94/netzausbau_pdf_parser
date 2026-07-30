@@ -12,6 +12,7 @@ def fuzzy_match_substations(transformer_station_name: str) -> list[Tuple[str, fl
         limit=10,
     )
 
-transformer_station_name = input('Type location name of the Umspannwerk   ')
-matches = fuzzy_match_substations(transformer_station_name) 
-matched_substations = substations.loc[[match[2] for match in matches]]
+if __name__ == '__main__':
+    transformer_station_name = input('Type location name of the Umspannwerk   ')
+    matches = fuzzy_match_substations(transformer_station_name) 
+    matched_substations = substations.loc[[match[2] for match in matches]]
