@@ -1,8 +1,7 @@
 from pathlib import Path
-import re 
 import json
-from pprint import pprint
 
+import pandas as pd
 import geopandas as gpd
 from pyrosm import OSM
 
@@ -27,7 +26,7 @@ def get_all_substations(osm_reader: OSM) -> pd.DataFrame:
 
 
 
-if __name__ '__main__':
+if __name__ == '__main__':
     pbf_path = Path("../data/osm/germany-power.osm.pbf")
     
     osm_reader = OSM(
