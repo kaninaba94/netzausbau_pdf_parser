@@ -12,8 +12,9 @@ def get_random_measure() -> pd.Series:
     row_idx = random.choice(range(df.shape[0]))
     return df.iloc[row_idx]
 
-def _input(prompt: str, options: dict) -> bool:
+def _input(prompt: str, options: dict, collection: bool = False) -> bool:
     options_hint = ", ".join([f"{k} for {v}" for k, v in options.items()])
+    assert isinstance(collection, bool)
     user_input = input(f"{prompt}   {options_hint}")
     while not user_input in options.keys():
         user_input = input(prompt)
@@ -37,10 +38,8 @@ for csv_path in Path('../pdfplumber_table_extraction/output/').rglob('**/*csv'):
     measures_dfs.append(measures_df)
     
      
-easy_counter = 0
-num_easy_samples = 50
 try:
-    while easy_counter <= num_easy_samples:
+    while True:
         current = get_random_measure()
         row_hash = _get_row_hash(current)
         if row_hash in set([r['measure_row_hash'] for r in sampled_measures]):
@@ -57,7 +56,13 @@ try:
         if current_dict['label:asset_type'] == 'transformer_station' and current_dict['label:existing'] is True:
             if _input('Easy to geocode? (y/n)', {'y': True, 'n': False}):
                 current_dict['label:easy_to_geocode'] = True
-                easy_counter += 1
+            if current_dict['label:easy_to_geocode'] is True:
+                current_dict['label:location_clues'] = []
+                while True:
+                    try:
+                        current_dict['label:location_clues'].append(input('Type location clue (ctrl+c to stop):   '))
+                    except KeyboardInterrupt:
+                        break
         
         sampled_measures.append(current_dict)
 except KeyboardInterrupt:
