@@ -15,7 +15,7 @@ synonyms = (("UW", "Umspannwerk", "UA", "Station", "substation"))
 literal_matches: dict[str, dict[str, list]] = {}
 pattern = "|".join(re.escape(v) for v in synonyms)
 for uw in umspannwerke:
-    literal_matches[uw]: = {}
+    literal_matches[uw]: dict = {}
     for syn in synonyms:
         uw_variant = re.sub(pattern, syn, uw)
         response = requests.get(

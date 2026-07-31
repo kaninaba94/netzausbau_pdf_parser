@@ -7,7 +7,10 @@ import json
 import numpy as np
 import pandas as pd
 
+from lib.measures import collect_raw_measures_dfs_from_csvs, get_random_measure
+
 DATASET_PATH = './artefacts/01_sampled_measures_labelled.json'
+
 
 
 def collect_raw_measures_dfs_from_csvs(root_path: Path | str) -> list[pd.DataFrame]:
@@ -23,7 +26,6 @@ def get_random_measure(measures_dfs: list[pd.DataFrame]) -> pd.Series:
     df = random.choice(measures_dfs)
     row_idx = random.choice(range(df.shape[0]))
     return df.iloc[row_idx]
-
 def _input(prompt: str, options: dict, collection: bool = False) -> bool:
     options_hint = ", ".join([f"{k} for {v}" for k, v in options.items()])
     assert isinstance(collection, bool)
@@ -37,7 +39,7 @@ def _get_row_hash(row: pd.Series) -> int:
         pd.util.hash_pandas_object(row).sum()
     )
 
-def measure_to_hashable_dict(measure_pd: pd.Series) -> dict[Hashable, Any]:
+def _measure_to_hashable_dict(measure_pd: pd.Series) -> dict[Hashable, Any]:
     return {k: int(v) if isinstance(v, np.integer) else v for k, v in measure_pd.items()}
 
 
@@ -59,7 +61,7 @@ if __name__ == '__main__':
                 continue
             print('\n\n')
             print(current)
-            current_dict = measure_to_hashable_dict(current)
+            current_dict = _measure_to_hashable_dict(current)
             current_dict['measure_row_hash'] = row_hash
             current_dict['label:asset_type'] = _input('Asset type', {'uw': 'transformer_station', 'pl': 'power_line', 'o': None})
             current_dict['label:existing'] = _input('Does the asset exist already?', {'y': True, 'n': False, 'o': None})
@@ -73,6 +75,14 @@ if __name__ == '__main__':
                             current_dict['label:location_clues'].append(input('Type location clue (ctrl+c to stop):   '))
                         except KeyboardInterrupt:
                             break
+                osm_id_label: str | float | None = None
+                while osm_id_label is None:
+                    osm_id_label = input('Copy-paste OSM ID. "o" for None')
+                    if osm_id_label == 'o':
+                        osm_id_label = None
+                        break
+                    osm_id_label = float(osm_id_label)
+                current_dict['label:osm_id'] = osm_id_label 
             
             sampled_measures.append(current_dict)
     except KeyboardInterrupt:

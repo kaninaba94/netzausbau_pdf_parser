@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-package-mode = false
+packages = [{ include = "lib" }]
 
 [tool.ruff]
 line-length = 120
