@@ -13,6 +13,8 @@ dependencies = [
   "types-geopandas (>=1.1.4.20260728,<2.0.0.0)",
   "streamlit (>=1.60.0,<2.0.0)",
   "rapidfuzz (>=3.0,<4.0)",
+  "cursor-sdk (>=1.0.26,<2.0.0)",
+  "jsonextractor (>=0.0.2,<0.0.3)",
 ]
 
 [tool.poetry]
