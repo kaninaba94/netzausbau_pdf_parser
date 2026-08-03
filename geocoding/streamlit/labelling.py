@@ -274,12 +274,11 @@ if submitted:
     entry["label:asset_type"] = None if asset_type == "unset" else asset_type
     entry["label:existing"] = parse_nullable_bool(existing)
 
-    if entry["label:asset_type"] == "transformer_station" and entry["label:existing"] is True:
-        entry["label:easy_to_geocode"] = parse_nullable_bool(easy)
-        clues = [c.strip() for c in location_clues.splitlines() if c.strip()]
-        if clues:
-            entry["label:location_clues"] = clues
-        entry["label:osm_id"] = float(osm_id_raw.strip()) if osm_id_raw.strip() else None
+    entry["label:easy_to_geocode"] = parse_nullable_bool(easy)
+    clues = [c.strip() for c in location_clues.splitlines() if c.strip()]
+    if clues:
+        entry["label:location_clues"] = clues
+    entry["label:osm_id"] = float(osm_id_raw.strip()) if osm_id_raw.strip() else None
 
     upsert_label(entry)
     st.success(f"Saved label for hash {row_hash}")
