@@ -18,27 +18,29 @@ class OllamaRowClueExtractor:
     def __init__(
         self,
         model_name: str,
-        examples: list[dict[str, Any]]
+        examples: list[dict[str, Any]],
     ) -> None:
         self.model_name = model_name
         self.examples = examples
-    
-    def extract(self, row: pd.Series) -> list[str]:
-        user_prompt = (
-            "Extrahiere anhand der unten aufgelisteten Beispiele aus der Tabellenzeile Ortsbezeichnungen, die später für fuzzy string matching mit OpenStreetMap-Features benutzt werden können. \n\n"
+        self.prompt = (
+            "Extrahiere anhand der unten aufgelisteten Beispiele aus der Tabellenzeile Ortsbezeichnungen, die später für fuzzy string matching mit OpenStreetMap-Features benutzt werden können." 
+            + "Gib einen json-serializable string zurück: list[list[str]] \n"
+            + "Die äußere Liste soll genauso lang sein wie die Anzahl der Maßnahmen, die dir übergeben werden.\n"
             + f"Beispiele:\n{self.examples}\n\n"
-            + f"Tabellenzeile\n{row}"
+            + f"Tabellenzeilen:\n"
         )
+    
+    def extract(self, chunk: pd.DataFrame) -> list[str]:
         response = chat(
             model = self.model_name,    
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
+                {"role": "user", "content": self.prompt + chunk.to_json()},
             ],
             format=RowClues.model_json_schema(),
             options={
                 "temperature": 0,
-                "num_ctx": 8192,
+                "num_ctx": int(2**15),
             },
             think=False,
         )
