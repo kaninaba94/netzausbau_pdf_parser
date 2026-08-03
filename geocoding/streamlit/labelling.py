@@ -13,6 +13,7 @@ from lib.measures import (
     default_search_columns,
     filter_by_rapidfuzz,
     filter_by_regex,
+    get_random_measure,
     labelled_hashes,
     load_labelled_measures,
     measure_row_hash,
@@ -38,6 +39,10 @@ def load_tables(root: str) -> dict[str, pd.DataFrame]:
 def row_hashes_for_table(root: str, source_file: str) -> list[int]:
     df = load_tables(root)[source_file]
     return [measure_row_hash(df.iloc[i]) for i in range(len(df))]
+
+
+def update_table_index() -> None:
+    st.session_state.table_index = st.session_state.table_index_selectbox
 
 
 def init_state() -> None:
@@ -89,6 +94,35 @@ def format_osm_id(value: Any) -> str:
     return str(int(number)) if number.is_integer() else str(number)
 
 
+def pick_random_measure(
+    tables: dict[str, pd.DataFrame],
+    source_files: list[str],
+    *,
+    skip_labelled: bool = True,
+    max_attempts: int = 200,
+) -> bool:
+    """Pick a random measure via get_random_measure and select it in the UI.
+
+    Returns True if a measure was selected, False if none could be found.
+    """
+    dfs = list(tables.values())
+    if not dfs:
+        return False
+    known = labelled_hashes(st.session_state.labels) if skip_labelled else set()
+    for _ in range(max_attempts):
+        measure = get_random_measure(dfs)
+        row_hash = measure_row_hash(measure)
+        if row_hash in known:
+            continue
+        source_file = str(measure["source_file"])
+        if source_file not in tables:
+            continue
+        st.session_state.table_index = source_files.index(source_file)
+        st.session_state.selected_hash = row_hash
+        return True
+    return False
+
+
 init_state()
 tables = load_tables(str(TABLES_ROOT))
 source_files = list(tables.keys())
@@ -101,32 +135,25 @@ st.caption(
 
 with st.sidebar:
     st.subheader("Table")
-    table_index = st.selectbox(
+    st.session_state.table_index_selectbox = st.session_state.table_index
+    st.selectbox(
         "Source table",
         options=range(len(source_files)),
         format_func=lambda i: f"[{len(tables[source_files[i]])}] {source_files[i]}",
-        key="table_index",
+        key="table_index_selectbox",
+        on_change=update_table_index
     )
-    with st.container(horizontal=True):
-        if st.button("Previous", icon=":material/arrow_back:", disabled=table_index <= 0):
-            st.session_state.table_index = table_index - 1
-            st.rerun()
-        if st.button(
-            "Next",
-            icon=":material/arrow_forward:",
-            disabled=table_index >= len(source_files) - 1,
-        ):
-            st.session_state.table_index = table_index + 1
-            st.rerun()
 
     st.divider()
     hide_labelled = st.toggle("Hide labelled rows", value=False)
+    if st.button("Random measure", icon=":material/casino:", use_container_width=True):
+        pick_random_measure(tables, source_files, skip_labelled=True)
     st.caption(f"Labels file: `{LABELS_PATH.relative_to(REPO_ROOT)}`")
     if st.button("Reload labels from disk", icon=":material/refresh:"):
         st.session_state.labels = load_labelled_measures(LABELS_PATH)
         st.rerun()
 
-source_file = source_files[table_index]
+source_file = source_files[st.session_state.table_index]
 base_df = tables[source_file]
 df = base_df.copy()
 df["_row_idx"] = list(range(len(df)))
@@ -208,6 +235,8 @@ if selected_rows:
     st.session_state.selected_hash = int(selected["_row_hash"])
 elif st.session_state.selected_hash is not None:
     match = filtered.loc[filtered["_row_hash"] == st.session_state.selected_hash]
+    if not len(match):
+        match = df.loc[df["_row_hash"] == st.session_state.selected_hash]
     if len(match):
         selected = match.iloc[0]
 
