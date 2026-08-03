@@ -278,7 +278,7 @@ if submitted:
     clues = [c.strip() for c in location_clues.splitlines() if c.strip()]
     if clues:
         entry["label:location_clues"] = clues
-    entry["label:osm_id"] = float(osm_id_raw.strip()) if osm_id_raw.strip() else None
+    entry["label:osm_id"] = int(osm_id_raw.strip()) if osm_id_raw.strip() else None
 
     upsert_label(entry)
     st.success(f"Saved label for hash {row_hash}")
