@@ -1,6 +1,7 @@
 import os
 import json 
 import asyncio
+import re
 
 from numind import NuMindAsync
 
@@ -12,7 +13,16 @@ project_id = 'sprj_01ktrsfpgwcjp84rtnrq8akbdq'
 with open('artefacts/01_sampled_measures_labelled.json', 'r') as f:
     sampled_measures = json.load(f)
 
-with_clues = [m for m in sampled_measures if 'label:location_clues' in m.keys()]
+def _jsonable(d: dict) -> str:
+    return str(d).replace('\'', '\"')
+
+
+measures = [{k: v for k, v in m.items() if not 'label' in k} for m in sampled_measures if 'label:location_clues' in m.keys()]
+labels = [{'location_clues': m['label:location_clues'], 'asset_type': m['label:asset_type']} for m in sampled_measures if 'label:location_clues' in m.keys()]
+for i in range(len(labels)):
+    if labels[i]['asset_type'] is not None and 'transformer_' in labels[i]['asset_type']:
+        labels[i]['asset_type'] = 'substation'
+examples = [(_jsonable(m), l) for m, l in zip(measures, labels, strict=True)]
 template = {
     "location_clues": [
         "string"
@@ -31,11 +41,11 @@ For location clues, only extract names of streets, municipalities, areas, distri
 measures_dfs = collect_raw_measures_dfs_from_csvs('../pdfplumber_table_extraction/')
 df = measures_dfs[1]
 
-requests = [{'template': template, 'examples': with_clues, 'instructions': instructions, 'input_text': df.iloc[i].to_json()} for i in range(5)]
+requests = [{'template': template, 'examples': examples, 'instructions': instructions, 'input_text': df.iloc[i].to_json()} for i in range(10,15)]
 
 async def main():
     return [
-        await client.extract_structured_data(project_id, **request_kwargs)
+        await client.extract_structured_data(**request_kwargs)
         for request_kwargs in requests
     ]
 
