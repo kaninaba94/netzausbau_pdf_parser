@@ -47,9 +47,6 @@ class ExtractionResult(BaseModel):
     location_clues: list[str]
     asset_type: AssetType | None
 
-def _jsonable(d: dict) -> str:
-    return str(d).replace('\'', '\"')
-
 
 with open('artefacts/01_sampled_measures_labelled.json', 'r') as f:
     sampled_measures = json.load(f)
@@ -59,7 +56,7 @@ labels = [{'location_clues': m['label:location_clues'], 'asset_type': m['label:a
 for i in range(len(labels)):
     if labels[i]['asset_type'] is not None and 'transformer_' in labels[i]['asset_type']:
         labels[i]['asset_type'] = 'substation'
-examples = [(_jsonable(m), l) for m, l in zip(measures, labels, strict=True)]
+examples = [(json.dumps(m, ensure_ascii=False), l) for m, l in zip(measures, labels, strict=True)]
 examples_string = '\n\n\n'.join([e[0].replace('nan', 'null') + '\n ------------->\n' + str(e[1]) for e in examples])
 
 out_path = OUT_DIR / IN_PATH.parent.name / IN_PATH.name
