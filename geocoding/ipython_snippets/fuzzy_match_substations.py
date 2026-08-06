@@ -37,5 +37,5 @@ if __name__ == '__main__':
         out_df.loc[row_idx, 'inferred:osm_id'] = matched_substations_df.iloc[0]['id']
         out_df.to_csv(out_path)
         print(f"https://www.openstreetmap.org/way/{matched_substations_df.iloc[0]['id']}") 
-        print(substation_name, '\n', matched_substations, '\n')
+        print(substation_name, '\n', matched_substations_df, '\n')
     

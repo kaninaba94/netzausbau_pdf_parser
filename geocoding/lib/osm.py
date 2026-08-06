@@ -1,5 +1,5 @@
 import json
-from typing import Tuple
+from typing import Tuple, Hashable, Mapping
 
 import pandas as pd
 import geopandas as gpd
@@ -7,8 +7,8 @@ from pyrosm import OSM
 from rapidfuzz import process, fuzz
 
 
-def fuzzy_match_substations(transformer_station_name: str, substations: pd.DataFrame) -> list[Tuple[str, float, int]]:
-    choices_by_index = substations["tag::name"].dropna().to_dict()
+def fuzzy_match_substations(transformer_station_name: str, substations: pd.DataFrame) -> list[Tuple[str, float, Hashable]]:
+    choices_by_index: Mapping[Hashable, str] = substations["tag::name"].dropna().to_dict()
 
     return process.extract(
         query=transformer_station_name,
@@ -18,7 +18,7 @@ def fuzzy_match_substations(transformer_station_name: str, substations: pd.DataF
         limit=10,
     )
 
-def get_all_substations(osm_reader: OSM) -> pd.DataFrame:
+def get_all_substations(osm_reader: OSM) -> gpd.GeoDataFrame | None:
     substations: gpd.GeoDataFrame | None = osm_reader.get_data_by_custom_criteria(
         custom_filter={"power": ["substation"]},
         filter_type="keep",
