@@ -18,7 +18,7 @@ def main() -> None:
         else:
             continue
     
-        out_dir = (Path(__file__).parent.parent / 'input' / f'{str(details.raw["_id"]).zfill(5)}_{details.raw["name"]}'.replace('/', '_'))
+        out_dir = (Path(__file__).parent.parent / 'data' / 'pdfs' / f'{str(details.raw["_id"]).zfill(5)}_{details.raw["name"]}'.replace('/', '_'))
         out_dir.mkdir(exist_ok=True)
     
         for doc in details.raw['documents']:

@@ -14,7 +14,7 @@ with open('artefacts/01_sampled_measures_labelled.json', 'r') as f:
     sampled_measures = json.load(f)
     
 with_clues = [m for m in sampled_measures if 'label:location_clues' in m.keys()]
-measures_dfs = collect_raw_measures_dfs_from_csvs('../pdfplumber_table_extraction/')
+measures_dfs = collect_raw_measures_dfs_from_csvs('../table_extraction/')
 random_measures = [get_random_measure(measures_dfs).to_json() for _ in range(15)]
 
 

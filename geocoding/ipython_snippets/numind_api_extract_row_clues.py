@@ -35,7 +35,7 @@ The examples show exemplary location_clues under the key 'label:location_clues' 
 For location clues, only extract names of streets, municipalities, areas, districts, or regions. No domain-specific abbreviations such as UW, GmbH or HKW.
 """
 
-measures_dfs = collect_raw_measures_dfs_from_csvs('../pdfplumber_table_extraction/')
+measures_dfs = collect_raw_measures_dfs_from_csvs('../table_extraction/')
 df = measures_dfs[1]
 
 requests = [{'template': template, 'examples': examples, 'instructions': instructions, 'input_text': df.iloc[i].to_json()} for i in range(10,15)]

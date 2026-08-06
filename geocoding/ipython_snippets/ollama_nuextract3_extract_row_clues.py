@@ -10,7 +10,7 @@ import pandas as pd
 from lib.measures import collect_raw_measures_dfs_from_csvs 
 
 OUT_DIR = Path('./artefacts')
-IN_PATH = Path('../pdfplumber_table_extraction/output/00080_Stromnetz Berlin GmbH/Netzausbauplan Stromnetz Berlin GmbH 2024 (Anpassung Maßnahmeplan, Anlage 2).pdf.0.csv')
+IN_PATH = Path('../table_extraction/output/00080_Stromnetz Berlin GmbH/Netzausbauplan Stromnetz Berlin GmbH 2024 (Anpassung Maßnahmeplan, Anlage 2).pdf.0.csv')
 
 class SystemPrompt:
     def __init__(self, instructions: str, rules: str, schema: dict, examples_string: str) -> None:

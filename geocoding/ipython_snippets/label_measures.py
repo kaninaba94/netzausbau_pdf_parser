@@ -35,7 +35,7 @@ if __name__ == '__main__':
     with open(dataset_path, 'r') as f:
         sampled_measures = json.load(f)
         
-    measures_dfs = collect_raw_measures_dfs_from_csvs('../pdfplumber_table_extraction/output/')   
+    measures_dfs = collect_raw_measures_dfs_from_csvs('../table_extraction/output/')   
          
     try:
         while True:

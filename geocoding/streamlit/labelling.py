@@ -23,7 +23,7 @@ from lib.measures import (
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 GEOCODING_ROOT = Path(__file__).resolve().parents[1]
-TABLES_ROOT = REPO_ROOT / "pdfplumber_table_extraction" / "output"
+TABLES_ROOT = REPO_ROOT / "table_extraction" / "output"
 LABELS_PATH = GEOCODING_ROOT / "artefacts" / "01_sampled_measures_labelled.json"
 
 st.set_page_config(page_title="Maßnahmen labelling", page_icon=":material/label:", layout="wide")
