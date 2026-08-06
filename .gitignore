@@ -1,9 +1,5 @@
 **/__pycache__
 
-# results data
-output
-!pdfplumber_table_extraction/output/
-
 # Credentials
 goal100-13ad64178c57.json
 
