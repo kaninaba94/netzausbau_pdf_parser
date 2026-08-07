@@ -1,46 +1,10 @@
 [project]
-name = "netzausbau-extractor"
+name = "goal100-geocoding"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
-dependencies = [
-  "pandas>=2.2",
-  "requests (>=2.34.2,<3.0.0)",
-  "geopandas (>=1.1.4,<2.0.0)",
-  "nominatim-api (>=5.3.2,<6.0.0)",
-  "gspread (>=6.2.1,<7.0.0)",
-  "gspread-dataframe (>=4.0.0,<5.0.0)",
-  "pyrosm (>=0.12.0,<0.13.0)",
-  "types-geopandas (>=1.1.4.20260728,<2.0.0.0)",
-  "streamlit (>=1.60.0,<2.0.0)",
-  "rapidfuzz (>=3.0,<4.0)",
-  "cursor-sdk (>=1.0.26,<2.0.0)",
-  "jsonextractor (>=0.0.2,<0.0.3)",
-  "numind (>=0.3.0,<0.4.0)",
-  "types-tqdm (>=4.70.0.20260805,<5.0.0.0)",
-  "dvc (>=3.67.1,<4.0.0)",
-]
 
 [tool.poetry]
 packages = [{ include = "lib" }]
 
-[tool.ruff]
-line-length = 120
-
-[tool.mypy]
-python_version = "3.12"
-disallow_untyped_defs = true
-show_error_codes = true
-no_implicit_optional = true
-
-[[tool.mypy.overrides]]
-module = ["pyrosm.*"]
-ignore_missing_imports = true
-
-[tool.poetry.group.dev.dependencies]
-ipython = "^9.14.0"
-pyperclip = "^1.11.0"
-mypy = "^2.1.0"
-ruff = "^0.15.17"
-basedpyright = "^1.39.9"
-deptry = "^0.25.1"
-
+[tool.setuptools.packages.find]
+include = ["lib", "lib.*"]

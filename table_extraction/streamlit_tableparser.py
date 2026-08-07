@@ -7,7 +7,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-import fitz
+import pymupdf
 import pdfplumber
 import streamlit as st
 from PIL import Image
@@ -77,14 +77,14 @@ def selected_page_numbers(page_ranges: list[PageRange]) -> list[int]:
 
 @st.cache_data
 def add_page_numbers(pdf_bytes: bytes) -> bytes:
-    pdf_document = fitz.open(stream=pdf_bytes, filetype="pdf")
+    pdf_document = pymupdf.open(stream=pdf_bytes, filetype="pdf")
 
     for page_index, page in enumerate(pdf_document):
         page_number = str(page_index + 1)
         page_rectangle = page.rect
 
         page.insert_text(
-            point=fitz.Point(
+            point=pymupdf.Point(
                 page_rectangle.x0 + 20,
                 page_rectangle.y1 - 20,
             ),
