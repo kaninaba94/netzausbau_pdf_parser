@@ -10,7 +10,7 @@ import pandas as pd
 from lib.measures import collect_raw_measures_dfs_from_csvs 
 
 OUT_DIR = Path('./artefacts')
-IN_PATH = Path('../table_extraction/output/00080_Stromnetz Berlin GmbH/Netzausbauplan Stromnetz Berlin GmbH 2024 (Anpassung Maßnahmeplan, Anlage 2).pdf.0.csv')
+IN_PATH = Path('../table_extraction/output/00702_Mainfranken Netze GmbH/NAP-Bericht_(mit_Karten)_30.04.2024.pdf.0.csv')
 
 class SystemPrompt:
     def __init__(self, instructions: str, rules: str, schema: dict, examples_string: str) -> None:
@@ -59,20 +59,18 @@ for i in range(len(labels)):
 examples = [(json.dumps(m, ensure_ascii=False), l) for m, l in zip(measures, labels, strict=True)]
 examples_string = '\n\n\n'.join([e[0].replace('nan', 'null') + '\n ------------->\n' + str(e[1]) for e in examples])
 
-out_path = OUT_DIR / IN_PATH.parent.name / IN_PATH.name
+out_path = OUT_DIR / 'row_clues' / IN_PATH.parent.name / IN_PATH.name
 
 if out_path.exists():
     df = pd.read_csv(out_path)
-    df_result = df.copy()
+    df_out = df.copy()
 else:
     df = pd.read_csv(IN_PATH)
-    df_result = df.copy()
-    df_result['inferred:location_clues'] = None
-    df_result['inferred:asset_type'] = None
+    df_out = df.copy()
+    df_out['inferred:location_clues'] = None
+    df_out['inferred:asset_type'] = None
     
-
-row_indices = df.index[(df['inferred:location_clues'].isna() & df['inferred:asset_type'].isna())].tolist()
-
+row_indices = df_out.index[(df_out['inferred:location_clues'].isna() & df_out['inferred:asset_type'].isna())].tolist()
 for row_idx in tqdm(row_indices):#df.shape[0])):    
     row = df.iloc[row_idx].to_dict()
     
@@ -111,8 +109,8 @@ for row_idx in tqdm(row_indices):#df.shape[0])):
     all_requests.append((request, response))
     
     prediction_dict = json.loads(response.message.content)
-    df_result.loc[row_idx, 'inferred:location_clues'] = str(prediction_dict['location_clues'])
-    df_result.loc[row_idx, 'inferred:asset_type'] = prediction_dict['asset_type']
+    df_out.loc[row_idx, 'inferred:location_clues'] = str(prediction_dict['location_clues'])
+    df_out.loc[row_idx, 'inferred:asset_type'] = prediction_dict['asset_type']
     
     out_path.parent.mkdir(exist_ok=True)
-    df_result.to_csv(out_path, index=False)
+    df_out.to_csv(out_path, index=False)

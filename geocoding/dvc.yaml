@@ -1,0 +1,24 @@
+stages:
+  install_dependencies:
+    cmd: poetry install
+    deps:
+      - poetry.lock
+  compile_model:
+    cmd: ollama list | awk 'NR > 1 {print $1}' | grep -qx nuextract3-gguf && echo "model present, skipping stage" || ollama create nuextract3-gguf -f Modelfile
+  extract_row_clues:
+    cmd: python src/extract_row_clues.py
+    deps: 
+      - src/extract_row_clues.py
+      - ../table_extraction/output
+    outs:
+      - artefacts/row_clues
+  geocode_clues:
+    cmd: python src/geocode_clues.py
+    deps: 
+      - src/geocode_clues.py
+      - artefacts/row_clues
+    outs:
+      - artefacts/geocoding
+
+      
+

@@ -8,7 +8,7 @@ from lib.osm import get_all_substations, fuzzy_match_substations
 
 if __name__ == '__main__':
     IN_PATH = Path('artefacts/00080_Stromnetz Berlin GmbH/Netzausbauplan Stromnetz Berlin GmbH 2024 (Anpassung Maßnahmeplan, Anlage 2).pdf.0.csv')
-    out_path = Path('artefacts') / IN_PATH.parent.name / f"{IN_PATH.stem}_geocoded.csv"
+    out_path = Path('artefacts') / 'geocoded' / IN_PATH.parent.name / f"{IN_PATH.stem}.csv"
     out_path.parent.mkdir(exist_ok=True)
     
     if not 'substations_df' in globals():
