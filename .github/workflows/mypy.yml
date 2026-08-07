@@ -21,13 +21,13 @@ jobs:
         run: pipx install poetry
 
       - name: Install dependencies table_extraction
-        run: poetry install --with dev,table_extraction --no-interaction
+        run: poetry install --with dev,table_extraction --no-interaction --no-root
 
       - name: Run mypy table_extraction
         run: poetry run mypy table_extraction
 
       - name: Install dependencies geocoding
-        run: poetry install --with dev,geocoding --no-interaction
+        run: poetry install --with dev,geocoding --no-interaction --no-root
 
       - name: Run mypy geocoding
         run: poetry run mypy geocoding
