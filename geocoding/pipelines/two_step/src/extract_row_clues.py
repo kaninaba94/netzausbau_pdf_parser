@@ -37,15 +37,15 @@ if not 'all_requests' in globals():
     all_requests: list = []
 
 class AssetType(str, Enum):
-    power_line: str = 'power_line'
-    substation: str = 'substation'
-    generator: str = 'generator'
+    power_line = 'power_line'
+    substation = 'substation'
+    generator = 'generator'
 
 class ExtractionResult(BaseModel):
     location_clues: list[str]
     asset_type: AssetType | None
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     
     OUT_DIR = Path('./artefacts')
     in_paths = Path('../table_extraction/output').rglob('**/*csv')
@@ -109,8 +109,8 @@ if __name__ = '__main__':
                 "think": False 
             }
             response = chat(
-               **request
-            )
+                **request
+            ) # type: ignore[call-overload]
             all_requests.append((request, response))
             
             prediction_dict = json.loads(response.message.content)

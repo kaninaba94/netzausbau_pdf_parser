@@ -20,7 +20,8 @@ if __name__ == '__main__':
                 bounding_box=None,
             )
             substations_df = get_all_substations(osm_reader)
-            
+        assert substations_df is not None
+
         in_df = pd.read_csv(p)
         out_df = in_df.copy()
         if 'inferred:osm_id' not in out_df.columns:

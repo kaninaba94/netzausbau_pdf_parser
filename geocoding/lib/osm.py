@@ -7,7 +7,7 @@ from pyrosm import OSM
 from rapidfuzz import process, fuzz
 
 
-def fuzzy_match_substations(transformer_station_name: str, substations: pd.DataFrame) -> list[Tuple[str, float, Hashable]]:
+def fuzzy_match_substations(transformer_station_name: str, substations: gpd.GeoDataFrame) -> list[Tuple[str, float, Hashable]]:
     choices_by_index: Mapping[Hashable, str] = substations["tag::name"].dropna().to_dict()
 
     return process.extract(
