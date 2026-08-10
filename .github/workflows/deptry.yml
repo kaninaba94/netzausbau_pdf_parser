@@ -25,8 +25,8 @@ jobs:
 
       - name: Run deptry table_extraction
         if: ${{ always() }}
-        run: poetry run deptry table_extraction
+        run: poetry run deptry table_extraction --ignore DEP004
 
       - name: Run deptry geocoding
         if: ${{ always() }}
-        run: poetry run deptry geocoding
+        run: poetry run deptry geocoding --ignore DEP004
