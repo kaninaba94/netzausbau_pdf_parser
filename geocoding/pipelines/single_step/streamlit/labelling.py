@@ -12,7 +12,6 @@ from sentence_transformers import SentenceTransformer
 
 from lib.measures import (
     collect_raw_measures_dfs_from_csvs,
-    default_search_columns,
     get_random_measure,
     measure_row_hash,
     measure_to_jsonable,
@@ -60,8 +59,8 @@ def serialize_substation(substation: pd.Series) -> str:
 
 
 def serialize_measure(measure: pd.Series) -> str:
-    columns = [c for c in measure.index if c != "source_file"]
-    field_names = [c for c in default_search_columns(columns) if c in measure.index]
+    columns = measure.index
+    field_names = [c for c in columns if not any([k in c.lower() for k in ['netztechnische', 'begründung', 'verzögerung', 'kosten', 'unnamed', 'zeitpunkt']])]
     serialized_fields: list[str] = []
     for field_name in field_names:
         value = measure.get(field_name)
@@ -211,7 +210,6 @@ def save_label(
 ) -> None:
     entry = measure_to_jsonable(measure)
     entry["measure_row_hash"] = measure_row_hash(measure)
-    breakpoint()
     entry["osm_id"] = int(match_row["osm_id"])
     entry["label"] = label
     labels: list[dict[str, Any]] = st.session_state.labels
