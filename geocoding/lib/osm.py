@@ -18,7 +18,7 @@ def fuzzy_match_substations(transformer_station_name: str, substations: gpd.GeoD
         limit=10,
     )
 
-def get_all_substations(osm_reader: OSM) -> gpd.GeoDataFrame | None:
+def get_all_substations(osm_reader: OSM, expand_tags: bool = True) -> gpd.GeoDataFrame | None:
     substations: gpd.GeoDataFrame | None = osm_reader.get_data_by_custom_criteria(
         custom_filter={"power": ["substation"]},
         filter_type="keep",
@@ -26,7 +26,7 @@ def get_all_substations(osm_reader: OSM) -> gpd.GeoDataFrame | None:
         keep_ways=True,
         keep_relations=False,
     );
-    if substations is not None:
+    if expand_tags is True and substations is not None:
         tags_df = pd.DataFrame(
             [json.loads(tags) for tags in substations["tags"]],
             index=substations.index,
