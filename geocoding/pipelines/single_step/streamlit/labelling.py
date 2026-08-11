@@ -106,8 +106,10 @@ def label_key(measure_hash: int, substation_id: int) -> tuple[int, int]:
 
 
 def existing_label(
-    labels: list[dict[str, Any]], measure_hash: int, substation_id: int
-) -> dict[str, Any] | None:
+    labels: list[dict[str, Any]], measure_hash: int, substation_id: Optional[int]
+) -> list[dict[str, Any]] | dict[str, Any] | None:
+    if substation_id is None:
+        return [e for e in labels if int(e.get("measure_row_hash", -1)) == measure_hash] 
     for entry in labels:
         if (
             int(entry.get("measure_row_hash", -1)) == measure_hash
@@ -170,8 +172,9 @@ def top_substation_matches(
     *,
     top_k: int = TOP_K,
 ) -> pd.DataFrame:
+    serialized_measure = serialize_measure(measure)
     measure_embedding = model.encode(
-        [serialize_measure(measure)],
+        [serialized_measure],
         normalize_embeddings=True,
         show_progress_bar=False,
     )
@@ -187,6 +190,7 @@ def top_substation_matches(
             {
                 "osm_id": int(substation["id"]),
                 **{field: substation.get(field) for field in SUBSTATION_FIELDS},
+                "serialized": substation["serialized"],
             }
         )
     return pd.DataFrame(rows)
@@ -308,11 +312,18 @@ with st.sidebar:
 
 current_match = top_matches.iloc[candidate_index]
 substation_id = int(current_match["osm_id"])
-prior = existing_label(labels, measure_hash, substation_id)
+prior_pairs = existing_label(labels, measure_hash, None)
+if len(prior_pairs) > 0:
+    st.info(f"Measure has previously been labelled")
+
+prior_pair = existing_label(labels, measure_hash, substation_id)
 
 st.subheader("Current measure")
 st.dataframe(measure.drop(labels=["source_file"], errors="ignore").to_frame(name="value"), height='content')
 st.caption(f"Source: `{measure.get('source_file', '')}` · hash `{measure_hash}`")
+
+st.write(f"Serialized (model input):")
+st.code(serialize_measure(measure))
 
 st.divider()
 if st.button("Recompute candidates"):
@@ -337,9 +348,11 @@ st.dataframe(
     current_match[display_fields].to_frame(name="value"),
     height='content',
 )
+st.write(f"Serialized (what model sees):")
+st.code(current_match['serialized'])
 
-if prior:
-    st.info(f"Previously labelled as **{prior['label']}**.")
+if prior_pair:
+    st.info(f"Previously labelled as **{prior_pair['label']}**.")
 
 with st.container(horizontal=True):
     if st.button("Positive match", icon=":material/check_circle:", type="primary"):
