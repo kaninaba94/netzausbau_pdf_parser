@@ -63,7 +63,8 @@ def serialize_substation(substation: pd.Series) -> str:
 
 
 def lookup_heuristics(measure: pd.Series) -> pd.Series:
-    pattern = re.compile('Netze.*BW')
+    pattern = re.compile(r'.*Netze.*BW.*')
+    
     if pattern.match(measure['source_file']):
         with open(Path(HEURISTICS_DIR) / 'netze_bw_substation_lookup.json') as f:
             lookup_table = json.load(f)
@@ -373,18 +374,20 @@ st.subheader(f"Manual labelling")
 osm_id = st.text_input("OSM ID")
 
 if st.button("Search"):
-    st.session_state.substation_manual = search_by_osm_id(osm_id, substations_df)[['id'] + list(SUBSTATION_FIELDS)] 
+    st.session_state.substation_manual = search_by_osm_id(osm_id, substations_df)[['id'] + list(SUBSTATION_FIELDS) + ['serialized']] 
     assert st.session_state.substation_manual.shape[0] == 1
     st.session_state.substation_manual = st.session_state.substation_manual.iloc[0]
     st.dataframe(
         st.session_state.substation_manual,
         height='content'
     )
+    st.write(f"Serialized (what model sees):")
+    st.code(st.session_state.substation_manual['serialized'])
 
 if 'substation_manual' in st.session_state and st.session_state.substation_manual is not None:
     substation = st.session_state.substation_manual
     substation['osm_id'] = substation['id']
-    
+
     with st.container(horizontal=True):
         if st.button("Positive match", icon=":material/check_circle:", type="primary", key="manual_pos_btn"):
             save_label(measure=measure, match_row=substation, label="positive")
@@ -395,3 +398,4 @@ if 'substation_manual' in st.session_state and st.session_state.substation_manua
         if st.button("I'm not sure", icon=":material/help:", key="manual_skip_btn"):
             save_label(measure=measure, match_row=substation, label="skip")
             st.rerun()
+
