@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import json
 from pathlib import Path
 from typing import Any, Literal
@@ -21,6 +22,7 @@ from lib.osm import get_all_substations
 APP_DIR = Path(__file__).resolve().parent
 GEOCODING_ROOT = APP_DIR.parents[2]
 REPO_ROOT = APP_DIR.parents[3]
+HEURISTICS_DIR = REPO_ROOT / 'data' / 'auxiliary'
 TABLES_ROOT = REPO_ROOT / "table_extraction" / "output"
 PBF_PATH = REPO_ROOT / "data" / "osm" / "germany-power.osm.pbf"
 LABELS_PATH = GEOCODING_ROOT / "artefacts" / "embedding_match_labels.json"
@@ -50,12 +52,25 @@ st.set_page_config(
 
 def serialize_substation(substation: pd.Series) -> str:
     serialized_fields: list[str] = []
+
     for field_name in SUBSTATION_FIELDS:
         value = substation.get(field_name)
         if value is None or pd.isna(value):
             continue
         serialized_fields.append(f"{field_name}: {value}")
+     
     return "passage: " + "; ".join(serialized_fields)
+
+
+def lookup_heuristics(measure: pd.Series) -> pd.Series:
+    pattern = re.compile('Netze.*BW')
+    if pattern.match(measure['source_file']):
+        with open(Path(HEURISTICS_DIR) / 'netze_bw_substation_lookup.json') as f:
+            lookup_table = json.load(f)
+        for k, v in lookup_table['entries'].items():
+            if v['canonical_name'] is not None:
+                measure['Maßnahme'] = measure['Maßnahme'].replace(k, v['canonical_name'])
+    return measure
 
 
 def serialize_measure(measure: pd.Series) -> str:
@@ -63,7 +78,9 @@ def serialize_measure(measure: pd.Series) -> str:
     field_names = [c for c in columns if not any([k in c.lower() for k in ['netztechnische', 'begründung', 'verzögerung', 'kosten', 'unnamed', 'zeitpunkt']])]
     serialized_fields: list[str] = []
     for field_name in field_names:
-        value = measure.get(field_name)
+        preprocessed_measure[field_name] = lookup_heuristics(measure)
+    for field_name in field_names:
+        value = preprocessed_measure.get(field_name)
         if value is None or pd.isna(value):
             continue
         serialized_fields.append(f"{field_name}: {value}")
