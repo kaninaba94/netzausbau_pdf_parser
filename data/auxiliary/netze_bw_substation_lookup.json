@@ -1,0 +1,5283 @@
+{
+  "schema_version": "1.0",
+  "description": "Netze BW location/substation code lookup assembled from explicit Netze BW UW-code tables and NAP 2024 cross-references. Use only entries with training_safe=true for automatic ML serialization; preserve the raw code.",
+  "training_safe_rule": "resolution_status in {'explicit', 'verified'} and confidence >= 0.95",
+  "sources": {
+    "netze_bw_beschaffungsregionen_2025": {
+      "title": "NBW-Q-2025-001 - Beschaffungsregionen, Version 31.07.2025",
+      "url": "https://assets.cdn.netze-bw.de/xytfb1vrn7of/5yAGd3OUlqAKX0bzEGKaiH/31c713c5f9ac7c48f5d854c1d97ff953/beschaffungsregionen-marktgestuetzte-beschaffung-blindleistung.pdf",
+      "role": "Explicit UW-Code -> UW-Name ground truth for listed regions."
+    },
+    "netze_bw_nap_2024": {
+      "title": "Netzausbauplan 2024 - Netze BW",
+      "url": "https://www.vnbdigital.de/gateway/files?fileId=663e2e7d65b71a820c58956f&preview=1&serviceName=vnb",
+      "role": "NAP code occurrences, measure context, and network map."
+    },
+    "netze_bw_code_map_2024": {
+      "title": "Netze BW presentation with geographic UW-code map (2024)",
+      "url": "https://eu-metropolregion-stuttgart.de/wp-content/uploads/2024/11/Steffen-Ringwald-Netze-BW-GmbH-Aufbau-nachhaltiger-Energieinfrastruktur-in-der-Europaischen-Metropolregion-Stuttgart.pdf",
+      "role": "Geographic cross-check for inferred code/name matches."
+    },
+    "netze_bw_operational_instructions": {
+      "title": "Netze BW - Anweisungen für den Netzbetrieb",
+      "url": "https://assets.cdn.netze-bw.de/xytfb1vrn7of/4jbDEc8EYbfBMTTOXTvEiE/7a0dc95ffc1a93096296bcfb4316eee6/Auszug_AfdN__2020-01-27_Nachtrag.pdf",
+      "role": "Direct old-name/code line designations such as DAXLA, OWALD, EDSBH, WDLNG, BRUKA."
+    },
+    "netze_bw_altbach_fellbach_project": {
+      "title": "Netze BW project documentation Altbach - Fellbach West",
+      "url": "https://www.netze-bw.de/unsernetz/netzausbau/hochspannung/altbach-fellbach-west",
+      "role": "Direct project-name verification for DAMET, FLWST, ESWST/Altbach context."
+    },
+    "netze_bw_burladingen_project": {
+      "title": "Netze BW Burladingen project page",
+      "url": "https://www.netze-bw.de/unternehmen/nachhaltigkeit/energiewende/umspannwerk-burladingen",
+      "role": "Name verification."
+    },
+    "netze_bw_teningen_project": {
+      "title": "Netze BW Teningen project page",
+      "url": "https://www.netze-bw.de/news/netze-bw-baut-in-teningen-ein-neues-umspannwerk",
+      "role": "Name verification."
+    },
+    "stuttgart_netze_nap": {
+      "title": "Stuttgart Netze Netzausbauplan",
+      "url": null,
+      "role": "Explicit BLUST = Bludenzer Straße."
+    },
+    "rp_karlsruhe_hochstaetten_daxlanden": {
+      "title": "RP Karlsruhe - Hochstetten/Daxlanden line documentation",
+      "url": null,
+      "role": "Name verification."
+    },
+    "rp_freiburg_la1810": {
+      "title": "RP Freiburg - 110-kV Beuren-Stockach, LA 1810",
+      "url": null,
+      "role": "Name verification for BRNKO = Beuren."
+    },
+    "transnetbw_oberjettingen": {
+      "title": "TransnetBW - Umspannwerk Oberjettingen",
+      "url": "https://www.transnetbw.de/de/netzentwicklung/projekte/umspannwerk-oberjettingen",
+      "role": "Name verification."
+    }
+  },
+  "entries": {
+    "AALEN": {
+      "code": "AALEN",
+      "canonical_name": "Aalen",
+      "display_name": "UW Aalen",
+      "source_name_raw": "AALEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ACHST": {
+      "code": "ACHST",
+      "canonical_name": "Achstetten",
+      "display_name": "UW Achstetten",
+      "source_name_raw": "ACHSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "AICHD": {
+      "code": "AICHD",
+      "canonical_name": "Aichschieß",
+      "display_name": "UW Aichschieß",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "AICHD",
+        "p42: M.S.042300   LA 0807: Anschluss UW AICHD                                          HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p46: M.S.040521   UW AICHD: Neubau                    Neubau                             HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "AL2UW": {
+      "code": "AL2UW",
+      "canonical_name": "Altbach 2",
+      "display_name": "UW Altbach 2",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_altbach_fellbach_project"
+      ],
+      "nap_context": [
+        "AL2UW",
+        "p46: P.003732     UW AL2UW: erw. Trafo                Netzoptimierung und -verstärkung   HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "ALEIM": {
+      "code": "ALEIM",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ALEIM",
+        "p45: ALEIM EEG                                                                                 Verbrauch"
+      ]
+    },
+    "ALHIM": {
+      "code": "ALHIM",
+      "canonical_name": "Altlußheim",
+      "display_name": "UW Altlußheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "ALHIM",
+        "p43: ALHIM RNN                           Übertragungskapazität                                 Verbrauch"
+      ]
+    },
+    "ALLMD": {
+      "code": "ALLMD",
+      "canonical_name": "Allmendingen",
+      "display_name": "UW Allmendingen",
+      "source_name_raw": "ALLMENDINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "AMSTE": {
+      "code": "AMSTE",
+      "canonical_name": "Amstetten",
+      "display_name": "UW Amstetten",
+      "source_name_raw": "AMSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "AUDIX": {
+      "code": "AUDIX",
+      "canonical_name": "Audi",
+      "display_name": "UW Audi",
+      "source_name_raw": "AUDI",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "AUFHA": {
+      "code": "AUFHA",
+      "canonical_name": "Aufhausen",
+      "display_name": "UW Aufhausen",
+      "source_name_raw": "AUFHAUSEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p41: P.002438     LA 0404 AUFHA-GOHF: Verstärkung     Neubau                             HS-Leitungsanlage                         noch nicht eingeleitet   HS",
+        "p41: LA 0426 ROLSO-AUFHA: Einschl. UW Ersatz(neubau) mit Erhöhung der                           Zubau Erzeugung und"
+      ]
+    },
+    "BADHN": {
+      "code": "BADHN",
+      "canonical_name": "Badstrasse",
+      "display_name": "UW Badstrasse",
+      "source_name_raw": "BADSTRASSE",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BAIER": {
+      "code": "BAIER",
+      "canonical_name": "Baiertal",
+      "display_name": "UW Baiertal",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "BAIER",
+        "p46: M.S.033354   UW BAIER: Kompletterneuerung        Neubau                             HS/MS-UW                                  abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "BAIND": {
+      "code": "BAIND",
+      "canonical_name": "Baindt",
+      "display_name": "UW Baindt",
+      "source_name_raw": "BAINDT",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BEMBH": {
+      "code": "BEMBH",
+      "canonical_name": "Beimbach",
+      "display_name": "UW Beimbach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "BEMBH",
+        "p46: M.S.041365   UW BEMBH: Neubau                    Neubau                             HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "BHOFE": {
+      "code": "BHOFE",
+      "canonical_name": "Böllinger Höfe",
+      "display_name": "UW Böllinger Höfe",
+      "source_name_raw": "BÖLLINGER HÖFE",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BIBCH": {
+      "code": "BIBCH",
+      "canonical_name": "Biberach",
+      "display_name": "UW Biberach",
+      "source_name_raw": "BIBERACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BIEHM": {
+      "code": "BIEHM",
+      "canonical_name": "Bietigheim",
+      "display_name": "UW Bietigheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "BIEHM",
+        "p45: LA 9115 GSHEI-BIEHM EP-Besei-       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "BINGE": {
+      "code": "BINGE",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "BINGE",
+        "p40: BINGE                              Übertragungskapazität                                  Verbrauch"
+      ]
+    },
+    "BIRIN": {
+      "code": "BIRIN",
+      "canonical_name": "Bieringen",
+      "display_name": "UW Bieringen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "BIRIN",
+        "p46: UW BIRIN: Neubau Umspannwerk                                                               Zubau Erzeugung und"
+      ]
+    },
+    "BLEIB": {
+      "code": "BLEIB",
+      "canonical_name": "Bleibach",
+      "display_name": "UW Bleibach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "BLEIB",
+        "p44: M.S.030758   LA 1680 DENZL - BLEIB: EEG         Neubau                             HS-Leitungsanlage                         abgeschlossen            HS",
+        "p46: UW BLEIB: Erw. 110 kV inkl. 20                                                             Zubau Erzeugung und"
+      ]
+    },
+    "BLUST": {
+      "code": "BLUST",
+      "canonical_name": "Bludenzer Straße",
+      "display_name": "UW Bludenzer Straße",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "stuttgart_netze_nap"
+      ],
+      "nap_context": [
+        "BLUST",
+        "p46: M.S.032188   UW BLUST Ern. UW                    Neubau                             HS/MS-UW                                  abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "BNGEN": {
+      "code": "BNGEN",
+      "canonical_name": "Beiningen",
+      "display_name": "UW Beiningen",
+      "source_name_raw": "BEININGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BOEKI": {
+      "code": "BOEKI",
+      "canonical_name": "Böckingen",
+      "display_name": "UW Böckingen",
+      "source_name_raw": "BÖCKINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BOGEN": {
+      "code": "BOGEN",
+      "canonical_name": "Böbingen",
+      "display_name": "UW Böbingen",
+      "source_name_raw": "BÖBINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BOLBA": {
+      "code": "BOLBA",
+      "canonical_name": "Bollenbach",
+      "display_name": "UW Bollenbach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "BOLBA",
+        "p43: M.S.032063   LA 1460 BOLBA - VILLI BA A                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p43: M.S.038180   LA 1460 BOLBA-VILLI: Auflegen LWL                                     HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "BPFNG": {
+      "code": "BPFNG",
+      "canonical_name": "Bopfingen",
+      "display_name": "UW Bopfingen",
+      "source_name_raw": "BOPFINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BREN1": {
+      "code": "BREN1",
+      "canonical_name": "Beuren1",
+      "display_name": "UW Beuren1",
+      "source_name_raw": "Beuren1",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BRENZ": {
+      "code": "BRENZ",
+      "canonical_name": "Brenz",
+      "display_name": "UW Brenz",
+      "source_name_raw": "BRENZ",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BRNKO": {
+      "code": "BRNKO",
+      "canonical_name": "Beuren",
+      "display_name": "UW Beuren",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "rp_freiburg_la1810"
+      ],
+      "nap_context": [
+        "BRNKO",
+        "p44: M.S.040219   LA 1800 GURTW - BRNKO: LWL                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p44: M.S.040221   LA 1810 BRNKO - STOCK: LWL                                            HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "BRUCH": {
+      "code": "BRUCH",
+      "canonical_name": "Bruchsal",
+      "display_name": "UW Bruchsal",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "BRUCH",
+        "p46: M.S.036918   UW BRUCH: Rückbau UW + Ltg.         Rückbau / Altlastentsorgung        HS/MS-UW                                  bereits eingeleitet      UW HS auf MS"
+      ]
+    },
+    "BRUHL": {
+      "code": "BRUHL",
+      "canonical_name": "Brühl",
+      "display_name": "UW Brühl",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "BRUHL",
+        "p47: M.S.036660   UW BRUHL: Erneuerung UW                                                 HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "BRUKA": {
+      "code": "BRUKA",
+      "canonical_name": "Bruchsal-Kändelweg",
+      "display_name": "UW Bruchsal-Kändelweg",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_operational_instructions"
+      ],
+      "nap_context": [
+        "BRUKA",
+        "p42: LA 1210 OWALD-BRUKA Ern. Mast      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p47: M.S.042998   UW BRUKA: Felderw Anschluss 1340 Netzoptimierung und -verstärkung       HS-Schaltfeld                           noch nicht eingeleitet"
+      ]
+    },
+    "BRUNM": {
+      "code": "BRUNM",
+      "canonical_name": "Brunnenmatte",
+      "display_name": "UW Brunnenmatte",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "BRUNM",
+        "p47: UW BRUNM: Anschlusserweiterung                                                            Zubau Erzeugung und"
+      ]
+    },
+    "BUCHX": {
+      "code": "BUCHX",
+      "canonical_name": "Buch",
+      "display_name": "UW Buch",
+      "source_name_raw": "BUCH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "BUEHL": {
+      "code": "BUEHL",
+      "canonical_name": "Bühl",
+      "display_name": "UW Bühl",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "BUEHL",
+        "p47: M.S.036561   UW BUEHL: Erneruerung UW             Neubau                             HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "BURLD": {
+      "code": "BURLD",
+      "canonical_name": "Burladingen",
+      "display_name": "UW Burladingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_burladingen_project"
+      ],
+      "nap_context": [
+        "BURLD",
+        "p47: M.S.035192   UW BURLD: Neubau UW                  Neubau                             HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "CRHEI": {
+      "code": "CRHEI",
+      "canonical_name": "Crailsheim",
+      "display_name": "UW Crailsheim",
+      "source_name_raw": "CRAILSHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p39: M.S.033429   A: LA 0409 CRHEI-JAGHM: EEG                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p39: M.S.033430   A: LA 0410 ONOHM-CRHEI: EEG                                            HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "CVSBH": {
+      "code": "CVSBH",
+      "canonical_name": "Cleversulzbach",
+      "display_name": "UW Cleversulzbach",
+      "source_name_raw": "CLEVERSULZBACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "DAGUW": {
+      "code": "DAGUW",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "DAGUW",
+        "p47: M.S.042995   UW DAGUW: Neubau UW                  Neubau                             HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "DAMET": {
+      "code": "DAMET",
+      "canonical_name": "Daimler-Mettingen",
+      "display_name": "UW Daimler-Mettingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_altbach_fellbach_project"
+      ],
+      "nap_context": [
+        "DAMET",
+        "p45: P.002282     LA 9201 DAMET–FLWST HTR-Seil        Neubau                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p45: LA 9201 DAMET–FLWST UW-Ein-                                                               Zubau Erzeugung und"
+      ]
+    },
+    "DAXLA": {
+      "code": "DAXLA",
+      "canonical_name": "Daxlanden",
+      "display_name": "UW Daxlanden",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_operational_instructions"
+      ],
+      "nap_context": [
+        "DAXLA",
+        "p42: LA 1000 DAXLA - OWALD: Abstands-   Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p42: LA 1000 DAXLA-M.1000/004, Neu-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "DELLM": {
+      "code": "DELLM",
+      "canonical_name": "Dellmensingen",
+      "display_name": "UW Dellmensingen",
+      "source_name_raw": "DELLMENSINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p39: P.002495     LA 0026 DELLM - ULSUD, MS-Abbau     Rückbau / Altlastentsorgung        HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p39: LA 0026 DELLM-ULSUD: LWL auf-                                                              Zubau Erzeugung und"
+      ]
+    },
+    "DENZL": {
+      "code": "DENZL",
+      "canonical_name": "Denzlingen",
+      "display_name": "UW Denzlingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p44: M.S.030758   LA 1680 DENZL - BLEIB: EEG         Neubau                             HS-Leitungsanlage                         abgeschlossen            HS",
+        "DENZL",
+        "p47: M.S.042890   UW DENZL: Gesamterneuerung                                              HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "DEUBA": {
+      "code": "DEUBA",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "DEUBA",
+        "p40: DEUBA EEG                                                                                 Verbrauch"
+      ]
+    },
+    "DIEHM": {
+      "code": "DIEHM",
+      "canonical_name": "Dietenheim",
+      "display_name": "UW Dietenheim",
+      "source_name_raw": "DIETENHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p39: LA 0022 GOEGL-DIEHM: Aufleg. 2.SK Ersatz(neubau) mit Erhöhung der                          Zubau Erzeugung und"
+      ]
+    },
+    "DNRID": {
+      "code": "DNRID",
+      "canonical_name": "Donauried",
+      "display_name": "UW Donauried",
+      "source_name_raw": "DONAURIED",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "DORN": {
+      "code": "DORN",
+      "canonical_name": "Dornstadt",
+      "display_name": "UW Dornstadt",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "DORN",
+        "p40: LA 0047 JUNGU – DORN: LWL auf-     Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "DORNS": {
+      "code": "DORNS",
+      "canonical_name": "Dornstadt",
+      "display_name": "UW Dornstadt",
+      "source_name_raw": "DORNSTADT",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "DOSHM": {
+      "code": "DOSHM",
+      "canonical_name": "Dossenheim",
+      "display_name": "UW Dossenheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "DOSHM",
+        "p48: M.S.037627   UW DOSHM: Kompletterneuerung                                           HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "DOTHA": {
+      "code": "DOTHA",
+      "canonical_name": "Dotternhausen",
+      "display_name": "UW Dotternhausen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "DOTHA",
+        "p42: LA 0907 EBGEN - DOTHA, Verkblg.                                                          Zubau Erzeugung und"
+      ]
+    },
+    "DSTEN": {
+      "code": "DSTEN",
+      "canonical_name": "Donnstetten",
+      "display_name": "UW Donnstetten",
+      "source_name_raw": "DONNSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "DUENB": {
+      "code": "DUENB",
+      "canonical_name": "Dünsbach",
+      "display_name": "UW Dünsbach",
+      "source_name_raw": "DÜNSBACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "DUERH": {
+      "code": "DUERH",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "DUERH",
+        "p48: P.002315     UW DUERH: Neubau EEG                Neubau                             HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "EBBCH": {
+      "code": "EBBCH",
+      "canonical_name": "Ebersbach (Fils)",
+      "display_name": "UW Ebersbach (Fils)",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "EBBCH",
+        "p48: UW EBBCH: Ern. Trafos + SekTech     Ersatz(neubau) mit Erhöhung der                      Zubau Erzeugung und"
+      ]
+    },
+    "EBERB": {
+      "code": "EBERB",
+      "canonical_name": "Eberbach",
+      "display_name": "UW Eberbach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "EBERB",
+        "p43: LA 1290 NECKZ - EBERB:Engpass-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p48: M.S.040055   UW EBERB: Trafotausch               Netzoptimierung und -verstärkung   HS/MS-Trafo                             noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "EBGEN": {
+      "code": "EBGEN",
+      "canonical_name": "Ebingen",
+      "display_name": "UW Ebingen",
+      "source_name_raw": "EBINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p42: LA 0907 EBGEN - DOTHA, Verkblg.                                                          Zubau Erzeugung und"
+      ]
+    },
+    "EDSBH": {
+      "code": "EDSBH",
+      "canonical_name": "Endersbach",
+      "display_name": "UW Endersbach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_operational_instructions"
+      ],
+      "nap_context": [
+        "EDSBH",
+        "p45: LA 9407 EDSBH-GALGB Rep CB-         Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "EHING": {
+      "code": "EHING",
+      "canonical_name": "Ehingen",
+      "display_name": "UW Ehingen",
+      "source_name_raw": "EHINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "EICHS": {
+      "code": "EICHS",
+      "canonical_name": "Eichstetten",
+      "display_name": "UW Eichstetten",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "EICHS",
+        "p44: LA 1590 EICHS-TENIG EP-Besei-      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "p44: LA 1610, WEIER-EICHS M70 bis       Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "EKSHN": {
+      "code": "EKSHN",
+      "canonical_name": "Eckartshausen",
+      "display_name": "UW Eckartshausen",
+      "source_name_raw": "ECKARTSHAUSEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ELLWA": {
+      "code": "ELLWA",
+      "canonical_name": "Ellwangen",
+      "display_name": "UW Ellwangen",
+      "source_name_raw": "ELLWANGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p41: LA 0412:GOHFE-ELLWA:Endverka-                                                              Zubau Erzeugung und"
+      ]
+    },
+    "ELZHA": {
+      "code": "ELZHA",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ELZHA",
+        "p45: ELZHA EEG                                                                                 Verbrauch"
+      ]
+    },
+    "EMPFG": {
+      "code": "EMPFG",
+      "canonical_name": "Empfingen",
+      "display_name": "UW Empfingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "EMPFG",
+        "p48: P.001257     UW EMPFG: Neubau                    Neubau                             HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "EPPIN": {
+      "code": "EPPIN",
+      "canonical_name": "Eppingen",
+      "display_name": "UW Eppingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "EPPIN",
+        "p43: LA 1230 HUEFF - EPPIN: Verstär-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "ERBAC": {
+      "code": "ERBAC",
+      "canonical_name": "Erbach",
+      "display_name": "UW Erbach",
+      "source_name_raw": "ERBACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ERLAU": {
+      "code": "ERLAU",
+      "canonical_name": "Erlau",
+      "display_name": "UW Erlau",
+      "source_name_raw": "ERLAU",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ESPIN": {
+      "code": "ESPIN",
+      "canonical_name": "Ettlingen-Spinnerei",
+      "display_name": "UW Ettlingen-Spinnerei",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "ESPIN",
+        "p48: UW ESPIN: Ern. 110-kV- und 20-kV-                                                        Zubau Erzeugung und"
+      ]
+    },
+    "ESWST": {
+      "code": "ESWST",
+      "canonical_name": "Esslingen-West",
+      "display_name": "UW Esslingen-West",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_altbach_fellbach_project"
+      ],
+      "nap_context": [
+        "p46: M.S.038287   Neukabel DAMET - ESWST              Neubau                             HS-Kabelanlage                            noch nicht eingeleitet   HS",
+        "ESWST",
+        "p48: M.S.034461   UW ESWST Neubau Umspannwerk         Neubau                             HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "ETNRD": {
+      "code": "ETNRD",
+      "canonical_name": "Echterdingen Nord",
+      "display_name": "UW Echterdingen Nord",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "ETNRD",
+        "p48: UW ETNRD: Erweiterung MS-Anl+3.                                                          Zubau Erzeugung und"
+      ]
+    },
+    "EYBAC": {
+      "code": "EYBAC",
+      "canonical_name": "Eybacher Tal",
+      "display_name": "UW Eybacher Tal",
+      "source_name_raw": "EYBACHER TAL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "FAIMG": {
+      "code": "FAIMG",
+      "canonical_name": "Faimingen",
+      "display_name": "UW Faimingen",
+      "source_name_raw": "FAIMINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "FLWST": {
+      "code": "FLWST",
+      "canonical_name": "Fellbach-West",
+      "display_name": "UW Fellbach-West",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_altbach_fellbach_project"
+      ],
+      "nap_context": [
+        "p45: P.002282     LA 9201 DAMET–FLWST HTR-Seil        Neubau                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p45: LA 9201 DAMET–FLWST UW-Ein-                                                               Zubau Erzeugung und",
+        "FLWST"
+      ]
+    },
+    "FREST": {
+      "code": "FREST",
+      "canonical_name": "Freudenstadt",
+      "display_name": "UW Freudenstadt",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "FREST",
+        "p48: P.000150     UW FREST: Gesamterneuerung                                             HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "FRHAL": {
+      "code": "FRHAL",
+      "canonical_name": "Friedrichshall",
+      "display_name": "UW Friedrichshall",
+      "source_name_raw": "FRIEDRICHSHALL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "FRONH": {
+      "code": "FRONH",
+      "canonical_name": "Fronhofen",
+      "display_name": "UW Fronhofen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "FRONH",
+        "p39: P.001897     LA 0001: Anschluss UW FRONH                                            HS-Leitungsanlage                         noch nicht eingeleitet   HS",
+        "p48: P.003138     UW FRONH: Neubau UW                 Neubau                             HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "FSTET": {
+      "code": "FSTET",
+      "canonical_name": "Freistett",
+      "display_name": "UW Freistett",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "FSTET",
+        "p49: M.S.042435   UW FSTET: Erw.Trafo - ÜWM            Netzoptimierung und -verstärkung   HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS",
+        "p49: UW FSTET: Trafo Erweiterung - Ltg.                                                          Zubau Erzeugung und"
+      ]
+    },
+    "FWEIS": {
+      "code": "FWEIS",
+      "canonical_name": "Ferdinand-Weiß-Straße",
+      "display_name": "UW Ferdinand-Weiß-Straße",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p44: LA 1630 EICHS-FWEIS:Trassenverl.                                                          Zubau Erzeugung und",
+        "FWEIS",
+        "p49: UW FWEIS: Erneuerung UW -            Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "GALGB": {
+      "code": "GALGB",
+      "canonical_name": "Galgenberg (Schorndorf)",
+      "display_name": "UW Galgenberg (Schorndorf)",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 9407 EDSBH-GALGB Rep CB-         Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "GALGB"
+      ]
+    },
+    "GDORF": {
+      "code": "GDORF",
+      "canonical_name": "Gaildorf",
+      "display_name": "UW Gaildorf",
+      "source_name_raw": "GAILDORF",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GIEGN": {
+      "code": "GIEGN",
+      "canonical_name": "Giengen",
+      "display_name": "UW Giengen",
+      "source_name_raw": "GIENGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GMDSW": {
+      "code": "GMDSW",
+      "canonical_name": "Schwäbisch Gmünd",
+      "display_name": "UW Schwäbisch Gmünd",
+      "source_name_raw": "SCHWÄBISCH GMÜND",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GNANN": {
+      "code": "GNANN",
+      "canonical_name": "Gnannweiler",
+      "display_name": "UW Gnannweiler",
+      "source_name_raw": "GNANNWEILER",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GOEGL": {
+      "code": "GOEGL",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "GOEGL",
+        "p39: LA 0022 GOEGL-DIEHM: Aufleg. 2.SK Ersatz(neubau) mit Erhöhung der                          Zubau Erzeugung und"
+      ]
+    },
+    "GOHF": {
+      "code": "GOHF",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "GOHF",
+        "p41: P.002438     LA 0404 AUFHA-GOHF: Verstärkung     Neubau                             HS-Leitungsanlage                         noch nicht eingeleitet   HS"
+      ]
+    },
+    "GOHFE": {
+      "code": "GOHFE",
+      "canonical_name": "Goldshöfe",
+      "display_name": "UW Goldshöfe",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "GOHFE",
+        "p41: LA 0412:GOHFE-ELLWA:Endverka-                                                              Zubau Erzeugung und",
+        "p49: UW GOHFE: Anlageerweiterung                                                                 Zubau Erzeugung und"
+      ]
+    },
+    "GOHOFE": {
+      "code": "GOHOFE",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "GOHOFE",
+        "p39: M.S.033427   A: LA 0321 HOHNG-GOHOFE: EEG                                           HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "GOSHG": {
+      "code": "GOSHG",
+      "canonical_name": "Gosheim",
+      "display_name": "UW Gosheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "GOSHG",
+        "p49: UW GOSHG: Erw. 3. NG + Ern. Sek.                                                            Zubau Erzeugung und"
+      ]
+    },
+    "GPOS": {
+      "code": "GPOS",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "GPOS",
+        "p45: LA 9411 SHODF -GPOS: LWL auf-       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "GRISS": {
+      "code": "GRISS",
+      "canonical_name": "Grißheim",
+      "display_name": "UW Grißheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "GRISS",
+        "p49: P.002405     UW GRISS: Ern. HS mit ED             Netzoptimierung und -verstärkung   HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "GRKRA": {
+      "code": "GRKRA",
+      "canonical_name": "Grünkraut",
+      "display_name": "UW Grünkraut",
+      "source_name_raw": "GRÜNKRAUT",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GROGH": {
+      "code": "GROGH",
+      "canonical_name": "Grossgartach",
+      "display_name": "UW Grossgartach",
+      "source_name_raw": "GROSSGARTACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GRSKU": {
+      "code": "GRSKU",
+      "canonical_name": "Großkuchen",
+      "display_name": "UW Großkuchen",
+      "source_name_raw": "GROßKUCHEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GSHEI": {
+      "code": "GSHEI",
+      "canonical_name": "Großsachsenheim",
+      "display_name": "UW Großsachsenheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 9115 GSHEI-BIEHM EP-Besei-       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "GSHEI"
+      ]
+    },
+    "GUNDF": {
+      "code": "GUNDF",
+      "canonical_name": "Gundelfingen",
+      "display_name": "UW Gundelfingen",
+      "source_name_raw": "GUNDELFINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "GUNHM": {
+      "code": "GUNHM",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "GUNHM",
+        "p46: GUNHM EEG                                                                                  Verbrauch"
+      ]
+    },
+    "GURTW": {
+      "code": "GURTW",
+      "canonical_name": "Gurtweil",
+      "display_name": "UW Gurtweil",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p44: M.S.040219   LA 1800 GURTW - BRNKO: LWL                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "GURTW",
+        "p43: LA 1480 VILLI-GURTW Erneuerung      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "GUTAC": {
+      "code": "GUTAC",
+      "canonical_name": "Gutach",
+      "display_name": "UW Gutach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 3462 BOLBA - GUTAC: Erdseil-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "GUTAC"
+      ]
+    },
+    "GZBRG": {
+      "code": "GZBRG",
+      "canonical_name": "Günzburg",
+      "display_name": "UW Günzburg",
+      "source_name_raw": "GÜNZBURG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HAEUS": {
+      "code": "HAEUS",
+      "canonical_name": "Häusern",
+      "display_name": "UW Häusern",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p44: M.S.039863   LA 1700 HAEUS-GURTW Erneuerung                                        HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "HAEUS"
+      ]
+    },
+    "HAGBR": {
+      "code": "HAGBR",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "HAGBR",
+        "p49: UW HAGBR: Erneuerung 110-kV-         Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "HALSW": {
+      "code": "HALSW",
+      "canonical_name": "Schwäbisch Hall",
+      "display_name": "UW Schwäbisch Hall",
+      "source_name_raw": "SCHWÄBISCH HALL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HARBG": {
+      "code": "HARBG",
+      "canonical_name": "Harburg",
+      "display_name": "UW Harburg",
+      "source_name_raw": "HARBURG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HBRNG": {
+      "code": "HBRNG",
+      "canonical_name": "Herbrechtingen",
+      "display_name": "UW Herbrechtingen",
+      "source_name_raw": "HERBRECHTINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HERRB": {
+      "code": "HERRB",
+      "canonical_name": "Herrenberg",
+      "display_name": "UW Herrenberg",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "HERRB",
+        "p49: UW HERRB: Versatelcontainer u.                                                              Zubau Erzeugung und"
+      ]
+    },
+    "HKFEN": {
+      "code": "HKFEN",
+      "canonical_name": "Herlikofen",
+      "display_name": "UW Herlikofen",
+      "source_name_raw": "HERLIKOFEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HKIRC": {
+      "code": "HKIRC",
+      "canonical_name": "Haisterkirch",
+      "display_name": "UW Haisterkirch",
+      "source_name_raw": "HAISTERKIRCH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HLBRO": {
+      "code": "HLBRO",
+      "canonical_name": "Heilbronn",
+      "display_name": "UW Heilbronn",
+      "source_name_raw": "HEILBRONN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HOCHS": {
+      "code": "HOCHS",
+      "canonical_name": "Hochstetten",
+      "display_name": "UW Hochstetten",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "rp_karlsruhe_hochstaetten_daxlanden"
+      ],
+      "nap_context": [
+        "HOCHS",
+        "p43: LA 1300 RHNAU-HOCHS EP-Besei-       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p43: LA 1300 RHNAU-HOCHS Verst.          Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "HOCKN": {
+      "code": "HOCKN",
+      "canonical_name": "Hockenheim",
+      "display_name": "UW Hockenheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "HOCKN",
+        "p49: M.S.032184   UW HOCKN Erneuerung 110-kV                                              HS/MS-UW                                  abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "HOEPF": {
+      "code": "HOEPF",
+      "canonical_name": "Höpfingen",
+      "display_name": "UW Höpfingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "HOEPF",
+        "p49: P.002313     UW HOEPF: Felderw. HS                Netzoptimierung und -verstärkung   HS-Schaltfeld                             noch nicht eingeleitet"
+      ]
+    },
+    "HOHCK": {
+      "code": "HOHCK",
+      "canonical_name": "Hoheneck NWS",
+      "display_name": "UW Hoheneck NWS",
+      "source_name_raw": "HOHENECK NWS",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HOHNG": {
+      "code": "HOHNG",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p39: M.S.033427   A: LA 0321 HOHNG-GOHOFE: EEG                                           HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "HOHNG",
+        "p39: M.S.033426   A: LA 0325 KUPZL-HOHNG: EEG                                            HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "HOLHE": {
+      "code": "HOLHE",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "HOLHE",
+        "p41: HOLHE EEG                                                                                  Verbrauch"
+      ]
+    },
+    "HONBN": {
+      "code": "HONBN",
+      "canonical_name": "Honsbronn",
+      "display_name": "UW Honsbronn",
+      "source_name_raw": "HONSBRONN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HONHT": {
+      "code": "HONHT",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "HONHT",
+        "p41: HONHT EEG                                                                                  Verbrauch"
+      ]
+    },
+    "HORBX": {
+      "code": "HORBX",
+      "canonical_name": "Horb",
+      "display_name": "UW Horb",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "HORBX",
+        "p49: M.S.039861   UW HORBX: Gesamterneuerung UW                                           HS/MS-UW                                  abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "HOSSK": {
+      "code": "HOSSK",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "HOSSK",
+        "p39: HOSSK EEG                                                                                  Verbrauch"
+      ]
+    },
+    "HRBTG": {
+      "code": "HRBTG",
+      "canonical_name": "Herbertingen",
+      "display_name": "UW Herbertingen",
+      "source_name_raw": "HERBERTINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "HUEFF": {
+      "code": "HUEFF",
+      "canonical_name": "Hüffenhardt",
+      "display_name": "UW Hüffenhardt",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p43: LA 1230 HUEFF - EPPIN: Verstär-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "HUEFF",
+        "p43: M.S.042118   LA 1251 HUEFF - NECKZ: EEG                                            HS-Leitungsanlage                         noch nicht eingeleitet   HS"
+      ]
+    },
+    "HUER1": {
+      "code": "HUER1",
+      "canonical_name": "Hüttenreute 1",
+      "display_name": "UW Hüttenreute 1",
+      "source_name_raw": "Hüttenreute 1",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "INGFG": {
+      "code": "INGFG",
+      "canonical_name": "Ingelfingen",
+      "display_name": "UW Ingelfingen",
+      "source_name_raw": "INGELFINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ISNYX": {
+      "code": "ISNYX",
+      "canonical_name": "Isny",
+      "display_name": "UW Isny",
+      "source_name_raw": "ISNY",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "JAGBG": {
+      "code": "JAGBG",
+      "canonical_name": "Jagstberg",
+      "display_name": "UW Jagstberg",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "JAGBG",
+        "p50: M.S.032203   UW JAGBG: Neubau UW Jagstberg       Neubau                             HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "JAGHM": {
+      "code": "JAGHM",
+      "canonical_name": "Jagstheim",
+      "display_name": "UW Jagstheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "JAGHM",
+        "p39: M.S.033429   A: LA 0409 CRHEI-JAGHM: EEG                                            HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "JETHN": {
+      "code": "JETHN",
+      "canonical_name": "Jettenhausen",
+      "display_name": "UW Jettenhausen",
+      "source_name_raw": "JETTENHAUSEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "JGTZE": {
+      "code": "JGTZE",
+      "canonical_name": "Jagstzell",
+      "display_name": "UW Jagstzell",
+      "source_name_raw": "JAGSTZELL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "JUNGU": {
+      "code": "JUNGU",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p40: LA 0047 JUNGU – DORN: LWL auf-     Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "JUNGU",
+        "p40: LA 0050 SOEFL - JUNGU: LWL auf-    Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "KBLTW": {
+      "code": "KBLTW",
+      "canonical_name": "Friedrichshafen Kornblumenstr.",
+      "display_name": "UW Friedrichshafen Kornblumenstr.",
+      "source_name_raw": "FRIEDRICHSHAFEN KORNBLUMENSTR.",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "KCHHE": {
+      "code": "KCHHE",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "KCHHE",
+        "p52: UW SLDRF Anschluss UW KCHHE                                                            Zubau Erzeugung und"
+      ]
+    },
+    "KETER": {
+      "code": "KETER",
+      "canonical_name": "Kelter",
+      "display_name": "UW Kelter",
+      "source_name_raw": "KELTER",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "KISUD": {
+      "code": "KISUD",
+      "canonical_name": "Kirchheim Süd",
+      "display_name": "UW Kirchheim Süd",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "KISUD",
+        "p45: LA 9511 KISUD - WHMTK: LWL auf-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p50: UW KISUD: Erneuerung und Erwei-     Ersatz(neubau) mit Erhöhung der                     Zubau Erzeugung und"
+      ]
+    },
+    "KLHBH": {
+      "code": "KLHBH",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "KLHBH",
+        "p50: P.003084     UW KLHBH: Neubau - Pilot UW 25      Neubau                             HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "KLNKU": {
+      "code": "KLNKU",
+      "canonical_name": "Kleinkuchen",
+      "display_name": "UW Kleinkuchen",
+      "source_name_raw": "KLEINKUCHEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "KOENI": {
+      "code": "KOENI",
+      "canonical_name": "Königshofen",
+      "display_name": "UW Königshofen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "KOENI",
+        "p50: M.S.040086   UW KOENI: Trafotausch               Netzoptimierung und -verstärkung   HS/MS-Trafo                            noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "KONRD": {
+      "code": "KONRD",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "KONRD",
+        "p45: LA 9143 KORBH - KONRD,                                                                    Zubau Erzeugung und"
+      ]
+    },
+    "KORBH": {
+      "code": "KORBH",
+      "canonical_name": "Korb",
+      "display_name": "UW Korb",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 9143 KORBH - KONRD,                                                                    Zubau Erzeugung und",
+        "KORBH"
+      ]
+    },
+    "KRCHE": {
+      "code": "KRCHE",
+      "canonical_name": "Kirchen",
+      "display_name": "UW Kirchen",
+      "source_name_raw": "KIRCHEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "KRLAU": {
+      "code": "KRLAU",
+      "canonical_name": "Krähenlauh",
+      "display_name": "UW Krähenlauh",
+      "source_name_raw": "KRÄHENLAUH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "KUMRA": {
+      "code": "KUMRA",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "KUMRA",
+        "p43: M.S.042867   LA 1410 KUMRA-OWALD: Masterh.                                         HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p50: UW KUMRA: Umst 380-kV;110kV-                                                            Zubau Erzeugung und"
+      ]
+    },
+    "KUPZL": {
+      "code": "KUPZL",
+      "canonical_name": "Kupferzell",
+      "display_name": "UW Kupferzell",
+      "source_name_raw": "KUPFERZELL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p39: M.S.033426   A: LA 0325 KUPZL-HOHNG: EEG                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p41: LA 0348 KUPZL - RITHS: EEG Verst.   Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "LAHRS": {
+      "code": "LAHRS",
+      "canonical_name": "Lahr-Süd",
+      "display_name": "UW Lahr-Süd",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "LAHRS",
+        "p50: UW LAHRS: Provisorische Netzgrup-                                                       Zubau Erzeugung und"
+      ]
+    },
+    "LAICH": {
+      "code": "LAICH",
+      "canonical_name": "Laichingen",
+      "display_name": "UW Laichingen",
+      "source_name_raw": "LAICHINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LARGN": {
+      "code": "LARGN",
+      "canonical_name": "Langenargen",
+      "display_name": "UW Langenargen",
+      "source_name_raw": "LANGENARGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LASTD": {
+      "code": "LASTD",
+      "canonical_name": "Lauffen-Städtle",
+      "display_name": "UW Lauffen-Städtle",
+      "source_name_raw": "LAUFFEN-STÄDTLE",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LATAL": {
+      "code": "LATAL",
+      "canonical_name": "Laucherthal",
+      "display_name": "UW Laucherthal",
+      "source_name_raw": "LAUCHERTHAL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LAUFN": {
+      "code": "LAUFN",
+      "canonical_name": "Lauffen",
+      "display_name": "UW Lauffen",
+      "source_name_raw": "LAUFFEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LBRUE": {
+      "code": "LBRUE",
+      "canonical_name": "Lochbrücke",
+      "display_name": "UW Lochbrücke",
+      "source_name_raw": "LOCHBRÜCKE",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LBSTD": {
+      "code": "LBSTD",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "LBSTD",
+        "p40: LBSTD EEG                                                                                 Verbrauch"
+      ]
+    },
+    "LEINF": {
+      "code": "LEINF",
+      "canonical_name": "Leinfelden",
+      "display_name": "UW Leinfelden",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "LEINF",
+        "p50: M.S.039094   UW LEINF: Ern. UW                   Neubau                             HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "LEIPH": {
+      "code": "LEIPH",
+      "canonical_name": "Leipheim",
+      "display_name": "UW Leipheim",
+      "source_name_raw": "LEIPHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LEUTK": {
+      "code": "LEUTK",
+      "canonical_name": "Leutkirch",
+      "display_name": "UW Leutkirch",
+      "source_name_raw": "LEUTKIRCH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "LGELG": {
+      "code": "LGELG",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "LGELG",
+        "p40: LGELG EEG                          Übertragungskapazität                                  Verbrauch"
+      ]
+    },
+    "MACHT": {
+      "code": "MACHT",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "MACHT",
+        "p41: MACHT EEG                                                                                  Verbrauch"
+      ]
+    },
+    "MARBA": {
+      "code": "MARBA",
+      "canonical_name": "Marbach",
+      "display_name": "UW Marbach",
+      "source_name_raw": "MARBACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "MCKML": {
+      "code": "MCKML",
+      "canonical_name": "Möckmühl",
+      "display_name": "UW Möckmühl",
+      "source_name_raw": "MÖCKMÜHL",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "MDKGN": {
+      "code": "MDKGN",
+      "canonical_name": "Munderkingen",
+      "display_name": "UW Munderkingen",
+      "source_name_raw": "MUNDERKINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "MEBHH": {
+      "code": "MEBHH",
+      "canonical_name": "Meeboldstrasse",
+      "display_name": "UW Meeboldstrasse",
+      "source_name_raw": "MEEBOLDSTRASSE",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "MEIMS": {
+      "code": "MEIMS",
+      "canonical_name": "Meimsheim",
+      "display_name": "UW Meimsheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "MEIMS",
+        "p50: M.S.040060   UW MEIMS: Ern. 110 kV H-Anlage                                         HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "MERGS": {
+      "code": "MERGS",
+      "canonical_name": "Mergelstetten",
+      "display_name": "UW Mergelstetten",
+      "source_name_raw": "MERGELSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "MESSK": {
+      "code": "MESSK",
+      "canonical_name": "Messkirch",
+      "display_name": "UW Messkirch",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "MESSK",
+        "p44: LA 1850 MESSK-STOCK: Einbind.      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "p44: UW MESSK                           Übertragungskapazität                                  Verbrauch"
+      ]
+    },
+    "MEZNG": {
+      "code": "MEZNG",
+      "canonical_name": "Metzingen",
+      "display_name": "UW Metzingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "MEZNG",
+        "p45: P.003678     LA 9523 MEZNG - OFERD, MS-Abbau                                       HS-Leitungsanlage                         noch nicht eingeleitet   HS",
+        "p50: UW MEZNG: Erneuerung MS-Schalt-                                                         Zubau Erzeugung und"
+      ]
+    },
+    "MGHEI": {
+      "code": "MGHEI",
+      "canonical_name": "Mergentheim",
+      "display_name": "UW Mergentheim",
+      "source_name_raw": "MERGENTHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "MHOLZ": {
+      "code": "MHOLZ",
+      "canonical_name": "Mühlholz",
+      "display_name": "UW Mühlholz",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "MHOLZ",
+        "p50: M.S.038183   UW MHOLZ: Ern. HS + Erw. 3. NG                                         HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "MOOSX": {
+      "code": "MOOSX",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "MOOSX",
+        "p42: LA 0908 SCHBG - MOOSX u.a: LWL     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "MOSBA": {
+      "code": "MOSBA",
+      "canonical_name": "Mosbach",
+      "display_name": "UW Mosbach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "MOSBA",
+        "p50: UW MOSBA: Ern. Sek. HS + Teilern.   Ersatz(neubau) mit Erhöhung der                     Zubau Erzeugung und"
+      ]
+    },
+    "MUEHL": {
+      "code": "MUEHL",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "MUEHL",
+        "p50: P.003171     UW MUEHL: Ersatzneubau              Neubau                             HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS",
+        "p50: M.S.038825   UW MUEHL: Komplettern. 110+20 kV                                       HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "MUENZ": {
+      "code": "MUENZ",
+      "canonical_name": "Münzesheim",
+      "display_name": "UW Münzesheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "MUENZ",
+        "p44: P.000605     LA 3210 MUENZ: LWL auflegen                                           HS-Leitungsanlage                         noch nicht eingeleitet   HS"
+      ]
+    },
+    "NDRWG": {
+      "code": "NDRWG",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "NDRWG",
+        "p41: LA 0339 NEURV - NDRWG EEG (Mit-     Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "NECKZ": {
+      "code": "NECKZ",
+      "canonical_name": "Neckarzimmern",
+      "display_name": "UW Neckarzimmern",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p43: LA 1290 NECKZ - EBERB:Engpass-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p43: M.S.042118   LA 1251 HUEFF - NECKZ: EEG                                            HS-Leitungsanlage                         noch nicht eingeleitet   HS",
+        "NECKZ"
+      ]
+    },
+    "NERES": {
+      "code": "NERES",
+      "canonical_name": "Neresheim",
+      "display_name": "UW Neresheim",
+      "source_name_raw": "NERESHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "NESSW": {
+      "code": "NESSW",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "switching_station",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "NESSW",
+        "p44: SW NESSW                                                                                  Verbrauch",
+        "p46: M.S.040612   SW NESSW: Neubau 110 kV SW BWV      Neubau                             HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "NESTD": {
+      "code": "NESTD",
+      "canonical_name": "Neuenstadt",
+      "display_name": "UW Neuenstadt",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "NESTD",
+        "p51: M.S.042047   UW NESTD: Neubau                    Neubau                             HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "NETEN": {
+      "code": "NETEN",
+      "canonical_name": "Neckartenzlingen",
+      "display_name": "UW Neckartenzlingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "NETEN",
+        "p51: M.S.036730   UW NETEN: Ern. HS + MS                                                 HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "NEURV": {
+      "code": "NEURV",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p41: LA 0339 NEURV - NDRWG EEG (Mit-     Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "NEURV"
+      ]
+    },
+    "NIBUE": {
+      "code": "NIBUE",
+      "canonical_name": "Niederbühl",
+      "display_name": "UW Niederbühl",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "NIBUE",
+        "p51: P.000432     UW NIBUE: NP - Rückbau UW           Rückbau / Altlastentsorgung        HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "NISTE": {
+      "code": "NISTE",
+      "canonical_name": "Niederstetten",
+      "display_name": "UW Niederstetten",
+      "source_name_raw": "NIEDERSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "NOERD": {
+      "code": "NOERD",
+      "canonical_name": "Nördlingen",
+      "display_name": "UW Nördlingen",
+      "source_name_raw": "NÖRDLINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "NSSAU": {
+      "code": "NSSAU",
+      "canonical_name": "Nassau",
+      "display_name": "UW Nassau",
+      "source_name_raw": "NASSAU",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "NSTNG": {
+      "code": "NSTNG",
+      "canonical_name": "Niederstotzingen",
+      "display_name": "UW Niederstotzingen",
+      "source_name_raw": "NIEDERSTOTZINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p41: LA 0508 NSTNG - JUNGU: LWL          Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "NSULM": {
+      "code": "NSULM",
+      "canonical_name": "Neckarsulm",
+      "display_name": "UW Neckarsulm",
+      "source_name_raw": "NECKARSULM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p51: UW NSULM: Erw./ERNI 110/20kV-       Ersatz(neubau) mit Erhöhung der                      Zubau Erzeugung und"
+      ]
+    },
+    "NURTG": {
+      "code": "NURTG",
+      "canonical_name": "Nürtingen",
+      "display_name": "UW Nürtingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "NURTG",
+        "p51: M.S.019419   UW NURTG Ern. UW                    Neubau                             HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "OBJTT": {
+      "code": "OBJTT",
+      "canonical_name": "Oberjettingen",
+      "display_name": "UW Oberjettingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "transnetbw_oberjettingen"
+      ],
+      "nap_context": [
+        "OBJTT",
+        "p51: M.S.037245   UW OBJTT: Ern. 110 kV                                                  HS/MS-UW                                abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "OBKCH": {
+      "code": "OBKCH",
+      "canonical_name": "Oberkochen",
+      "display_name": "UW Oberkochen",
+      "source_name_raw": "OBERKOCHEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OBSTN": {
+      "code": "OBSTN",
+      "canonical_name": "Obersteinach",
+      "display_name": "UW Obersteinach",
+      "source_name_raw": "OBERSTEINACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OCHHS": {
+      "code": "OCHHS",
+      "canonical_name": "Ochsenhausen",
+      "display_name": "UW Ochsenhausen",
+      "source_name_raw": "OCHSENHAUSEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ODORF": {
+      "code": "ODORF",
+      "canonical_name": "Oberndorf",
+      "display_name": "UW Oberndorf",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "ODORF",
+        "p42: LA 0807 ODORF-SCHBG: LWL auf-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "OEHRI": {
+      "code": "OEHRI",
+      "canonical_name": "Öhringen",
+      "display_name": "UW Öhringen",
+      "source_name_raw": "ÖHRINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OESTR": {
+      "code": "OESTR",
+      "canonical_name": "Östringen",
+      "display_name": "UW Östringen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "OESTR",
+        "p51: UW OESTR: Bereinigung Fläche +                                                           Zubau Erzeugung und",
+        "p51: UW OESTR: Erw. 3 Trafo und Neubau                                                        Zubau Erzeugung und"
+      ]
+    },
+    "OFERD": {
+      "code": "OFERD",
+      "canonical_name": "Oferdingen",
+      "display_name": "UW Oferdingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: P.003678     LA 9523 MEZNG - OFERD, MS-Abbau                                       HS-Leitungsanlage                         noch nicht eingeleitet   HS",
+        "OFERD"
+      ]
+    },
+    "OFFIN": {
+      "code": "OFFIN",
+      "canonical_name": "Offingen",
+      "display_name": "UW Offingen",
+      "source_name_raw": "OFFINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OFHSN": {
+      "code": "OFHSN",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "OFHSN",
+        "p40: OFHSN EEG                                                                                 Verbrauch"
+      ]
+    },
+    "OGIMP": {
+      "code": "OGIMP",
+      "canonical_name": "Obergimpern",
+      "display_name": "UW Obergimpern",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "OGIMP",
+        "p51: M.S.040097   UW OGIMP: Trafotausch               Netzoptimierung und -verstärkung   HS/MS-Trafo                             noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "OHMHM": {
+      "code": "OHMHM",
+      "canonical_name": "Ohmenheim",
+      "display_name": "UW Ohmenheim",
+      "source_name_raw": "OHMENHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OHSBG": {
+      "code": "OHSBG",
+      "canonical_name": "Ochsenberg",
+      "display_name": "UW Ochsenberg",
+      "source_name_raw": "OCHSENBERG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ONOHM": {
+      "code": "ONOHM",
+      "canonical_name": "Onolzheim",
+      "display_name": "UW Onolzheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ONOHM",
+        "p39: M.S.033430   A: LA 0410 ONOHM-CRHEI: EEG                                            HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "OOSBB": {
+      "code": "OOSBB",
+      "canonical_name": "Oos (Baden-Baden)",
+      "display_name": "UW Oos (Baden-Baden)",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "OOSBB",
+        "p45: P.004132     LA 3452 OOSBB Neubau                Neubau                            HS-Leitungsanlage                         noch nicht eingeleitet   HS"
+      ]
+    },
+    "ORLAH": {
+      "code": "ORLAH",
+      "canonical_name": "Orlach",
+      "display_name": "UW Orlach",
+      "source_name_raw": "ORLACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OSBRK": {
+      "code": "OSBRK",
+      "canonical_name": "Osterburken",
+      "display_name": "UW Osterburken",
+      "source_name_raw": "OSTERBURKEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OTWNG": {
+      "code": "OTWNG",
+      "canonical_name": "Otterswang",
+      "display_name": "UW Otterswang",
+      "source_name_raw": "OTTERSWANG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "OWALD": {
+      "code": "OWALD",
+      "canonical_name": "Oberwald",
+      "display_name": "UW Oberwald",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_operational_instructions"
+      ],
+      "nap_context": [
+        "p42: LA 1210 OWALD-BRUKA Ern. Mast      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p42: LA 1000 DAXLA - OWALD: Abstands-   Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p43: M.S.042867   LA 1410 KUMRA-OWALD: Masterh.                                         HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "PFABR": {
+      "code": "PFABR",
+      "canonical_name": "Pfahlbronn",
+      "display_name": "UW Pfahlbronn",
+      "source_name_raw": "PFAHLBRONN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "PFULG": {
+      "code": "PFULG",
+      "canonical_name": "Pfullingen",
+      "display_name": "UW Pfullingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "PFULG",
+        "p51: M.S.033298   UW PFULG: Ern. HS + MS                                                 HS/MS-UW                                noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "PFULL": {
+      "code": "PFULL",
+      "canonical_name": "Pfullendorf",
+      "display_name": "UW Pfullendorf",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "PFULL",
+        "p52: UW PFULL: Komplettern. 110kV+                                                          Zubau Erzeugung und"
+      ]
+    },
+    "PULVE": {
+      "code": "PULVE",
+      "canonical_name": "Pulverdingen",
+      "display_name": "UW Pulverdingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "PULVE",
+        "p41: LA 0207 SINDE - PULVE Verstärkung   Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "p41: LA 0207 SINDE-PULVE Erneuerung      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "PUNGN": {
+      "code": "PUNGN",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "PUNGN",
+        "p45: LA 9139 PUNGN-VAIHS Erneuerung      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "RAORE": {
+      "code": "RAORE",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "RAORE",
+        "p52: M.S.040687   UW RAORE: Ern. HS - Daimler/STW                                       HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "RAUBG": {
+      "code": "RAUBG",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "RAUBG",
+        "p44: RAUBG EEG                                                                                 Verbrauch"
+      ]
+    },
+    "RAVBG": {
+      "code": "RAVBG",
+      "canonical_name": "Ravensburg",
+      "display_name": "UW Ravensburg",
+      "source_name_raw": "RAVENSBURG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "RHNAU": {
+      "code": "RHNAU",
+      "canonical_name": "Rheinau",
+      "display_name": "UW Rheinau",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p43: LA 1300 RHNAU-HOCHS EP-Besei-       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p43: LA 1300 RHNAU-HOCHS Verst.          Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "RHNAU"
+      ]
+    },
+    "RIEDL": {
+      "code": "RIEDL",
+      "canonical_name": "Riedlingen",
+      "display_name": "UW Riedlingen",
+      "source_name_raw": "RIEDLINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "RIHEN": {
+      "code": "RIHEN",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "RIHEN",
+        "p43: RIHEN EEG                                                                                 Verbrauch"
+      ]
+    },
+    "RINKL": {
+      "code": "RINKL",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p42: LA 1180 OWALD-RINKL EP-Besei-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "RINKL"
+      ]
+    },
+    "RISSE": {
+      "code": "RISSE",
+      "canonical_name": "Rissegg",
+      "display_name": "UW Rissegg",
+      "source_name_raw": "RISSEGG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "RITHS": {
+      "code": "RITHS",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "RITHS",
+        "p41: LA 0348 KUPZL - RITHS: EEG Verst.   Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "ROLSO": {
+      "code": "ROLSO",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ROLSO",
+        "p41: LA 0426 ROLSO-AUFHA: Einschl. UW Ersatz(neubau) mit Erhöhung der                           Zubau Erzeugung und"
+      ]
+    },
+    "ROMER": {
+      "code": "ROMER",
+      "canonical_name": "Römerstrasse",
+      "display_name": "UW Römerstrasse",
+      "source_name_raw": "RÖMERSTRASSE",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ROSEN": {
+      "code": "ROSEN",
+      "canonical_name": "Rosenberg",
+      "display_name": "UW Rosenberg",
+      "source_name_raw": "ROSENBERG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "ROTLR": {
+      "code": "ROTLR",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ROTLR",
+        "p52: P.003763     UW ROTLR: Neubau                   Neubau                             HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS",
+        "p52: M.S.036917   UW ROTLR: Neubau UW                Neubau                             HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "RSINS": {
+      "code": "RSINS",
+      "canonical_name": "Rheinsheim",
+      "display_name": "UW Rheinsheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "RSINS",
+        "p45: M.S.041633   LA 3306 RSINS: Umbau wg. Ultranet                                     HS-Leitungsanlage                         abgeschlossen            HS"
+      ]
+    },
+    "RUPHN": {
+      "code": "RUPHN",
+      "canonical_name": "Ruppertshofen",
+      "display_name": "UW Ruppertshofen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "RUPHN",
+        "p52: UW RUPHN: Neubau vereinfachtes                                                         Zubau Erzeugung und"
+      ]
+    },
+    "SBERG": {
+      "code": "SBERG",
+      "canonical_name": "Schmittenberg",
+      "display_name": "UW Schmittenberg",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.75,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "SBERG",
+        "p52: M.S.037038   UW SBERG: 110-kV-Teilerneuerung    Netzoptimierung und -verstärkung   HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "SCHBG": {
+      "code": "SCHBG",
+      "canonical_name": "Schramberg",
+      "display_name": "UW Schramberg",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p42: LA 0908 SCHBG - MOOSX u.a: LWL     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p42: LA 0807 ODORF-SCHBG: LWL auf-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "SCHBG"
+      ]
+    },
+    "SCHWD": {
+      "code": "SCHWD",
+      "canonical_name": "Schönwald",
+      "display_name": "UW Schönwald",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "SCHWD",
+        "p52: P.003672     UW SCHWD: Ern. HS EGT                                                 HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "SHODF": {
+      "code": "SHODF",
+      "canonical_name": "Schorndorf",
+      "display_name": "UW Schorndorf",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 9411 SHODF -GPOS: LWL auf-       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "SHODF"
+      ]
+    },
+    "SHWEN": {
+      "code": "SHWEN",
+      "canonical_name": "Schwenningen",
+      "display_name": "UW Schwenningen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "SHWEN",
+        "p52: M.S.039437   UW SHWEN: Ern. HS in GIS mit SVS                                      HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "SILMG": {
+      "code": "SILMG",
+      "canonical_name": "Sielmingen",
+      "display_name": "UW Sielmingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "SILMG",
+        "p52: M.S.037235   UW SILMG: Erneuerung                                                  HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "SINDE": {
+      "code": "SINDE",
+      "canonical_name": "Sindelfingen",
+      "display_name": "UW Sindelfingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p41: LA 0207 SINDE - PULVE Verstärkung   Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "p41: LA 0207 SINDE-PULVE Erneuerung      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "SINDE"
+      ]
+    },
+    "SINSH": {
+      "code": "SINSH",
+      "canonical_name": "Sinsheim",
+      "display_name": "UW Sinsheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "SINSH",
+        "p44: P.003652     LA 3231 SINSH: Verstärkung EEG                                        HS-Leitungsanlage                         noch nicht eingeleitet   HS"
+      ]
+    },
+    "SIPPL": {
+      "code": "SIPPL",
+      "canonical_name": "Sipplingen",
+      "display_name": "UW Sipplingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "SIPPL",
+        "p44: LA 1831 SIPPL: Verstärkung wg.     Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "SKLGN": {
+      "code": "SKLGN",
+      "canonical_name": "Schelklingen",
+      "display_name": "UW Schelklingen",
+      "source_name_raw": "SCHELKLINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SLDRF": {
+      "code": "SLDRF",
+      "canonical_name": "Stalldorf",
+      "display_name": "UW Stalldorf",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p52: UW SLDRF Anschluss UW KCHHE                                                            Zubau Erzeugung und",
+        "SLDRF",
+        "p52: M.S.042279   UW SLDRF: Felderw. HS              Netzoptimierung und -verstärkung   HS-Schaltfeld                          abgeschlossen"
+      ]
+    },
+    "SLGAU": {
+      "code": "SLGAU",
+      "canonical_name": "Saulgau",
+      "display_name": "UW Saulgau",
+      "source_name_raw": "SAULGAU",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SLKST": {
+      "code": "SLKST",
+      "canonical_name": "Schalkstetten",
+      "display_name": "UW Schalkstetten",
+      "source_name_raw": "SCHALKSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SMIEC": {
+      "code": "SMIEC",
+      "canonical_name": "Schmiechen",
+      "display_name": "UW Schmiechen",
+      "source_name_raw": "SCHMIECHEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SOEFL": {
+      "code": "SOEFL",
+      "canonical_name": "Söflingen",
+      "display_name": "UW Söflingen",
+      "source_name_raw": "SÖFLINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p40: LA 0050 SOEFL - JUNGU: LWL auf-    Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "SOEHN": {
+      "code": "SOEHN",
+      "canonical_name": "Söhnstetten",
+      "display_name": "UW Söhnstetten",
+      "source_name_raw": "SÖHNSTETTEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SOELL": {
+      "code": "SOELL",
+      "canonical_name": "Söllingen",
+      "display_name": "UW Söllingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.8,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p42: LA 1020 OWALD-SOELL: LWL auf-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "SOELL"
+      ]
+    },
+    "SONHN": {
+      "code": "SONHN",
+      "canonical_name": "Sontheim",
+      "display_name": "UW Sontheim",
+      "source_name_raw": "SONTHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SONT1": {
+      "code": "SONT1",
+      "canonical_name": "Sontheim",
+      "display_name": "UW Sontheim",
+      "source_name_raw": "SONTHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SPAIC": {
+      "code": "SPAIC",
+      "canonical_name": "Spaichingen",
+      "display_name": "UW Spaichingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "SPAIC",
+        "p52: M.S.036719   UW SPAIC: 3. NG + MS-Anlage neu                                       HS/MS-UW                               abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "SPITZ": {
+      "code": "SPITZ",
+      "canonical_name": "Spitziger Berg",
+      "display_name": "UW Spitziger Berg",
+      "source_name_raw": "SPITZIGER BERG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "STAUF": {
+      "code": "STAUF",
+      "canonical_name": "Staufenbühl",
+      "display_name": "UW Staufenbühl",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "STAUF",
+        "p52: M.S.031836   UW STAUF: Rückzug aus UW           Rückbau / Altlastentsorgung        HS/MS-UW                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "STEIN": {
+      "code": "STEIN",
+      "canonical_name": "Stein",
+      "display_name": "UW Stein",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "STEIN",
+        "p52: UW STEIN: Ern. HS + MS + Erw. 2.   Ersatz(neubau) mit Erhöhung der                     Zubau Erzeugung und"
+      ]
+    },
+    "STGEO": {
+      "code": "STGEO",
+      "canonical_name": "Sankt Georgen",
+      "display_name": "UW Sankt Georgen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "STGEO",
+        "p52: UW STGEO: Ern. 110-kV-Anlage mit   Ersatz(neubau) mit Erhöhung der                     Zubau Erzeugung und"
+      ]
+    },
+    "STOCK": {
+      "code": "STOCK",
+      "canonical_name": "Stockach",
+      "display_name": "UW Stockach",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p44: M.S.040221   LA 1810 BRNKO - STOCK: LWL                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p44: LA 1850 MESSK-STOCK: Einbind.      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "STOCK"
+      ]
+    },
+    "SWPHN": {
+      "code": "SWPHN",
+      "canonical_name": "Salzwerkplatz",
+      "display_name": "UW Salzwerkplatz",
+      "source_name_raw": "SALZWERKPLATZ",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "SZBCH": {
+      "code": "SZBCH",
+      "canonical_name": "Sulzbach",
+      "display_name": "UW Sulzbach",
+      "source_name_raw": "SULZBACH",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "TANHE": {
+      "code": "TANHE",
+      "canonical_name": "Tannheim",
+      "display_name": "UW Tannheim",
+      "source_name_raw": "TANNHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "TAUBE": {
+      "code": "TAUBE",
+      "canonical_name": "Tauberbischofsheim",
+      "display_name": "UW Tauberbischofsheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "TAUBE",
+        "p53: M.S.038708   UW TAUBE: Erw. 3. + 4. NG         Netzoptimierung und -verstärkung   HS/MS-UW                                  abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "TENIG": {
+      "code": "TENIG",
+      "canonical_name": "Teningen",
+      "display_name": "UW Teningen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 0.98,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_teningen_project"
+      ],
+      "nap_context": [
+        "p44: LA 1590 EICHS-TENIG EP-Besei-      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "TENIG",
+        "p53: UW TENIG: Felderw.MS +E-Sp.erw.                                                          Zubau Erzeugung und"
+      ]
+    },
+    "TIEBR": {
+      "code": "TIEBR",
+      "canonical_name": "Tiefenbronn",
+      "display_name": "UW Tiefenbronn",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "TIEBR",
+        "p41: P.002242     LA 0608: Anschluss UW TIEBR                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p53: M.S.041009   UW TIEBR: Anschluss IAV           Neubau                             HS-Leitungsanlage                         abgeschlossen"
+      ]
+    },
+    "TOMER": {
+      "code": "TOMER",
+      "canonical_name": "Tomerdingen",
+      "display_name": "UW Tomerdingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "TOMER",
+        "p53: P.003314     UW TOMER: Neubau EEG UW 2025      Neubau                             HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "TRILL": {
+      "code": "TRILL",
+      "canonical_name": "Trillfingen",
+      "display_name": "UW Trillfingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "TRILL",
+        "p42: P.004051     LA 0707: Einführung UW TRILL M31                                     HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p53: P.003975     UW TRILL: Ern. HS + MS                                               HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "TUTTL": {
+      "code": "TUTTL",
+      "canonical_name": "Tuttlingen",
+      "display_name": "UW Tuttlingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "TUTTL",
+        "p53: M.S.036927   UW TUTTL: Ern. + Erw. HS in GIS   Netzoptimierung und -verstärkung   HS/MS-UW                                  abgeschlossen            UW HS auf MS"
+      ]
+    },
+    "UBERL": {
+      "code": "UBERL",
+      "canonical_name": "Überlingen",
+      "display_name": "UW Überlingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "UBERL",
+        "p53: M.S.034532   UW UBERL: Ern. HS                                                    HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "UBOHI": {
+      "code": "UBOHI",
+      "canonical_name": "Unterboihingen",
+      "display_name": "UW Unterboihingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "UBOHI",
+        "p53: UW UBOHI: Ern. HS + MS + neuer    Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "p53: M.S.032389   UW UBOHI: Gesamterneuerung UW     Netzoptimierung und -verstärkung   HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "UHING": {
+      "code": "UHING",
+      "canonical_name": "Uhingen",
+      "display_name": "UW Uhingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "UHING",
+        "p53: M.S.032958   UW UHING Erneuerung Trafos + MS   Netzoptimierung und -verstärkung   HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "ULSUD": {
+      "code": "ULSUD",
+      "canonical_name": "Ulm Süd",
+      "display_name": "UW Ulm Süd",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ULSUD",
+        "p39: P.002495     LA 0026 DELLM - ULSUD, MS-Abbau     Rückbau / Altlastentsorgung        HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p39: LA 0026 DELLM-ULSUD: LWL auf-                                                              Zubau Erzeugung und"
+      ]
+    },
+    "UNDIN": {
+      "code": "UNDIN",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "UNDIN",
+        "p40: UNDIN EEG                          Übertragungskapazität                                  Verbrauch"
+      ]
+    },
+    "UNTRT": {
+      "code": "UNTRT",
+      "canonical_name": "Unterrot",
+      "display_name": "UW Unterrot",
+      "source_name_raw": "UNTERROT",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": [
+        "p53: UW UNTRT: ERNI 20kV u. Ausbau                                                            Zubau Erzeugung und"
+      ]
+    },
+    "URWBA": {
+      "code": "URWBA",
+      "canonical_name": "Baindt",
+      "display_name": "Umrichterwerk Baindt",
+      "source_name_raw": "UMRICHTERWERK BAINDT",
+      "entity_type": "converter_station",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "URWLE": {
+      "code": "URWLE",
+      "canonical_name": "Leutkirch",
+      "display_name": "Umrichterwerk Leutkirch",
+      "source_name_raw": "UMRICHTERWERK LEUTKIRCH",
+      "entity_type": "converter_station",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "UTOFG": {
+      "code": "UTOFG",
+      "canonical_name": "Unteropfingen",
+      "display_name": "UW Unteropfingen",
+      "source_name_raw": "UNTEROPFINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "VAIHS": {
+      "code": "VAIHS",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 9139 PUNGN-VAIHS Erneuerung      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "VAIHS"
+      ]
+    },
+    "VIERN": {
+      "code": "VIERN",
+      "canonical_name": "Viernheim",
+      "display_name": "UW Viernheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "VIERN",
+        "p44: M.S.040877   LA 3192 VIERN: Rückbau             Rückbau / Altlastentsorgung        HS-Leitungsanlage                         bereits eingeleitet      HS"
+      ]
+    },
+    "VILLI": {
+      "code": "VILLI",
+      "canonical_name": "Villingen",
+      "display_name": "UW Villingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p43: M.S.032063   LA 1460 BOLBA - VILLI BA A                                            HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p43: M.S.038180   LA 1460 BOLBA-VILLI: Auflegen LWL                                     HS-Leitungsanlage                         bereits eingeleitet      HS",
+        "p43: LA 1480 VILLI-GURTW Erneuerung      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "VOGTX": {
+      "code": "VOGTX",
+      "canonical_name": "Vogt",
+      "display_name": "UW Vogt",
+      "source_name_raw": "VOGT",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "VOMAT": {
+      "code": "VOMAT",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation_or_line_endpoint",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p44: LA 1650 EICHS-VOMAT EP-Besei-      Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "VOMAT"
+      ]
+    },
+    "WDLNG": {
+      "code": "WDLNG",
+      "canonical_name": "Wendlingen",
+      "display_name": "UW Wendlingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_operational_instructions"
+      ],
+      "nap_context": [
+        "WDLNG",
+        "p53: UW WDLNG: Ern. BG + Begleitung    Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und"
+      ]
+    },
+    "WECNG": {
+      "code": "WECNG",
+      "canonical_name": "Wechingen",
+      "display_name": "UW Wechingen",
+      "source_name_raw": "WECHINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "WEIER": {
+      "code": "WEIER",
+      "canonical_name": "Weier",
+      "display_name": "UW Weier",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p43: LA 1450 DAXLA-WEIER: Sandweier      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p43: LA 1450: DAXLA - WEIER P49-Forch-   Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "p43: LA 1450: DAXLA - WEIER P49-Rau-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "WEILD": {
+      "code": "WEILD",
+      "canonical_name": "Weildorf",
+      "display_name": "UW Weildorf",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p44: LA 1830 STOCK - WEILD: Verstär-    Ersatz(neubau) mit Erhöhung der                        Zubau Erzeugung und",
+        "p44: LA 1830 STOCK-WEILD: Anschluss                                                            Zubau Erzeugung und",
+        "WEILD"
+      ]
+    },
+    "WEIZE": {
+      "code": "WEIZE",
+      "canonical_name": "Weizen",
+      "display_name": "UW Weizen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "WEIZE",
+        "p53: UW WEIZE: Abwicklung Verkauf an                                                          Zubau Erzeugung und"
+      ]
+    },
+    "WENAU": {
+      "code": "WENAU",
+      "canonical_name": "Weisenau",
+      "display_name": "UW Weisenau",
+      "source_name_raw": "WEISENAU",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "WHMRO": {
+      "code": "WHMRO",
+      "canonical_name": null,
+      "display_name": null,
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "unresolved",
+      "confidence": 0.0,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "WHMRO",
+        "p53: P.001296     UW WHMRO: Neubau                  Neubau                             HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "WHMTK": {
+      "code": "WHMTK",
+      "canonical_name": "Weilheim/Teck",
+      "display_name": "UW Weilheim/Teck",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "p45: LA 9511 KISUD - WHMTK: LWL auf-     Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "WHMTK"
+      ]
+    },
+    "WIESL": {
+      "code": "WIESL",
+      "canonical_name": "Wiesloch",
+      "display_name": "UW Wiesloch",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "WIESL",
+        "p53: P.001315     UW WIESL: Ern. HS + MS                                               HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "WIGEN": {
+      "code": "WIGEN",
+      "canonical_name": "Winterlingen",
+      "display_name": "UW Winterlingen",
+      "source_name_raw": "WINTERLINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "WNGEN": {
+      "code": "WNGEN",
+      "canonical_name": "Wangen",
+      "display_name": "UW Wangen",
+      "source_name_raw": "WANGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "WNHEI": {
+      "code": "WNHEI",
+      "canonical_name": "Weinheim",
+      "display_name": "UW Weinheim",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.95,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "p42: LA 1190 RHNAU - WNHEI :Umbau       Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und",
+        "WNHEI"
+      ]
+    },
+    "WOLMA": {
+      "code": "WOLMA",
+      "canonical_name": "Wollmatingen",
+      "display_name": "UW Wollmatingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.85,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "WOLMA",
+        "p54: M.S.041093   UW WOLMA: Tausch Trafo            Netzoptimierung und -verstärkung   HS/MS-Trafo                               noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "WSBRG": {
+      "code": "WSBRG",
+      "canonical_name": "Weinsberg",
+      "display_name": "UW Weinsberg",
+      "source_name_raw": "WEINSBERG",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "WSTHM": {
+      "code": "WSTHM",
+      "canonical_name": "Westheim",
+      "display_name": "UW Westheim",
+      "source_name_raw": "WESTHEIM",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    },
+    "WUTOE": {
+      "code": "WUTOE",
+      "canonical_name": "Wutöschingen",
+      "display_name": "UW Wutöschingen",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "WUTOE",
+        "p45: LA 3800 WUTOE (Anschl Wutöschin-    Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "ZIMME": {
+      "code": "ZIMME",
+      "canonical_name": "Zimmern",
+      "display_name": "UW Zimmern",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "inferred",
+      "confidence": 0.9,
+      "training_safe": false,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024",
+        "netze_bw_code_map_2024"
+      ],
+      "nap_context": [
+        "ZIMME",
+        "p54: P.002402     UW ZIMME: Ern. HS mit ÜWM                                            HS/MS-UW                                  noch nicht eingeleitet   UW HS auf MS"
+      ]
+    },
+    "ZOLLH": {
+      "code": "ZOLLH",
+      "canonical_name": "Zollhaus",
+      "display_name": "UW Zollhaus",
+      "source_name_raw": null,
+      "entity_type": "substation",
+      "resolution_status": "verified",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": true,
+      "in_blindleistung_2025": false,
+      "sources": [
+        "netze_bw_nap_2024"
+      ],
+      "nap_context": [
+        "ZOLLH",
+        "p45: LA 3801 ZOLLH (Anschluss Zoll-      Ersatz(neubau) mit Erhöhung der                       Zubau Erzeugung und"
+      ]
+    },
+    "ZTTLG": {
+      "code": "ZTTLG",
+      "canonical_name": "Züttlingen",
+      "display_name": "UW Züttlingen",
+      "source_name_raw": "ZÜTTLINGEN",
+      "entity_type": "substation",
+      "resolution_status": "explicit",
+      "confidence": 1.0,
+      "training_safe": true,
+      "in_nap_2024": false,
+      "in_blindleistung_2025": true,
+      "sources": [
+        "netze_bw_beschaffungsregionen_2025"
+      ],
+      "nap_context": []
+    }
+  }
+}
