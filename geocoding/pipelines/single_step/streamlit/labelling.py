@@ -77,8 +77,9 @@ def serialize_measure(measure: pd.Series) -> str:
     columns = measure.index
     field_names = [c for c in columns if not any([k in c.lower() for k in ['netztechnische', 'begründung', 'verzögerung', 'kosten', 'unnamed', 'zeitpunkt']])]
     serialized_fields: list[str] = []
+    preprocessed_measure = measure.copy()
     for field_name in field_names:
-        preprocessed_measure[field_name] = lookup_heuristics(measure)
+        preprocessed_measure = lookup_heuristics(measure)
     for field_name in field_names:
         value = preprocessed_measure.get(field_name)
         if value is None or pd.isna(value):
@@ -314,6 +315,16 @@ st.dataframe(measure.drop(labels=["source_file"], errors="ignore").to_frame(name
 st.caption(f"Source: `{measure.get('source_file', '')}` · hash `{measure_hash}`")
 
 st.divider()
+if st.button("Recompute candidates"):
+    st.session_state.top_matches = top_substation_matches(
+        st.session_state.current_measure,
+        substations_df,
+        substation_embeddings,
+        model,
+        top_k=TOP_K,
+    )
+    st.rerun()
+
 st.subheader(f"Candidate {candidate_index + 1} of {len(top_matches)}")
 st.link_button(
     "Open in OpenStreetMap",
