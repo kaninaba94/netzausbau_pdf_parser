@@ -293,7 +293,7 @@ substation_id = int(current_match["osm_id"])
 prior = existing_label(labels, measure_hash, substation_id)
 
 st.subheader("Current measure")
-st.dataframe(measure.drop(labels=["source_file"], errors="ignore").to_frame(name="value"), height=280)
+st.dataframe(measure.drop(labels=["source_file"], errors="ignore").to_frame(name="value"), height='content')
 st.caption(f"Source: `{measure.get('source_file', '')}` · hash `{measure_hash}`")
 
 st.divider()
@@ -307,7 +307,7 @@ st.link_button(
 display_fields = ["osm_id", *SUBSTATION_FIELDS]
 st.dataframe(
     current_match[display_fields].to_frame(name="value"),
-    height=320,
+    height='content',
 )
 
 if prior:
@@ -337,7 +337,7 @@ if st.button("Search"):
     st.session_state.substation_manual = st.session_state.substation_manual.iloc[0]
     st.dataframe(
         st.session_state.substation_manual,
-        height=320
+        height='content'
     )
 
 if 'substation_manual' in st.session_state and st.session_state.substation_manual is not None:
