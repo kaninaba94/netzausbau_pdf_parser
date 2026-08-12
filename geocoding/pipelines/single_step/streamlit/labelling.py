@@ -70,7 +70,7 @@ def lookup_heuristics(measure: pd.Series) -> pd.Series:
             lookup_table = json.load(f)
         for k, v in lookup_table['entries'].items():
             if v['canonical_name'] is not None:
-                measure['Maßnahme'] = measure['Maßnahme'].replace(k, v['canonical_name'])
+                measure['Maßnahme'] = measure['Maßnahme'].replace(k, f"{k} ({v['canonical_name']})")
     return measure
 
 
@@ -78,9 +78,7 @@ def serialize_measure(measure: pd.Series) -> str:
     columns = measure.index
     field_names = [c for c in columns if not any([k in c.lower() for k in ['netztechnische', 'begründung', 'verzögerung', 'kosten', 'unnamed', 'zeitpunkt']])]
     serialized_fields: list[str] = []
-    preprocessed_measure = measure.copy()
-    for field_name in field_names:
-        preprocessed_measure = lookup_heuristics(measure)
+    preprocessed_measure = lookup_heuristics(measure)
     for field_name in field_names:
         value = preprocessed_measure.get(field_name)
         if value is None or pd.isna(value):
