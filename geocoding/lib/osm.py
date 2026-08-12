@@ -34,3 +34,22 @@ def get_all_substations(osm_reader: OSM, expand_tags: bool = True) -> gpd.GeoDat
     
         substations = substations.drop(columns="tags").join(tags_df)
     return substations
+
+
+def serialize_substation(substation: pd.Series, field_names: list[str]) -> str:
+    serialized_fields: list[str] = []
+
+    for field_name in field_names:
+        value = substation.get(field_name)
+        if value is None or pd.isna(value):
+            continue
+        serialized_fields.append(f"{field_name}: {value}")
+     
+    return "passage: " + "; ".join(serialized_fields)
+
+
+
+def search_by_osm_id(osm_id: int, substations_df: pd.DataFrame) -> pd.Series:
+    substation = substations_df.loc[substations_df['id'] == int(osm_id)]
+    assert substation.shape[0] == 1
+    return substation.iloc[0]

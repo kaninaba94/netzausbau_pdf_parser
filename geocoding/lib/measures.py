@@ -117,3 +117,26 @@ def filter_by_rapidfuzz(
     return scored.loc[scored["_search_score"] >= score_cutoff].sort_values(
         "_search_score", ascending=False
     )
+
+def lookup_heuristics(measure: pd.Series, heuristics_dir: str | Path) -> pd.Series:
+    pattern = re.compile(r'.*Netze.*BW.*')
+    
+    if pattern.match(measure['source_file']):
+        with open(Path(heuristics_dir) / 'netze_bw_substation_lookup.json') as f:
+            lookup_table = json.load(f)
+        for k, v in lookup_table['entries'].items():
+            if v['canonical_name'] is not None:
+                measure['Maßnahme'] = measure['Maßnahme'].replace(k, f"{k} ({v['canonical_name']})")
+    return measure
+
+def serialize_measure(measure: pd.Series, heuristics_dir: str | Path) -> str:
+    columns = measure.index
+    field_names = [c for c in columns if not any([k in c.lower() for k in ['netztechnische', 'begründung', 'verzögerung', 'kosten', 'unnamed', 'zeitpunkt', 'measure_row_hash']])]
+    serialized_fields: list[str] = []
+    preprocessed_measure = lookup_heuristics(measure, heuristics_dir)
+    for field_name in field_names:
+        value = preprocessed_measure.get(field_name)
+        if value is None or pd.isna(value):
+            continue
+        serialized_fields.append(f"{field_name}: {value}")
+    return "query: " + "; ".join(serialized_fields)

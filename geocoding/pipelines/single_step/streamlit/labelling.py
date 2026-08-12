@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 import json
 from pathlib import Path
-from typing import Any, Literal
+from typing import Optional, Any, Literal, Hashable
 
 import numpy as np
 import pandas as pd
@@ -17,7 +17,8 @@ from lib.measures import (
     measure_row_hash,
     measure_to_jsonable,
 )
-from lib.osm import get_all_substations
+from lib.osm import get_all_substations, serialize_substation, search_by_osm_id
+from lib.measures import serialize_measure
 
 APP_DIR = Path(__file__).resolve().parent
 GEOCODING_ROOT = APP_DIR.parents[2]
@@ -49,44 +50,6 @@ st.set_page_config(
     layout="wide",
 )
 
-
-def serialize_substation(substation: pd.Series) -> str:
-    serialized_fields: list[str] = []
-
-    for field_name in SUBSTATION_FIELDS:
-        value = substation.get(field_name)
-        if value is None or pd.isna(value):
-            continue
-        serialized_fields.append(f"{field_name}: {value}")
-     
-    return "passage: " + "; ".join(serialized_fields)
-
-
-def lookup_heuristics(measure: pd.Series) -> pd.Series:
-    pattern = re.compile(r'.*Netze.*BW.*')
-    
-    if pattern.match(measure['source_file']):
-        with open(Path(HEURISTICS_DIR) / 'netze_bw_substation_lookup.json') as f:
-            lookup_table = json.load(f)
-        for k, v in lookup_table['entries'].items():
-            if v['canonical_name'] is not None:
-                measure['Maßnahme'] = measure['Maßnahme'].replace(k, f"{k} ({v['canonical_name']})")
-    return measure
-
-
-def serialize_measure(measure: pd.Series) -> str:
-    columns = measure.index
-    field_names = [c for c in columns if not any([k in c.lower() for k in ['netztechnische', 'begründung', 'verzögerung', 'kosten', 'unnamed', 'zeitpunkt']])]
-    serialized_fields: list[str] = []
-    preprocessed_measure = lookup_heuristics(measure)
-    for field_name in field_names:
-        value = preprocessed_measure.get(field_name)
-        if value is None or pd.isna(value):
-            continue
-        serialized_fields.append(f"{field_name}: {value}")
-    return "query: " + "; ".join(serialized_fields)
-
-
 def load_match_labels(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
@@ -94,7 +57,7 @@ def load_match_labels(path: Path) -> list[dict[str, Any]]:
         return json.load(f)
 
 
-def save_match_labels(path: Path, labels: list[dict[str, Any]]) -> None:
+def save_match_labels(path: Path, labels: list[dict[Hashable, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w") as f:
         json.dump(labels, f, ensure_ascii=False, indent=2)
@@ -104,9 +67,11 @@ def label_key(measure_hash: int, substation_id: int) -> tuple[int, int]:
     return measure_hash, substation_id
 
 
-def existing_label(
-    labels: list[dict[str, Any]], measure_hash: int, substation_id: Optional[int]
-) -> list[dict[str, Any]] | dict[str, Any] | None:
+def existing_labels(
+    labels: list[dict[str, Any]], 
+    measure_hash: int, 
+    substation_id: Optional[int]
+) -> list[dict[str, Any]]:
     if substation_id is None:
         return [e for e in labels if int(e.get("measure_row_hash", -1)) == measure_hash] 
     for entry in labels:
@@ -114,11 +79,11 @@ def existing_label(
             int(entry.get("measure_row_hash", -1)) == measure_hash
             and int(entry.get("osm_id", -1)) == substation_id
         ):
-            return entry
-    return None
+            return [entry]
+    return []
 
 
-def upsert_match_label(labels: list[dict[str, Any]], entry: dict[str, Any]) -> None:
+def upsert_match_label(labels: list[dict[Hashable, Any]], entry: dict[Hashable, Any]) -> None:
     measure_hash = int(entry["measure_row_hash"])
     substation_id = int(entry["osm_id"])
     for i, existing in enumerate(labels):
@@ -149,7 +114,7 @@ def load_substations(pbf_path: str) -> pd.DataFrame:
         msg = f"No substations found in {pbf_path}"
         raise RuntimeError(msg)
     substations_df = pd.DataFrame(substations_gdf.drop(columns="geometry", errors="ignore"))
-    substations_df["serialized"] = substations_df.apply(serialize_substation, axis=1)
+    substations_df["serialized"] = substations_df.apply(serialize_substation, axis=1, field_names=SUBSTATION_FIELDS)
     return substations_df
 
 
@@ -171,7 +136,7 @@ def top_substation_matches(
     *,
     top_k: int = TOP_K,
 ) -> pd.DataFrame:
-    serialized_measure = serialize_measure(measure)
+    serialized_measure = serialize_measure(measure, HEURISTICS_DIR)
     measure_embedding = model.encode(
         [serialized_measure],
         normalize_embeddings=True,
@@ -207,8 +172,6 @@ def init_state() -> None:
     st.session_state.setdefault("candidate_index", 0)
     st.session_state.setdefault("substation_manual", None)
 
-def search_by_osm_id(osm_id: int, substations_df: pd.DataFrame) -> pd.Series:
-    return substations_df.loc[substations_df['id'] == int(osm_id)]
 
 def start_new_measure(measures_dfs: list[pd.DataFrame]) -> None:
     measure = pick_new_measure(measures_dfs)
@@ -233,7 +196,7 @@ def save_label(
     entry["measure_row_hash"] = measure_row_hash(measure)
     entry["osm_id"] = int(match_row["osm_id"])
     entry["label"] = label
-    labels: list[dict[str, Any]] = st.session_state.labels
+    labels: list[dict[Hashable, Any]] = st.session_state.labels
     upsert_match_label(labels, entry)
     save_match_labels(LABELS_PATH, labels)
     st.session_state.labels = labels
@@ -311,18 +274,18 @@ with st.sidebar:
 
 current_match = top_matches.iloc[candidate_index]
 substation_id = int(current_match["osm_id"])
-prior_pairs = existing_label(labels, measure_hash, None)
+prior_pairs = existing_labels(labels, measure_hash, None)
 if len(prior_pairs) > 0:
     st.info(f"Measure has previously been labelled")
 
-prior_pair = existing_label(labels, measure_hash, substation_id)
+prior_pair = existing_labels(labels, measure_hash, substation_id)[0]
 
 st.subheader("Current measure")
 st.dataframe(measure.drop(labels=["source_file"], errors="ignore").to_frame(name="value"), height='content')
 st.caption(f"Source: `{measure.get('source_file', '')}` · hash `{measure_hash}`")
 
 st.write(f"Serialized (model input):")
-st.code(serialize_measure(measure))
+st.code(serialize_measure(measure, HEURISTICS_DIR))
 
 st.divider()
 if st.button("Recompute candidates"):
@@ -372,7 +335,7 @@ st.subheader(f"Manual labelling")
 osm_id = st.text_input("OSM ID")
 
 if st.button("Search"):
-    st.session_state.substation_manual = search_by_osm_id(osm_id, substations_df)[['id'] + list(SUBSTATION_FIELDS) + ['serialized']] 
+    st.session_state.substation_manual = search_by_osm_id(int(osm_id), substations_df)[['id'] + list(SUBSTATION_FIELDS) + ['serialized']] 
     assert st.session_state.substation_manual.shape[0] == 1
     st.session_state.substation_manual = st.session_state.substation_manual.iloc[0]
     st.dataframe(

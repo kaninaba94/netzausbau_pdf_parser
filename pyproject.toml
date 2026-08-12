@@ -25,11 +25,8 @@ ollama = "^0.6.2"
 torch = { version = "^2.13.0", source = "pytorch-cu126" }
 transformers = "^5.14.1"
 sentence-transformers = "^5.7.0"
-
-[[tool.poetry.source]]
-name = "pytorch-cu126"
-url = "https://download.pytorch.org/whl/cu126"
-priority = "explicit"
+datasets = "^5.0.1"
+accelerate = ">=1.1.0"
 
 [tool.poetry.group.table_extraction]
 optional = true
@@ -54,6 +51,11 @@ deptry = ">=0.25.1,<0.26"
 types-geopandas = ">=1.1.4.20260728,<2"
 types-tqdm = ">=4.70.0.20260805,<5"
 
+
+[[tool.poetry.source]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+priority = "explicit"
 
 [tool.ruff]
 line-length = 120
