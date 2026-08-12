@@ -102,7 +102,9 @@ def load_measures(root: str) -> list[pd.DataFrame]:
 
 
 @st.cache_resource(show_spinner="Loading embedding model…")
-def load_model() -> SentenceTransformer:
+def load_model(checkpoint_dir: str | Path | None = None) -> SentenceTransformer:
+    if checkpoint_dir is not None:
+        return SentenceTransformer(checkpoint_dir)
     return SentenceTransformer(MODEL_NAME)
 
 
@@ -208,7 +210,7 @@ def format_osm_url(osm_id: int) -> str:
 
 init_state()
 measures_dfs = load_measures(str(TABLES_ROOT))
-model = load_model()
+model = load_model(str(GEOCODING_ROOT / 'models' / 'geocoding-e5' / 'checkpoint-132'))
 substations_df = load_substations(str(PBF_PATH))
 substation_embeddings = load_substation_embeddings(model, str(PBF_PATH))
 
@@ -278,7 +280,8 @@ prior_pairs = existing_labels(labels, measure_hash, None)
 if len(prior_pairs) > 0:
     st.info(f"Measure has previously been labelled")
 
-prior_pair = existing_labels(labels, measure_hash, substation_id)[0]
+prior_pair = existing_labels(labels, measure_hash, substation_id)
+assert len(prior_pair) in [0, 1]
 
 st.subheader("Current measure")
 st.dataframe(measure.drop(labels=["source_file"], errors="ignore").to_frame(name="value"), height='content')
@@ -314,7 +317,7 @@ st.write(f"Serialized (what model sees):")
 st.code(current_match['serialized'])
 
 if prior_pair:
-    st.info(f"Previously labelled as **{prior_pair['label']}**.")
+    st.info(f"Previously labelled as **{prior_pair[0]['label']}**.")
 
 with st.container(horizontal=True):
     if st.button("Positive match", icon=":material/check_circle:", type="primary"):

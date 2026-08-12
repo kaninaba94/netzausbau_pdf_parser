@@ -23,6 +23,8 @@ from sentence_transformers import (
     SentenceTransformerTrainingArguments,
 )
 from sentence_transformers.sentence_transformer import losses
+from transformers import EarlyStoppingCallback
+
 
 SUBSTATION_FIELDS = (
     "tag::name",
@@ -55,15 +57,23 @@ for mh in unique_measures:
         assert len(set(meas_strings)) == 1
     except AssertionError:
         breakpoint()
-    neg_dict = {f'negative_{int(i)}': serialize_substation(  search_by_osm_id(neg_osm_ids[i], substations_df), SUBSTATION_FIELDS) for i in range(len(neg_osm_ids))}
     for j in range(len(pos_osm_ids)):
-        training_rows.append({
-            'anchor': serialize_measure(pd.Series(measures[0]), HEURISTICS_DIR), 
-            'positive': serialize_substation(search_by_osm_id(pos_osm_ids[j], substations_df), SUBSTATION_FIELDS), 
-             **neg_dict
-        })
+        pos_dict = {'positive': serialize_substation(search_by_osm_id(pos_osm_ids[j], substations_df), SUBSTATION_FIELDS)} 
+        for i in range(len(neg_osm_ids)): 
+            neg_dict = {'negative': serialize_substation(  search_by_osm_id(neg_osm_ids[i], substations_df), SUBSTATION_FIELDS)}
         
-train_dataset = Dataset.from_list(training_rows)
+            training_rows.append({
+                'anchor': serialize_measure(pd.Series(measures[0]), HEURISTICS_DIR), 
+                **pos_dict,
+                **neg_dict
+            })
+
+dataset = Dataset.from_list(training_rows)
+dataset_split = dataset.train_test_split(test_size=0.2, seed=42)
+
+train_dataset = dataset_split['train']
+val_dataset = dataset_split['test']
+          
 model = SentenceTransformer("intfloat/multilingual-e5-small")
 
 loss = losses.MultipleNegativesRankingLoss(
@@ -73,14 +83,29 @@ loss = losses.MultipleNegativesRankingLoss(
 
 training_arguments = SentenceTransformerTrainingArguments(
     output_dir="models/geocoding-e5",
-    num_train_epochs=3,
+    num_train_epochs=200,
     per_device_train_batch_size=32,
     learning_rate=2e-5,
+    eval_strategy='epoch',
+    save_strategy='epoch',
+    load_best_model_at_end=True,
+    metric_for_best_model='eval_loss',
+    greater_is_better=False
 )
 
 trainer = SentenceTransformerTrainer(
     model=model,
     args=training_arguments,
     train_dataset=train_dataset,
+    eval_dataset=val_dataset,
     loss=loss,
+    callbacks=[
+        EarlyStoppingCallback(
+            early_stopping_threshold=0.0,
+            early_stopping_patience=10
+        )
+    ]
 )
+
+if __name__ == '__main__':
+    trainer.train()
