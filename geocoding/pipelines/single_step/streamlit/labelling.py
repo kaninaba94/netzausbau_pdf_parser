@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import re
 import json
 from pathlib import Path
 from typing import Optional, Any, Literal, Hashable
@@ -294,6 +293,14 @@ st.caption(f"Source: `{measure.get('source_file', '')}` · hash `{measure_hash}`
 st.write(f"Serialized (model input):")
 st.code(serialize_measure(measure, HEURISTICS_DIR))
 
+if st.button('Save as edge case for development'):
+    edge_cases_dir = (GEOCODING_ROOT / 'artefacts' / 'edge_cases')
+    edge_cases_dir.mkdir(exist_ok=True)
+    with open(edge_cases_dir / f"{measure_hash}.json", "w") as f:
+        json.dump(measure.to_dict(), f)
+
+    
+
 st.divider()
 if st.button("Recompute candidates"):
     st.session_state.top_matches = top_substation_matches(
@@ -317,8 +324,8 @@ st.dataframe(
     current_match[display_fields].to_frame(name="value"),
     height='content',
 )
-st.write(f"Serialized (what model sees):")
 st.code(f"Similarity score: {current_match['similarity_score']}")
+st.write(f"Serialized (what model sees):")
 st.code(current_match['serialized'])
 
 if prior_pair:
