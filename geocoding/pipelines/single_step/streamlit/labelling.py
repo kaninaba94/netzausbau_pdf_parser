@@ -11,6 +11,8 @@ import streamlit as st
 from pyrosm import OSM
 from sentence_transformers import SentenceTransformer
 
+bp = breakpoint
+
 from lib.measures import (
     collect_raw_measures_dfs_from_csvs,
     get_random_measure,
@@ -152,11 +154,13 @@ def top_substation_matches(
     rows: list[dict[str, Any]] = []
     for _, idx in enumerate(top_indices, start=1):
         substation = substations_df.iloc[int(idx)]
+        similarity = row[idx]
         rows.append(
             {
                 "osm_id": int(substation["id"]),
                 **{field: substation.get(field) for field in SUBSTATION_FIELDS},
                 "serialized": substation["serialized"],
+                "similarity_score": similarity
             }
         )
     return pd.DataFrame(rows)
@@ -314,6 +318,7 @@ st.dataframe(
     height='content',
 )
 st.write(f"Serialized (what model sees):")
+st.code(f"Similarity score: {current_match['similarity_score']}")
 st.code(current_match['serialized'])
 
 if prior_pair:
@@ -339,8 +344,8 @@ osm_id = st.text_input("OSM ID")
 
 if st.button("Search"):
     st.session_state.substation_manual = search_by_osm_id(int(osm_id), substations_df)[['id'] + list(SUBSTATION_FIELDS) + ['serialized']] 
-    assert st.session_state.substation_manual.shape[0] == 1
-    st.session_state.substation_manual = st.session_state.substation_manual.iloc[0]
+
+    st.session_state.substation_manual = st.session_state.substation_manual
     st.dataframe(
         st.session_state.substation_manual,
         height='content'
