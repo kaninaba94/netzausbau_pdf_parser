@@ -24,9 +24,11 @@ from lib.measures import serialize_measure
 APP_DIR = Path(__file__).resolve().parent
 GEOCODING_ROOT = APP_DIR.parents[2]
 REPO_ROOT = APP_DIR.parents[3]
-HEURISTICS_DIR = REPO_ROOT / 'data' / 'auxiliary'
+DATA_ROOT = REPO_ROOT / "data"
+
+HEURISTICS_DIR = os.environ.get("GITHUB_CI_TESTDATA_ROOT", DATA_ROOT / 'auxiliary')
 TABLES_ROOT = REPO_ROOT / "table_extraction" / "output"
-PBF_PATH = REPO_ROOT / "data" / "osm" / "germany-power.osm.pbf"
+PBF_PATH = os.environ.get("GITHUB_CI_TESTDATA_ROOT", DATA_ROOT / "osm" / "germany-power.osm.pbf")
 LABELS_PATH = GEOCODING_ROOT / "artefacts" / "embedding_match_labels.json"
 MODEL_NAME = "intfloat/multilingual-e5-small"
 TOP_K = 5
