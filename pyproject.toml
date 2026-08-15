@@ -53,6 +53,7 @@ basedpyright = ">=1.39.9,<2"
 deptry = ">=0.25.1,<0.26"
 types-geopandas = ">=1.1.4.20260728,<2"
 types-tqdm = ">=4.70.0.20260805,<5"
+pytest = "^9.1.1"
 
 
 [[tool.poetry.source]]

@@ -76,10 +76,10 @@ def selected_page_numbers(page_ranges: list[PageRange]) -> list[int]:
     )
 
 @st.cache_data
-def add_page_numbers(pdf_bytes: bytes) -> bytes:
+def add_page_numbers(pdf_bytes: bytes) -> tuple[bytes, int]:
     pdf_document = pymupdf.open(stream=pdf_bytes, filetype="pdf")
 
-    for page_index, page in enumerate(pdf_document):
+    for page_index, page in enumerate(iter(pdf_document)):
         page_number = str(page_index + 1)
         page_rectangle = page.rect
 
@@ -126,7 +126,7 @@ def render_debug_image(
 
 def extract_tables(
     pdf_path: Path,
-    page_ranges: PageRange,
+    page_ranges: list[PageRange],
     table_settings: dict[str, Any],
 ) -> list[pd.DataFrame]:
     tables: list[list[list]] = []
@@ -205,15 +205,15 @@ def main() -> None:
         height=240
     )
     try:
-        st.session_state['table_settings']: dict[str, Any] = json.loads(st.session_state['table_settings'])
+        st.session_state['table_settings'] = json.loads(st.session_state['table_settings'])
     except json.JSONDecodeError as json_decode_error:
         st.error(f"Invalid JSON: {json_decode_error}")
     else:
         st.success("Valid JSON")
     
     st.info("If you find it hard to find table_settings that correctly find the column postitions, you can annotate them interactively. This will change `vertical_strategy` to `explicit_lines` and populate `explicit_vertical_lines`.")
-    explicit_vertical_lines = st.checkbox("Annotate explicit vertical lines?")
-    if explicit_vertical_lines:
+    use_explicit_vertical_lines = st.checkbox("Annotate explicit vertical lines?")
+    if use_explicit_vertical_lines:
         st.info("Right-click to annotate vertical lines, left-click to remove the last one.")
         
         annotation_page = st.number_input("page to annotate lines on", value=page_ranges[0][0])
