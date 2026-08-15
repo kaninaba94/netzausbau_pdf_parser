@@ -84,3 +84,6 @@ non_dev_dependency_groups = [
   "table_extraction"
 ]
 ignore = ["DEP004"]
+
+[tool.deptry.package_module_name_map]
+pillow = "PIL"
