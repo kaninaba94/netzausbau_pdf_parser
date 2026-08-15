@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Pull required LFS fixtures
+        run: git lfs pull --include="data/test_data" --exclude=""
+
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"

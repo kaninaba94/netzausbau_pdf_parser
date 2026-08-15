@@ -3,3 +3,5 @@ table_extraction/output/** filter=lfs diff=lfs merge=lfs -text
 data/pdfs/** filter=lfs diff=lfs merge=lfs -text
 data/osm/** filter=lfs diff=lfs merge=lfs -text
 geocoding/artefacts/embedding_match_labels.json filter=lfs diff=lfs merge=lfs -text
+data/test_data/** filter=lfs diff=lfs merge=lfs -text
+data/auxiliary/** filter=lfs diff=lfs merge=lfs -text
