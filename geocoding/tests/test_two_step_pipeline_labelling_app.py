@@ -2,7 +2,7 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
-REPO_ROOT = Path(__file__).parents[1]
+REPO_ROOT = Path(__file__).parents[2]
 
 def test_streamlit_app_starts_without_errors() -> None:
     app_path = REPO_ROOT / "geocoding" / "pipelines" / "two_step" / "streamlit" / "labelling.py"

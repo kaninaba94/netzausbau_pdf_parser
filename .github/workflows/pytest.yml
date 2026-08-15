@@ -21,9 +21,16 @@ jobs:
       - name: Install Poetry
         run: pipx install poetry
 
-      - name: Install dev dependencies
-        run: poetry install --with dev --no-interaction --no-root
+      - name: Install dependencies table_extraction
+        if: ${{ always() }}
+        run: poetry install --with dev,table_extraction --no-interaction --no-root
 
-      - name: Run pytest
-        run: poetry run pytest
+      - name: Run pytest table_extraction
+        run: poetry run pytest table_extraction
 
+      - name: Install dependencies geocoding
+        if: ${{ always() }}
+        run: poetry install --with dev,geocoding --no-interaction --no-root
+
+      - name: Run pytest geocoding
+        run: poetry run pytest geocoding
