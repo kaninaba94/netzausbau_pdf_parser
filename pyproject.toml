@@ -27,6 +27,9 @@ transformers = "^5.14.1"
 sentence-transformers = "^5.7.0"
 datasets = "^5.0.1"
 accelerate = ">=1.1.0"
+numpy = "^2.5.2"
+tqdm = "^4.70.0"
+pydantic = "^2.13.4"
 
 [tool.poetry.group.table_extraction]
 optional = true
@@ -72,3 +75,11 @@ exclude = [
 [[tool.mypy.overrides]]
 module = ["pyrosm.*"]
 ignore_missing_imports = true
+
+[tool.deptry]
+extend_exclude = [".*/ipython_snippets"]
+non_dev_dependency_groups = [
+  "geocoding",
+  "table_extraction"
+]
+ignore = ["DEP004"]
