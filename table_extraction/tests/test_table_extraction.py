@@ -9,7 +9,7 @@ REPO_ROOT = Path(__file__).parents[2]
 def test_streamlit_app_starts_without_errors(monkeypatch: pytest.MonkeyPatch) -> None:
     app_path = REPO_ROOT / "table_extraction" / "streamlit_tableparser.py"
 
-    pdf_path = list(Path(REPO_ROOT / "data" / "pdfs").rglob("**/*pdf"))[0]
+    pdf_path = list(Path(REPO_ROOT / "data" / "test_data" / "pdfs").rglob("**/*pdf"))[0]
     
 
     monkeypatch.setattr(
