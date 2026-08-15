@@ -54,7 +54,7 @@ def load_labelled_measures(path: Path | str) -> list[dict[str, Any]]:
         return json.load(f)
 
 
-def save_labelled_measures(path: Path | str, measures: list[dict[str, Any]]) -> None:
+def save_labelled_measures(path: Path | str, measures: list[dict[Hashable, Any]]) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w") as f:

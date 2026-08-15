@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Hashable
 
 import pandas as pd
 import streamlit as st
@@ -51,9 +51,9 @@ def init_state() -> None:
     st.session_state.setdefault("table_index", 0)
 
 
-def upsert_label(entry: dict[str, Any]) -> None:
+def upsert_label(entry: dict[Hashable, Any]) -> None:
     row_hash = int(entry["measure_row_hash"])
-    labels: list[dict[str, Any]] = st.session_state.labels
+    labels: list[dict[Hashable, Any]] = st.session_state.labels
     for i, existing in enumerate(labels):
         if int(existing.get("measure_row_hash", -1)) == row_hash:
             labels[i] = entry
@@ -228,7 +228,7 @@ event = st.dataframe(
     },
 )
 
-selected_rows = event.selection.rows if event and event.selection else []
+selected_rows = event['selection']['rows'] if event and event['selection'] else []
 selected: pd.Series | None = None
 if selected_rows:
     selected = filtered.iloc[selected_rows[0]]
