@@ -1,0 +1,17 @@
+[project]
+name = "goal100-table-extraction"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+
+[tool.poetry]
+package-mode = false
+packages = [{ include = "lib" , exclude = ["custom_component", "ipython_snippets", "output"]}]
+
+[tool.poetry.dependencies]
+pymupdf = ">=1.24"
+pdfplumber = { git = "https://github.com/jsvine/pdfplumber.git", rev = "c58dfb5e598ec6375e7c1119b81bd64f05829484" }
+pandas = ">=2.2"
+vnbdigital-client = ">=0.4.6,<0.5.0"
+requests = ">=2.34.2,<3.0.0"
+streamlit = { version = ">=1.59.2,<2.0.0", extras = ["pdf"] }
+pillow = ">=12.3.0,<13.0.0"
