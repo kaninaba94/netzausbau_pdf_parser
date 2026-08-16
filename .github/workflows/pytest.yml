@@ -6,6 +6,8 @@ name: pytest
       - main
   pull_request:
 
+env:
+  GITHUB_CI_TESTDATA_ROOT: "data/test_data"
 
 jobs:
   pytest:
@@ -15,7 +17,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Pull required LFS fixtures
-        run: git lfs pull --include="data/test_data" --include="table_extraction/output/00003_Regionetz GmbH/Bericht Regionetz Netzausbauplan gemäß § 14 Abs. 2 EnWG i.V.m. § 14d EnWG (Erstfassung vom 30.04.2024).pdf.0.csv" 
+        run: git lfs pull --include="data/test_data" --include="data/auxiliary" --exclude=""  
 
       - uses: actions/setup-python@v6
         with:

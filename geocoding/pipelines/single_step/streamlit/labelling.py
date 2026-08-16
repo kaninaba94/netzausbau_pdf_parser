@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import json
 from pathlib import Path
 from typing import Optional, Any, Literal, Hashable
@@ -24,11 +25,13 @@ from lib.measures import serialize_measure
 APP_DIR = Path(__file__).resolve().parent
 GEOCODING_ROOT = APP_DIR.parents[2]
 REPO_ROOT = APP_DIR.parents[3]
-DATA_ROOT = REPO_ROOT / "data"
+CI_TESTDATA_ROOT = os.environ.get("GITHUB_CI_TESTDATA_ROOT")
+CI = True if CI_TESTDATA_ROOT is not None else False
+DATA_ROOT = REPO_ROOT / "data" if CI else CI_TESTDATA_ROOT
 
-HEURISTICS_DIR = os.environ.get("GITHUB_CI_TESTDATA_ROOT", DATA_ROOT / 'auxiliary')
-TABLES_ROOT = REPO_ROOT / "table_extraction" / "output"
-PBF_PATH = os.environ.get("GITHUB_CI_TESTDATA_ROOT", DATA_ROOT / "osm" / "germany-power.osm.pbf")
+HEURISTICS_DIR = DATA_ROOT / 'auxiliary'
+TABLES_ROOT = REPO_ROOT / "table_extraction" / "output" if not CI else DATA_ROOT / "csvs"  
+PBF_PATH = DATA_ROOT / "osm" / "germany-power.osm.pbf" if not CI else DATA_ROOT / "osm" / "germany-power-test.osm.pbf"
 LABELS_PATH = GEOCODING_ROOT / "artefacts" / "embedding_match_labels.json"
 MODEL_NAME = "intfloat/multilingual-e5-small"
 TOP_K = 5
